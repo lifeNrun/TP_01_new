@@ -1,0 +1,120 @@
+<!--
+This is the landing page for the user of type Administrator.
+Immediately after logging in, the administrator will see this page
+-->
+
+<!-- top navigation bar -->
+<div id="top-bar" class="navbar navbar-static-top">
+	<div class="navbar-inner">
+		<ul class="nav">
+			<li><a href="http://design.mesh01.com">Design<span class="arrow"></span></a></li>
+			<li class="active"><a href="./index_tester.html">Wear Test<span class="arrow"></span></a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- main header -->
+<header>
+	<div class="wrap">
+
+		<!-- the logo -->
+		<h1><a href="/"><img src="/img/logo.png" alt=""></a></h1>
+
+		<div id="welcome">Welcome back {{currentUser.username}}</div>
+
+		<div class="social-media">
+			<a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+			<a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+			<a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+			<a href="" class="rss temp-hidden"><span>RSS</span></a>
+			<a href="" class="logout" ng-click="logout()"><i class="icon-off icon-black"></i> Logout</a>
+		</div>
+
+		<!-- Message Center for Admin-->
+		<message-center user-data="currentUser"></message-center>
+	</div>
+</header>
+
+<!-- The Dashboard Display -->
+<div class="row-fluid user-dashboard">
+	<div class="span10 offset1 text-center">
+		<div class="row-fluid">
+
+			<!-- Dashboard Item 1 -->
+			<div class="span2 offset1 well" ng-click="loadItem('CorrectionReport')">
+				<i class="icon-bar-chart icon-4x"></i>
+				<br>
+				<br>
+				<span class="text-info">Correction Reports</span>
+			</div>
+
+			<!-- Dashboard Item 2 -->
+			<div class="span2 well" ng-click="loadItem('weartests/current')">
+				<i class="icon-cogs icon-4x"></i>
+				<br>
+				<br>
+				<span class="text-info">Product Tests</span>
+			</div>
+
+			<!-- Dashboard Item 3 -->
+			<div class="span2 well" ng-click="loadItem('Profile')">
+				<i class="icon-sitemap icon-4x"></i>
+				<br>
+				<br>
+				<span class="text-info">Profile</span>
+			</div>
+
+			<!-- Dashboard Item 4 -->
+			<div class="span2 well" ng-click="loadItem('surveys/activity')">
+				<i class="icon-qrcode icon-4x"></i>
+				<br>
+				<br>
+				<span class="text-info">Surveys</span>
+			</div>
+
+			<!-- Dashboard Item 5 -->
+			<div class="span2 well" ng-click="loadItem('AdminTools')">
+				<i class="icon-trophy icon-4x"></i>
+				<br>
+				<br>
+				<span class="text-info">Admin Tools</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Dummy Spacing -->
+<div class="row-fluid">
+	<div class="span12">
+		&nbsp;
+	</div>
+</div>
+
+<!-- Directives - Activated based on the selected dashboard item -->
+<div ng-switch="activeDashboardItem">
+	<div ng-switch-when="CorrectionReport">
+		<admin-correction-report-item>
+		</admin-correction-report-item>
+	</div>
+
+	<div ng-switch-when="weartests">
+		<weartest-index></weartest-index>
+	</div>
+
+	<div ng-switch-when="Profile">
+		<admin-profile-item>
+		</admin-profile-item>
+	</div>
+
+	<div ng-switch-when="surveys">
+		<survey-index></survey-index>
+	</div>
+
+	<div ng-switch-when="AdminTools">
+		<admin-tools-item>
+		</admin-tools-item>
+	</div>
+	<div data-ng-switch-when="settings">
+		<div data-ng-include="'partials/restricted/profiles/admin/settings.html'"></div>
+	</div>
+</div>

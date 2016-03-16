@@ -1,0 +1,808 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+                <div class="row-fluid spacer">
+                    <h2 class="alt">Welcome</h2>
+                    <p>
+                        Welcome to the MESH01 Product Test. Here is where you can create a test and launch it. If you have any questions or comments, please email product.testing@mesh01.com or call 603-766-0955. We look forward to helping you launch a test with the results you're looking for!
+                    </p>
+
+                    <ul id="create-test-steps">
+                        <li ng-class="{'active': isSectionActive('overview')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/overview'" data-once-wait-for="weartest._id"><span>1</span> OVERVIEW</a></li>
+                        <li ng-class="{'active': isSectionActive('dates')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/dates'" data-once-wait-for="weartest._id"><span>2</span> DATES</a></li>
+                        <li ng-class="{'active': isSectionActive('images')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/images'" data-once-wait-for="weartest._id"><span>3</span> IMAGES</a></li>
+                        <li ng-class="{'active': isSectionActive('surveys')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/surveys'" data-once-wait-for="weartest._id"><span>4</span> SURVEYS</a></li>
+                        <li ng-class="{'active': isSectionActive('rules')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/rules'" data-once-wait-for="weartest._id"><span>5</span> RULES</a></li>
+                        <li ng-class="{'active': isSectionActive('confirmation')}"><a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/confirmation'" data-once-wait-for="weartest._id"><span>6</span> CONFIRMATION</a></li>
+                    </ul>
+                </div>
+
+                <div class="row-fluid half-border">
+<!-- Breaking Indentation for compromising on legibility -->
+<div class="span6 relative pad-top">
+    <span class="create-steps">
+        <span data-once-text="activeStep"></span> of 6
+    </span>
+    <div data-ng-if="isSectionActive('overview')">
+        
+        <h3 class="orange">
+            OVERVIEW
+        </h3>
+        <div class="row-fluid spacer">
+            <img src="/img/required.png">
+            <strong class="orange"><small>Required</small></strong>
+        </div>
+
+        <div class="row-fluid relative">
+            <div class="span12">
+                <dl>
+                    <dt>Test ID &#35;</dt>
+                    <dd class="help-text" data-tooltip="Automatically assigned. Uniquely identifies Wear Test" data-tooltip-placement="top" data-ng-bind="weartest.identification" data-ng-show="weartest.identification"></dd>
+                    <dd data-tooltip="Assigned automatically on creating new Wear Test" data-tooltip-placement="right" data-ng-hide="weartest.identification" class="help-text text-error">Not Assigned</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Product Test Title:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('name')" data-ng-model="weartest.name" required>
+            <a href="" rel="tooltip" title="Help" tooltip="This is the title for your product test. Try to make it short and appealing." class="help"></a>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Product Test Overview:</label>
+            <textarea rows="4" class="span12" data-on-blur="updateWeartest('wearTestOverview')" data-ng-model="weartest.wearTestOverview" required ui-tinymce></textarea>
+            <a href="" rel="tooltip" title="Help" tooltip="This is the first description testers will read prior to registering for the wear test.  The description should give just enough detail to get the testers interested enough to want to register to learn more." class="help"></a>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Expectations Overview:</label>
+            <textarea rows="4" class="span12" data-on-blur="updateWeartest('expectationsOverview')" data-ng-model="weartest.expectationsOverview" required ui-tinymce></textarea>
+            <a href="" rel="tooltip" title="Help" tooltip="Here is where you inform testers  what they're testing and set expectations for participation and feedback." class="help"></a>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Company Overview:</label>
+            <textarea rows="4" class="span12" data-on-blur="updateWeartest('companyOverview')" data-ng-model="weartest.companyOverview" required ui-tinymce></textarea>
+            <a href="" rel="tooltip" title="Help" tooltip="Enter a brief company overview here." class="help"></a>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Product Name:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('productName')" data-ng-model="weartest.productName" required>
+        </div>
+
+        <div class="row-fluid relative">
+                <label class="create-test-label">Retail Price:</label>
+                <div class="span7">
+                    <div class="span1">$</div>
+                    <div class="span11">
+                        <input type="number" data-on-blur="updateWeartest('retailPrice')" data-ng-model="weartest.retailPrice" min="0" step="0.01">
+                    </div>
+                </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span8 relative">
+                <label class="create-test-label required">Category:</label>
+                <select class="span12" data-on-blur="updateWeartest('productType')" data-ng-model="weartest.productType" data-ng-options="c for c in categoriesForDropdown">
+                    <option value="">(please select a product type)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span8 relative">
+                <label class="create-test-label required">Activity / Sport:</label>
+                <select multiple="multiple" class="span12" ng-change="selectionsChanged()" bootstrap-Tooltip tooltip-placement="right" title = {{multiSelectTooltip}} data-on-blur="updateWeartest('activity')" data-ng-model="weartest.activity" data-ng-options="act for act in activitiesForDropdown">
+          					<option ng-repeat="(key, data) in act track by $index" value="{{key}}" ng-selected="isSelected(key)">
+          						{{key | capitalize}}
+          					</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Website:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('companyWebsite')" data-ng-model="weartest.companyWebsite" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Number of testers required:</label>
+            <input type="number" class="span2" data-on-blur="updateWeartest('requiredNumberofTesters')" data-ng-model="weartest.requiredNumberofTesters" min="0" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Style#:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('styleNumber')" data-ng-model="weartest.styleNumber" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Supplier:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('supplier')" data-ng-model="weartest.supplier" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Factory:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('factory')" data-ng-model="weartest.factory" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Season:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('season')" data-ng-model="weartest.season" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Last:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('last')" data-ng-model="weartest.last" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Product Developer:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('productDeveloper')" data-ng-model="weartest.productDeveloper" required>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Designer:</label>
+            <input type="text" class="span12" data-on-blur="updateWeartest('designer')" data-ng-model="weartest.designer" required>
+        </div>
+
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/dates'" data-once-wait-for="weartest._id">Next</a>
+        </div>
+    </div>
+    <div data-ng-if="isSectionActive('dates')">
+        <h3 class="orange">
+            DATES/COMPENSATION
+        </h3>
+        <div class="row-fluid spacer">
+            <img src="/img/required.png">
+            <strong class="orange"><small>Required</small></strong>
+        </div>
+
+        <div class="row-fluid relative">
+            <div class="span12 relative">
+                <label class="create-test-label required">Is the test public or private?</label>
+                <label class="radio">
+                    <input type="radio" name="team_draft" data-ng-value="false" data-ng-model="weartest.isPrivate" data-ng-change="updateWeartest('isPrivate')">
+                    Public
+                </label>
+                <label class="radio">
+                    <input type="radio" name="team_draft" data-ng-value="true" data-ng-model="weartest.isPrivate" data-ng-change="updateWeartest('isPrivate')">
+                    Private
+                </label>
+            </div>
+        </div>
+
+        <div class="row-fluid relative" data-ng-hide="weartest.isPrivate">
+            <div class="span7 relative">
+                <label class="create-test-label required">Registration Start <span>(MM/DD/YY)</span>:</label>
+                <input type="text" class="date span12" data-ng-model="weartest.registrationStart" required data-date-format="mm/dd/yy" data-bs-datepicker data-ng-change="updateWeartest('registrationStart')" readonly>
+                <a href="" rel="tooltip" title="Help" tooltip="This is the date testers can begin opting in for consideration to participate in your product test." class="help"></a>
+                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+            </div>
+        </div>
+
+        <div class="row-fluid relative" data-ng-hide="weartest.isPrivate">
+            <div class="span7 relative">
+                <label class="create-test-label required">Registration End <span>(MM/DD/YY)</span>:</label>
+                <input type="text" class="date span12" data-ng-change="updateWeartest('registrationDeadline')" ng-model="weartest.registrationDeadline" required data-date-format="mm/dd/yy" data-bs-datepicker readonly>
+                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+            </div>
+        </div>
+
+        <div class="row-fluid relative" data-ng-hide="weartest.isPrivate">
+            <div class="span7 relative">
+                <label class="create-test-label required">Draft Date <span>(MM/DD/YY)</span>:</label>
+                <input type="text" class="date span12" data-ng-change="updateWeartest('draftDate')" data-ng-model="weartest.draftDate" required data-date-format="mm/dd/yy" data-bs-datepicker readonly>
+                <a href="" rel="tooltip" title="Help" tooltip="This is the date after the registration period that you will set your search criteria and hit submit. From this a list of testers will be generated." class="help"></a>
+                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <div class="span7 relative">
+                <label class="create-test-label required">Product Test Start <span>(MM/DD/YY)</span>:</label>
+                <input type="text" class="date span12" data-ng-change="updateWeartest('wearTestStartDate')" data-ng-model="weartest.wearTestStartDate" required data-date-format="mm/dd/yy" data-bs-datepicker readonly>
+                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <div class="span7 relative">
+                <label class="create-test-label required">Product Test End <span>(MM/DD/YY)</span>:</label>
+                <input type="text" class="date span12" data-ng-change="updateWeartest('wearTestEndDate')" data-ng-model="weartest.wearTestEndDate" required data-date-format="mm/dd/yyyy" data-bs-datepicker readonly>
+                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span7 relative">
+                <label class="create-test-label">Cash Compenstation:</label>
+                <div class="row-fluid">
+                    <div class="span1">$</div>
+                    <div class="span11">
+                        <input type="text" class="span12" data-on-blur="updateWeartest('cashCompensation')" data-ng-model="weartest.cashCompensation" required></div>
+                </div>
+                <a href="" tooltip="A cash payout may be offered to attract a higher level of participant. This is optional. Also, you can offer your product to keep to all participating testers for providing timely feedback. Whatever your choice, this should be decided  prior to activating a product test." class="help"></a>
+            </div>
+            <div class="span5">
+                <p>&nbsp;</p>
+                <p>USD</p> 
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label">Product Compensation:</label>
+            <textarea rows="4" class="span12" data-on-blur="updateWeartest('compensation')" ng-model="weartest.compensation"></textarea>
+            <a href="" rel="tooltip" title="Help" tooltip="A cash payout may be offered to attract a higher level of participant. This is optional. Also, you can offer your product to keep to all participating testers for providing timely feedback. Whatever your choice, this should be decided  prior to activating a product test." class="help"></a>
+        </div>
+
+        <hr>
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/overview'" data-once-wait-for="weartest._id">Previous</a>
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/images'" data-once-wait-for="weartest._id">Next</a>
+        </div>
+    </div>
+    <div data-ng-if="isSectionActive('images')">
+        <h3 class="orange">
+            IMAGES
+        </h3>
+        <div class="row-fluid spacer">
+            <img src="/img/required.png">
+            <strong class="orange"><small>Required</small></strong>
+            <p>
+                Please upload all views of the product (required), any supporting videos (optional) or
+                PDF Documents (optional) that will give the wear tester a better understanding of the product
+                they are testing.
+            </p>
+        </div>
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Wear Test Brand Logo Image:</label>
+            <div class="span4">
+                <div class="image-holder">
+                    <img src="/img/content/thumb1.png" alt="Brand Logo Link" data-ng-hide="weartest.brandLogoLink">
+                    <img data-ng-src="{{weartest.brandLogoLink | getScaledImage:129:79:'c_fit'}}" alt="Brand Logo Link" data-ng-show="weartest.brandLogoLink">
+                </div>                                        
+            </div>
+            <div class="span7 relative">
+                <p>
+                    <a href="" title="Help" tooltip="Please upload your brand logo here. Your brand logo will only be visible if the product test is public and to the testers that have been drafted to your team" class="help"></a>
+                </p>
+                <image-upload-standalone imageset="imagesetForWeartest" type="'brandLogo'" return-url="weartest.brandLogoLink">
+                </image-upload-standalone>
+                <p data-ng-if="weartest.brandLogoLink">
+                    <button class="btn btn-primary btn-gray larger-text" data-ng-click="deleteBrandLogo()">
+                        <i class="icon-trash"></i> Delete Image
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">Wear Test Featured Image:</label>
+            <div class="span4">
+                <div class="image-holder">
+                    <img src="/img/content/thumb1.png" alt="Feature Image" data-ng-hide="weartest.featureImageLink">
+                    <img data-ng-src="{{weartest.featureImageLink | getScaledImage:129:79:'c_fit'}}" alt="Feature Image" data-ng-show="weartest.featureImageLink">
+                </div>                                        
+            </div>
+            <div class="span7 relative">
+                <p>
+                    <a href="" title="Help" tooltip="Please upload a featured image here. The featured image will only be visible if the product test is public and to the testers that have been drafted to your team" class="help"></a>
+                </p>
+                <image-upload-standalone imageset="imagesetForWeartest" type="'featureImage'" return-url="weartest.featureImageLink">
+                </image-upload-standalone>
+                <p data-ng-if="weartest.featureImageLink">
+                    <button class="btn btn-primary btn-gray larger-text" data-ng-click="deleteFeaturedImage()">
+                        <i class="icon-trash"></i> Delete Image
+                    </button>
+                </p>
+            </div>
+        </div>   
+
+        <hr />                                                                     
+
+        <div class="row-fluid relative">
+            <label class="create-test-label required">
+                Product Image:
+            </label>
+
+            <div class="span6">
+                <a href="" class="offset1 btn btn-gray btn-primary larger-text" data-ng-click="openManageProductImagesModal()">
+                    Manage Product Images
+                </a>
+            </div>
+
+            <div class="span5 relative">
+                <p>
+                    <a href="" title="Help" tooltip="Please upload all views of product and zoomed in images of any areas of the product you wish tester to focus on. These images will be used in the Performance Zone Survey so testers can pin point areas that are good and areas that need improvement" class="help"></a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row-fluid relative">
+            <div id="runningImageGallery" class="st20">
+                <ul class="thumbnails">
+                    <li class="span3" data-ng-repeat="image in getProductImages()">
+                        <img ng-src="{{image.url | getScaledImage:100:77:'c_fit'}}">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/dates'" data-once-wait-for="weartest._id">Previous</a>
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/surveys'" data-once-wait-for="weartest._id">Next</a>
+        </div>
+
+        <!-- Manage Images in the Category of Product Images -->
+        <div modal="showManageProductImagesModal" close="closeManageProductImagesModal()" options="customStrictModalOptions">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeManageProductImagesModal()">&times;</button>
+                <h3>Upload Images</h3>
+            </div>
+
+            <div class="modal-body">
+                <image-upload-modal imageset="imagesetForWeartest" default-type="'productImage'">
+                </image-upload-modal>
+                <imageset-edit-modal imageset="imagesetForWeartest" type-specific="'productImage'">
+                </imageset-edit-modal>
+            </div>
+
+            <div class="modal-footer">
+                <a href="" class="btn" ng-click="closeManageProductImagesModal()">Close</a>
+            </div>
+        </div>
+    </div>
+    <div data-ng-if="isSectionActive('surveys')">
+        <h3 class="orange">SURVEYS</h3> 
+        
+        <div class="row-fluid spacer">
+            <img src="/img/required.png" alt=""> 
+            <strong class="orange"><small>Required</small></strong>
+        </div>
+        
+        <div class="row-fluid relative odd-section">
+            <strong>Frequency of Activity Logs</strong>
+            <a href="" rel="tooltip" tooltip="Here's where testers provide information about specific activities with your product, including distance covered, length of time, weather, intensity, etc. They can also provide comments on each." class="help"></a>
+            <div class="check-child">
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="daily" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')">
+                    Daily
+                </label>
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="2xweekly" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')">
+                    2x week
+                </label>
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="weekly" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')">
+                    Weekly
+                </label>
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="2xmonthly" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')">
+                    2x Month
+                </label>
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="monthly" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')">
+                    Monthly
+                </label>
+                <label class="inline radio">
+                    <input type="radio" name="freq_activity_logs" value="" data-ng-model="weartest.frequencyActivityLog" data-ng-change="updateWeartest('frequencyActivityLog')" data-ng-checked="!weartest.frequencyActivityLog">
+                    None
+                </label>                                             
+            </div>
+        </div>
+                                            
+        <div class="row-fluid relative even-section">
+            <strong>Performance Zones</strong>
+            <a href="" rel="tooltip" tooltip="Here's where testers can click on a specific area of your product and post a positive or negative comment. Please upload all views of your product and set the dates when you would like this task completed." class="help"></a>
+            <div class="check-child">
+                <table class="brand">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="last">
+                                Delivery Date
+                                &nbsp; <a href="" class="btn btn-mini addDeliveryDate" title="Add Delivery Date" data-ng-click="addPerformanceZoneDeliveryDate()"><i class="icon-plus"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="date in performanceZonesDates">
+                            <td class="last" width="160" data-ng-class="{'last-row': $index == performanceZonesDates.length - 1}">
+                                <input type="text" class="date span10 hasDatepicker" readonly data-ng-model="date.date" data-date-format="mm/dd/yy" bs-datepicker data-ng-change="updatePerformanceZoneDates()">
+                                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker">
+                            </td>
+                            <td class="last text-right" data-ng-class="{'last-row': $index == performanceZonesDates.length - 1}"><a href="" class="btn btn-primary btn-orange removeDeliveryDate" data-ng-click="deletePerformanceZoneDeliveryDate(date)"><i class="icon-minus icon-white"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>                                            
+            </div>
+        </div>
+                 
+        <div class="row-fluid relative odd-section">
+            <strong>Product Images</strong>
+            <a href="" rel="tooltip" tooltip="Here's where testers upload images of the product after a designated test period.  Simply set the dates when you would like this task to be completed." class="help"></a>
+            <div class="check-child">
+                <table class="brand">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="last">
+                                Delivery Date
+                                &nbsp; <a href="" class="btn addDeliveryDate btn-mini" title="Add Delivery Date" data-ng-click="addProductDeliveryDate()"><i class="icon-plus"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="dateInArray in productWearAndTearDates">
+                            <td class="last" width="160" data-ng-class="{'last-row': $index == productWearAndTearDates.length - 1}">
+                                <input type="text" class="date span10 hasDatepicker" readonly data-ng-model="dateInArray.date" data-date-format="mm/dd/yy" bs-datepicker data-ng-change="updateProductDates()">
+                                <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker">
+                            </td>
+                            <td class="last text-right" data-ng-class="{'last-row': $index == productWearAndTearDates.length - 1}"><a href="" class="btn btn-primary btn-orange removeDeliveryDate" data-ng-click="deleteProductDeliveryDate(dateInArray)"><i class="icon-minus icon-white"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>                                            
+            </div>
+        </div>
+                 
+        <div class="row-fluid relative even-section">
+            <strong>Product Surveys</strong>
+            <a href="" rel="tooltip" tooltip="Here's where you add an existing survey(s) or create a new one. Choose from a list of surveys in the system and select as many as you wish, but be sure to set a delivery date for each.   If you choose create a new survey, you will be directed to the survey builder." class="help"></a>
+            <div class="check-child">
+                <div class="row-fluid spacer edit-survey" data-ng-if="weartest.productSurveys">
+                    <table id="selected-survey" class="brand">
+                        <thead>
+                            <tr>
+                                <th>Survey Name</th>
+                                <th class="last" colspan="2">Survey Delivery Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="psurvey in weartest.productSurveys | orderBy:'triggerDate' track by $index">
+                                <td>
+                                    <button class="btn btn-link" data-ng-click="openSurveyDetailsModal(psurvey)" data-ng-bind="psurvey.surveyName"></button>
+                                </td>
+                                <td>
+                                    <input type="text" class="date span8 hasDatepicker" data-ng-change="updateWeartest('productSurveys')" data-ng-model="psurvey.triggerDate" required data-date-format="mm/dd/yy" bs-datepicker readonly>
+                                    <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker"></br>
+                                    <label class="checkbox"><input type="checkbox" data-ng-change="updateWeartest('productSurveys')" data-ng-model="psurvey.sendReminder">Send Reminders</label>
+                                </td>
+                                <td class="last text-right" width="40">
+                                   <a href="" class="btn btn-primary btn-orange btn-mini removeDeliveryDate" tooltip="Remove survey from Weartest" data-ng-click="deleteSurvey($index)"><i class="icon-minus icon-white"></i></a>        
+                                   <!-- hiding temporarily until #677 is fixed<a href="" class="btn btn-primary btn-orange btn-mini" rel="tooltip" title="" data-original-title="Copy Survey Date" data-ng-click="duplicateSurvey(psurvey)"><i class="icon-copy"></i></a>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6 text-center">
+                        <a href="" class="btn btn-small" data-ng-click="openSurveyModal()">Add Existing Survey</a>
+                    </div>
+                    <div class="span6 text-center">
+                        <a href="" class="btn btn-small" data-ng-click="openCreateSurveyModal()">Create New Survey</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid relative odd-section">
+            <strong>Test Rating</strong>
+            <div class="row-fluid">
+                <div class="span12">
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-model="weartest.automaticRating" data-ng-change="updateWeartest('automaticRating')"> Calculate rating automatically
+                    </label>
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-hide="weartest.automaticRating">
+                <div class="span12">
+                    <dl>
+                        <dt>Test Rating</dt>
+                        <dd>
+                            <test-rating read-only="false" stars="weartest.rating" update="updateWeartest(attributeName)"></test-rating>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-show="weartest.automaticRating">
+                <div class="span12">
+                    <div class="alert alert-info text-center" data-ng-show="weightingFactorGroups.length == 0">
+                        This product test's surveys have no questions that play a factor in the test rating
+                    </div>
+                </div>
+                <table class="table" data-ng-hide="weightingFactorGroups.length == 0">
+                    <thead>
+                        <tr>
+                            <th class="span8">RATING GROUP</th>
+                            <th class="span4">WEIGHT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="group in weightingFactorGroups">
+                            <td data-ng-bind="group.name" class="span8"></td>
+                            <td class="span4"><input type="number" min="0" max="100" data-ng-model="group.weight" class="span10" data-ng-disabled="!editRatingGroupWeights">&nbsp;&#37;</td>
+                        </tr>
+                        <tr>
+                            <td class="span8">Total</td>
+                            <td class="span4" data-ng-bind="getTotalWeightForGroup()"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <a rel="button" class="btn btn-primary btn-orange" data-ng-click="editStarRating()" data-ng-hide="editRatingGroupWeights">Edit</a>
+                <a rel="button" class="btn btn-primary btn-gray" data-ng-click="cancelStarRating()" data-ng-hide="!editRatingGroupWeights">Cancel</a>
+                <a rel="button" class="btn btn-primary btn-orange" data-ng-show="weightingFactorGroups.length > 0 && editRatingGroupWeights" data-ng-click="updateRatingGroupWeights()">Save</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/images'" data-once-wait-for="weartest._id">Previous</a>
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/rules'" data-once-wait-for="weartest._id">Next</a>
+        </div>
+
+        <div id="survey-library" data-modal="showSurveyModal" data-close="closeSurveyModal()" data-options="customSurveyModalOptions">
+            <div class="modal-header">
+                <button type="button" class="close" data-ng-click="closeSurveyModal()" aria-hidden="true">&times;</button>
+                <h3>Survey Library</h3>
+            </div>
+            <div class="modal-body" data-ng-if="!loadingSurveys">
+                <div class="row-fluid">
+                    <p>
+                        Please filter the survey that you are looking for. You can then select one or more of the filtered surveys. For example, typing 'boot' will filter to all boot surveys
+                    </p>
+                    <div class="row-fluid">
+                        <div class="input-prepend pull-right">
+                            <span class="add-on"><i class="icon-filter"></i></span>
+                            <input type="text" placeholder="Search for surveys" data-ng-model="control.surveyFilter">
+                        </div>
+                    </div>
+
+                    <table class="brand">
+                        <thead>
+                            <tr>
+                                <th width="8"></th>
+                                <th><a href="" class="sort orange" ng-class="{'up':isSurveyListSortColumn('name')}" ng-click="setSurveyListSortOrder('name')">Survey Name</a></th>
+                                <th><a href="" class="sort orange" ng-class="{'up':isSurveyListSortColumn('activity')}" ng-click="setSurveyListSortOrder('activity')">Activity</a></th>
+                                <th><a href="" class="sort orange" ng-class="{'up':isSurveyListSortColumn('category')}" ng-click="setSurveyListSortOrder('category')">Category</a></th>
+                                <th><a href="" class="sort orange" ng-class="{'up':isSurveyListSortColumn('modifiedDate')}" ng-click="setSurveyListSortOrder('modifiedDate')">Modified Date</a></th>
+                                <th><a href="" class="sort orange" ng-class="{'up':isSurveyListSortColumn('owner')}" ng-click="setSurveyListSortOrder('owner')">Owner</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="surveyRecord in surveyList | filter:control.surveyFilter | orderBy:(surveyListSortColumn==='owner'? getSurveyOwner: surveyListSortColumn):surveyListSortReverse | limitTo: surveyListDisplayLimit" data-infinite-scroll="increaseSurveyDisplayLimit()" data-ng-class-even="'alt'" >
+                                <td colspan="2">
+                                    <label class="checkbox">
+                                        <input type="checkbox" ng-checked="isSurveyIncludedInWeartest(surveyRecord)" ng-click="selectSurveyForWeartest(surveyRecord)">
+                                        <span data-once-text="surveyRecord.name"></span>
+                                    </label>
+                                </td>
+                                <td data-once-text="surveyRecord.activity"></td>
+                                <td data-once-text="surveyRecord.category"></td>
+                                <td data-once-text="surveyRecord.modifiedDate | UTCDate:'MM/dd/yy'"></td>
+                                <td data-ng-bind="getSurveyOwner(surveyRecord)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-primary btn-submit" data-ng-click="updateProductSurveys()" aria-hidden="true" >Continue</a>
+            </div>
+        </div>
+
+        <survey-preview></survey-preview>
+
+        <div modal="showCreateSurveyModal" close="closeCreateSurveyModal()" options="strictModalOptions">
+            <div class="modal-header">
+                <h3 class="text-center">Enter name of new Survey</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="span6 offset3">
+                        <input type="text" data-ng-model="newSurvey.name" class="span12"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn" ng-click="closeCreateSurveyModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="createSurvey()" data-ng-disabled="!newSurvey.name.length">Create Survey</button>
+            </div>
+        </div>
+    </div>
+    <div data-ng-if="isSectionActive('rules')">
+        <h3 class="orange">RULES</h3> 
+        
+        <div class="row-fluid spacer">
+            <img src="/img/required.png" alt=""> 
+            <strong class="orange"><small>Required</small></strong>
+        </div>
+        
+        <div class="row-fluid relative">
+            <label class="create-test-label">Wear Test Rules:</label>
+            <div class="row-fluid" data-ng-show="rulesForWeartest.length > 0">
+                <div class="span9">
+                    <select class="span12" data-ng-model="weartest.rulesLink" data-ng-options="rule.url as rule.name for rule in rulesForWeartest" data-ng-change="updateWeartestRule()">
+                        <option value="">-- Select a Rule --</option>
+                    </select>
+                </div>
+                <div class="span3">
+                    <a href="" class="btn btn-primary btn-orange" data-ng-disabled="!weartest.rulesLink" data-ng-click="openRuleDetailsModal()">
+                        View Rules
+                    </a>
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-hide="rulesForWeartest.length > 0">
+                <div class="span12">
+                    <div class="well text-center muted">
+                        You have not uploaded any rules. <a href="" data-ng-click="openRulesManageModal()">Upload rules</a> to begin selection.
+                    </div>
+                </div>
+            </div>
+            <a href="" tooltip="Here's where you can upload your own Non Disclosure Agreement (NDA) or select an NDA provided by MESH01. If no other rules are uploaded, the MESH01 NDA will be used by default" class="help"></a>
+        </div>
+        
+        <hr />
+        
+        <div class="row-fluid relative">
+            <label class="create-test-label">Manage Rules:</label>
+            <p><a href="" class="btn btn-primary btn-gray" data-ng-click="openRulesManageModal()">Manage My Rules</a></p>
+        </div>
+        <hr>
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/surveys'" data-once-wait-for="weartest._id">Previous</a>
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/confirmation'" data-once-wait-for="weartest._id">Next</a>
+        </div>
+
+        <!-- Display of rule modal -->
+        <div modal="showRuleDetailsModal" close="closeRuleDetailModal()" options="customRuleDetailsModalOptions">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeRuleDetailsModal()">&times;</button>
+                <h3>Rule - {{selectedRuleDetails.name}}</h3>
+            </div>
+            <div class="modal-body">                
+                <iframe src="{{selectedRuleDetails.url}}" frameborder="0" scrolling="no"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn" ng-click="closeRuleDetailsModal()">Close</a>
+            </div>
+        </div>
+
+        <!-- Rule Management Modal -->
+        <div modal="showRulesManageModal" close="closeRulesManageModal()" options="customStrictModalOptions">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeRulesManageModal()">&times;</button>
+                <h3>Upload Rules</h3>
+            </div>
+
+            <div class="modal-body">
+                <image-upload-modal imageset="imagesetForUser" default-type="'rules'">
+                </image-upload-modal>
+                <imageset-edit-modal imageset="imagesetForUser" type-specific="'rules'">
+                </imageset-edit-modal>
+            </div>
+
+            <div class="modal-footer">
+                <a href="" class="btn" ng-click="closeRulesManageModal()">Close</a>
+            </div>
+        </div>
+    </div>
+    <div data-ng-if="isSectionActive('confirmation')">
+        <h3 class="orange">CONFIRMATION</h3>
+        
+        <div class="pad-top text-center">
+            <div class="alert alert-error" data-ng-show="isValidationResult('failed')">
+                <p class="text-left" data-ng-repeat="msg in weartestValidationResult.messages">
+                    <i class="icon-exclamation-sign"></i> <a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/' + msg.step" data-once-wait-for="weartest._id && msg.step" data-once-text="msg.text"></a>
+                </p>
+            </div>
+            <p class="pad-top" data-ng-show="isWeartestStatus('pending approval')">
+                Your test has been created successfully! Activate the test.
+            </p>
+            <p class="pad-top" data-ng-show="isWeartestStatus('active')">
+                Congratulations, your test is already active. If you need additional assistance please contact us at <a href="mailto:info@mesh01.com">info@mesh01.com</a> or 603-766-0955
+            </p>
+            <p class="pad-top" data-ng-show="isValidationResult() || !isWeartestStatus('active')">
+                Congratulations, you have completed the test setup process. To ensure your test is ready for activation please click the "Activate test" button below.
+            </p>
+        </div>
+        <hr>
+        <div class="row-fluid text-center">
+            <a rel="button" class="btn btn-primary btn-custom btn-orange" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/rules'" data-once-wait-for="weartest._id">
+                Previous
+            </a>
+            <a href="/dashboard/weartests/draft" class="btn btn-primary btn-orange">View Draft Tests</a>
+            <button type="button" class="btn btn-primary btn-orange" data-ng-click="activateWeartest()" data-ng-disabled="isValidationResult('success') || !allowWeartestActivation()" data-ng-hide="isWeartestStatus('active')">
+                Activate test
+            </button>
+        </div>
+    </div>
+</div>
+<!-- End of breaking indentation -->
+
+                    <!-- Preview -->
+                    <div class="span5 pad-top" ng-show="true">
+                        <h3>PREVIEW</h3>
+                        <div class="row-fluid spacer" ng-show="activeStep>2">
+                            <img ng-src="{{weartest.brandLogoLink | getScaledImage:144:30:'c_fit'}}" alt="">
+                        </div>
+
+                        <div class="row-fluid" ng-show="activeStep>2">
+                            <img ng-src="{{weartest.featureImageLink | getScaledImage:228:165:'c_fit'}}" alt="">
+                        </div>
+                        <h2 class="brandPageTitle">{{weartest.name}}</h2>
+
+                        <div class="row-fluid half-border">
+                            <div class="span6">
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.activity, orange: weartest.activity}">Activity</dt>
+                                    <dd>{{weartest.activity.join(', ')}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.requiredNumberofTesters, orange: weartest.requiredNumberofTesters}">Required Testers</dt>
+                                    <dd>{{weartest.requiredNumberofTesters}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.compensation, orange: weartest.compensation}">Compensation</dt>
+                                    <dd>{{weartest.compensation}}</dd>
+                                </dl>
+                                <dl class="preview hide">
+                                    <dt ng-class="{disabled: !weartest.requiredSurvey, orange: weartest.requiredSurvey}">Required Surveys</dt>
+                                    <dd>{{weartest.requiredSurvey}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.availablePoints, orange: weartest.availablePoints}">Product Test Points</dt>
+                                    <dd>{{weartest.availablePoints}}</dd>
+                                </dl>
+                            </div>
+                            <div class="span6">
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.registrationDeadline, orange: weartest.registrationDeadline}">Registration Deadline</dt>
+                                    <dd>{{weartest.registrationDeadline | UTCDate:'MM/dd/yy'}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.draftDate, orange: weartest.draftDate}">Draft Date</dt>
+                                    <dd>{{weartest.draftDate | UTCDate:'MM/dd/yy'}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.wearTestStartDate, orange: weartest.wearTestStartDate}">Product Test Start Date</dt>
+                                    <dd>{{weartest.wearTestStartDate | UTCDate:'MM/dd/yy'}}</dd>
+                                </dl>
+                                <dl class="preview">
+                                    <dt ng-class="{disabled: !weartest.wearTestEndDate, orange: weartest.wearTestEndDate}">Product Test End Date</dt>
+                                    <dd>{{weartest.wearTestEndDate | UTCDate:'MM/dd/yy'}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid">
+                            <dl class="preview">
+                                <dt ng-class="{disabled: !weartest.wearTestOverview, orange: weartest.wearTestOverview}">Product Test Overview</dt>
+                                <dd ng-bind-html-unsafe="weartest.wearTestOverview"></dd>
+                            </dl>
+                            <dl class="preview">
+                                <dt ng-class="{disabled: !weartest.expectationsOverview, orange: weartest.expectationsOverview}">Expectations Overview</dt>
+                                <dd ng-bind-html-unsafe="weartest.expectationsOverview"></dd>
+                            </dl>
+                            <dl class="preview">
+                                <dt ng-class="{disabled: !weartest.companyOverview, orange: weartest.companyOverview}">Company Overview</dt>
+                                <dd ng-bind-html-unsafe="weartest.companyOverview"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!--End of Preview-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #45bed5!important;
+}
+
+.rpt-title2 {
+  background-color: #45bed5!important;
+}
+
+.rpt-title5 {
+  color: #45bed5!important;
+}
+
+.title-image {
+  background: #45bed5!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-Deckers.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/deckers.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #45bed5!important;
+}
+
+span.test-rating {
+    color: #45bed5!important;
+}

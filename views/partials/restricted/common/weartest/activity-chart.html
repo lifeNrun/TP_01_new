@@ -1,0 +1,40 @@
+<!-- Template for display of activity logs in chart form -->
+<div class="row-fluid">
+	<div class="form-inline">
+		<select class="span3" ng-model="choosenDropdownWT" id="wearTestDropdown"
+    ng-options="product as product.name for product in WearTestDropDownMapping">           
+		</select>
+
+		<select class="span2" ng-model="metricsType" id="metricsTypeDropdown">    
+			<option value="daily">Daily</option>
+			<option value="cumulative">Cumulative</option>           
+		</select>
+
+		<select class="span2" ng-model="distanceType" id="distanceTypeDropdown">    
+			<option value="kilometers">Kilometers</option>
+			<option value="miles">Miles</option>           
+		</select>
+
+		<select class="span2" ng-model="timeType" id="timeTypeDropdown" class="input-small">    
+			<option value="hours">Hours</option>
+			<option value="minutes">Minutes</option>           
+		</select>
+
+		<label class="checkbox">
+			 Time
+ 			<input type="checkbox" ng-model="yAxisTypeTime" name="yAxisType" value="time" checked>
+		</label>
+		<label class="checkbox">
+			 Distance
+	 		<input type="checkbox" ng-model="yAxisTypeDistance" name="yAxisType"  value="distance">
+		</label>
+	</div>
+</div>
+
+<div ng-model="yAxisType" class="yAxisText">
+	{{leftYAxisName}} 
+</div>
+
+<div ng-model="yAxisType" ng-show="rightYAxisName" class="yAxisTextRight">
+	{{rightYAxisName}} 
+</div>

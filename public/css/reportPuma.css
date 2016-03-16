@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #FF0000!important;
+}
+
+.rpt-title2 {
+  background-color: #FF0000!important;
+}
+
+.rpt-title5 {
+  color: #FF0000!important;
+}
+
+.title-image {
+  background: #FF0000!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-Puma.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/Puma.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #FF0000!important;
+}
+
+span.test-rating {
+    color: #FF0000!important;
+}

@@ -1,0 +1,67 @@
+<!--
+This is the page that loads when the tester clicks on the
+Product Tests Item in the tester's dashboard
+-->
+
+<div id="content">
+	<div class="wrap full">
+		<ul class="nav nav-tabs left-tab">
+			<li ng-class="{active: isTabActive(1)}">
+				<a href="/dashboard/ProductTests/current" class="product-test-current">
+					<span>My Current Tests</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li ng-class="{active: isTabActive(2)}">
+				<a href="/dashboard/ProductTests/pending" class="product-test-pending-request">
+					<span>My Pending Requests</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li ng-class="{active: isTabActive(3)}">
+				<a href="/dashboard/ProductTests/new" class="pending-test-new">
+					<span>New Product Tests</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li ng-class="{active: isTabActive(4)}">
+				<a href="/dashboard/ProductTests/past" class="pending-test-new">
+					<span>My Past Tests</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="row top-row">
+				<!-- Switch Contents based on the currently active tab -->
+				<div ng-switch on="activeTab">
+					<!-- My Current Tests -->
+					<div ng-switch-when="1">
+						<current-tests weartests="currentWearTests" loading-data="loadingCurrentWearTests" user-details="currentUser" update-data="updateWearTest(wearTestDetails)">
+						</current-tests>
+					</div>
+
+					<!-- My Pending Requests -->
+					<div ng-switch-when="2">
+						<pending-tests weartests="pendingWearTests" loading-data="loadingPendingWearTests" user-id="currentUser._id" confirm-user-participation="confirmUserParticipation">
+						</pending-tests>
+					</div>
+
+					<!-- New Product Tests -->
+					<div ng-switch-when="3">
+						<new-tests weartests="newWearTests" loading-data="loadingNewWearTests" request-user-participation="requestUserParticipation" participation-confirmed="participationConfirmed">
+						</new-tests>
+					</div>
+
+					<!-- My Past Tests -->
+					<div ng-switch-when="4">
+						<past-tests weartests="pastWearTests" loading-data="loadingPastWearTests">
+						</past-tests>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

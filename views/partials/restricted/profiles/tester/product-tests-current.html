@@ -1,0 +1,264 @@
+<!-- This template displays the currently "Active" Wear Tests in which
+	the current user is a participant (on team) -->
+
+<!-- Show this container only if entries exist to display and all entries have been loaded -->
+<div ng-show="entriesExist() && !loadingData">
+	<!-- For each Wear Test, repeat the following template -->
+	<div ng-repeat="item in weartests">
+		<h2 class="brandPageTitle">
+			<a href="" class="base-text no-line" ng-click="showInfoModal(item)">
+				{{item.name}}
+			</a>
+		</h2>
+
+		<p>
+			<strong>Start:</strong> {{item.wearTestStartDate | UTCDate:'MM/dd/yyyy'}} &nbsp; &nbsp;
+			<strong>End:</strong> {{item.wearTestEndDate | UTCDate:'MM/dd/yyyy'}}
+		</p>
+
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="row-fluid">
+					<div class="span6 text-center">
+						<img ng-src="{{getScaledWearTestImage(item.featureImageLink)}}" alt="" />
+					</div>
+					<div class="span5">
+						<p class="text-center">
+							<strong>Total Points</strong>
+						</p>
+						<div class="progress orange-progress st10">
+							<div class="bar" style="width: {{completed[$index]}}%">
+							</div>
+						</div>
+						<p class="text-center">
+							{{getParticipationScore(item, false)}} OUT OF {{item.availablePoints}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<table class="brand compressed table-survey" ng-show="isLoadingComplete()">
+					<thead>
+						<tr>
+							<th>FEEDBACK</th>
+							<th>STATUS</th>
+							<th>ACTIONS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="survey in item.productSurveys">
+							<td>
+								<strong>{{survey.surveyName | capitalize}}</strong>
+							</td>
+							<td ng-show="checkSurveyStatus(1, survey.survey_id, item._id) || checkSurveyStatus(0, survey.survey_id, item._id)">
+								Incomplete
+							</td>
+							<td ng-show="checkSurveyStatus(2, survey.survey_id, item._id)">
+								Complete
+							</td>
+							<td>
+								<div ng-show="checkSurveyStatus(2, survey.survey_id, item._id)">
+									Entered on {{getSurveyCompletionDate(survey.survey_id, item._id) | UTCDate:'MM/dd/yyyy'}}
+								</div>
+								<div ng-show="checkSurveyStatus(1, survey.survey_id, item._id)">
+									Available on {{survey.triggerDate | UTCDate:'MM/dd/yyyy'}}
+								</div>
+								<div ng-show="checkSurveyStatus(0, survey.survey_id, item._id)">
+									<a href="" ng-click="answerQuestions(survey, item)">
+										Answer Questions
+									</a>
+								</div>
+							</td>
+						</tr>
+						<tr ng-show="getExpectedActivityLogCount(item) > 0">
+							<td>
+								<strong>Activity Logs</strong>
+							</td>
+							<td>
+								{{ getActualActivityLogCount(item._id) }} out of {{ getExpectedActivityLogCount(item) }}
+							</td>
+							<td>
+								<a href="" class="base-text" ng-click="enterActivityLog(item)">
+									Enter new activity log
+								</a>
+							</td>
+						</tr>
+						<tr ng-repeat="date in item.productWearAndTearDates track by $index">
+							<td>
+								<strong>Product Images {{$index + 1}}</strong>
+							</td>
+							<!-- Get the status of the Wear and Tear
+							For now, we have the logic of one image per Wear and Tear
+							So also pass the current iteration of Wear and Tear to determine
+							the status -->
+							<td ng-show="checkWearAndTearStatus(1, item._id, $index) || checkWearAndTearStatus(0, item._id, $index)">
+								Incomplete
+							</td>
+							<td ng-show="checkWearAndTearStatus(2, item._id, $index)">
+								Complete
+							</td>
+							<td>
+								<div ng-show="checkWearAndTearStatus(2, item._id, $index)">
+									Uploaded on {{getImageUploadedDate(item._id, $index)}}
+								</div>
+								<div ng-show="checkWearAndTearStatus(1, item._id, $index)">
+									Available on {{date | UTCDate:'MM/dd/yyyy'}}
+								</div>
+								<div ng-show="checkWearAndTearStatus(0, item._id, $index)">
+									<a href="" ng-click="uploadWearAndTearImage(item._id)">
+										Upload Images
+									</a>
+								</div>
+							</td>
+						</tr>
+						<tr ng-repeat="date in item.performanceZonesDates track by $index">
+							<td>
+								<strong>Performance Zones {{$index + 1}}</strong>
+							</td>
+							<!-- Get the status of the Performance Zone
+							For now, we have the logic of one dot per image
+							So also pass the current iteration of Performance Zone to determine
+							the status -->
+							<td ng-show="checkPerformanceZoneStatus(1, item._id, $index) || checkPerformanceZoneStatus(0, item._id, $index)">
+								Incomplete
+							</td>
+							<td ng-show="checkPerformanceZoneStatus(2, item._id, $index)">
+								Complete
+							</td>
+							<td>
+								<span ng-show="checkPerformanceZoneStatus(2, item._id, $index)">
+									Entered on {{getDataPointCreatedDate(item._id, $index)}}
+								</span>
+								<span ng-show="checkPerformanceZoneStatus(1, item._id, $index)">
+									Available on {{date | UTCDate:'MM/dd/yyyy'}}
+								</span>
+								<span ng-show="checkPerformanceZoneStatus(0, item._id, $index)">
+									<a href="" ng-click="openDataPointsEditor(item._id)">
+										Add data point
+									</a>
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="row-fluid">
+					<div class="span12">
+						&nbsp;
+					</div>
+				</div>
+
+				<div class="pull-right">
+					<button class="btn btn-gray btn-primary" ng-click="openVideoManagerLinkForWeartest(item._id)" data-ng-show="isLoadingComplete() && item.allowVideos">
+						Manage Videos
+					</button>
+					<button class="btn btn-gray btn-primary" ng-click="uploadWearAndTearImage(item._id)" ng-class="{'hidden': item.productWearAndTearDates.length == 0}">
+						Manage Images
+					</button>
+					<button class="btn btn-gray btn-primary" ng-click="openDataPointsEditor(item._id)" ng-class="{'hidden': item.performanceZonesDates.length == 0}">
+						Manage Performance Zones
+					</button>
+				</div>
+
+				<div class="text-center" ng-hide="isLoadingComplete()">
+					<i class="icon-spin icon-spinner"></i>
+					<p class="muted">
+						Loading data...
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- Show the horizontal rule to seperate the next Wear Test, if it exists -->
+		<hr ng-show="$index < weartests.length - 1">
+	</div>
+</div>
+
+<!-- Information Text - Show only if entries do not exist and data has been loaded -->
+<div ng-hide="entriesExist() || loadingData">
+	<div class="alert alert-info">
+		<h1 class="text-center">
+			You do not have any active Product Tests
+		</h1>
+	</div>
+</div>
+
+<!-- Information Text - Show when the data is being loaded -->
+<div ng-show="loadingData">
+	<h1 class="text-center">
+		<i class="icon-spin icon-spinner">
+		</i>
+	</h1>
+	<p class="muted text-center">
+		Loading data...
+	</p>
+</div>
+
+<!-- Wear Test Detail Info -->
+<weartest-info wear-test-details="wearTestInfo" display="displayInfo">
+</weartest-info>
+
+<!-- New Activity Log -->
+<activity-log-item show-activity-log-modal="showActivityLogModal" log-data="logData" question-number="questionNumber" activity-log-mode="{{activityLogMode}}" update-log-info="updateWearTestInfoPostActivityLogCreation" current-user="{{userDetails}}" hide-wear-test-selection="{{hideWearTestSelection}}">
+</activity-log-item>
+
+<!-- Answer a survey modal -->
+<div modal="showSurvey" close="hideAnswerSurveyModal()" options="modalSurveyOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="hideAnswerSurveyModal()">&times;</button>
+		<h3>{{surveyToCompile.surveyName}}</h3>
+	</div>
+	<div class="modal-body">
+		<compile-survey surveyid="surveyToCompile.survey_id" weartestid="weartestIdToCompile" user-info="userDetails" error-flag="errors.errorFlag">
+		</compile-survey>
+	</div>
+	<div class="modal-footer">
+		<h6 ng-show="errors.errorFlag" class="text-error pull-left">
+			Questions marked with an asterisk are required. Please scroll to view the errors.
+		</h6>
+		<button class="btn" ng-click="hideAnswerSurveyModal()">Close</button>
+		<button type="button" class="btn btn-primary" ng-click="submitSurvey()" ng-disabled="surveySubmitInProgress" ng-hide="surveySubmitInProgress">Submit</button>
+	</div>
+</div>
+
+<!-- Image Set image upload / edit Modal -->
+<div modal="showImageSetModal" close="closeImageSetModal()" options="imageSetModalOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="closeImageSetModal()">&times;</button>
+		<h3>Upload Images</h3>
+	</div>
+
+	<div class="modal-body">
+		<image-upload-modal imageset="imageSetDetails" default-type="'wearAndTear'" uploaded-by-id="{{userDetails._id}}">
+		</image-upload-modal>
+		<imageset-edit-modal imageset="imageSetDetails" type-specific="'wearAndTear'" user-specific="{{userDetails._id}}">
+		</imageset-edit-modal>
+	</div>
+
+	<div class="modal-footer">
+		<a href="" class="btn" ng-click="closeImageSetModal()">Close</a>
+	</div>
+</div>
+
+<!-- Data Points Editor-->
+<div modal="showDataPointsEditor" close="hideDataPointsEditor()" options="dataPointsEditorModalOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="hideDataPointsEditor()">&times;</button>
+        <div class="row-fluid">
+            <div class="span3">
+            	<h3>Performance Zones</h3>
+            </div>
+            <div class="span8 performance-zone-instructions">
+                Select a thumbnail at the bottom and click the large image to add a data point and drag to your desired location. Clicking on the data point will allow you to select your feedback type and provide a comment.
+            </div>
+        </div>
+	</div>
+
+	<div class="modal-body" >
+		<imageset-data-points imageset="imageSetDetails" type-specific="productImage" user-details="{{userDetails}}" update-imageset-info="updateImageSetInfoPostModalClose">
+		</imageset-data-points>
+	</div>
+
+	<div class="modal-footer">
+		<a href="" class="btn" ng-click="hideDataPointsEditor()">Close</a>
+	</div>
+</div>

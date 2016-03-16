@@ -1,0 +1,523 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+
+                <weartest-header></weartest-header>
+
+<!-- Breaking indentation to compromise on readability -->
+<form class="form-inline" data-ng-show="isMode('editReport') && !loadingSavedReports() && savedReports.length > 0">
+    <div class="input-prepend">
+        <span class="add-on">Select Report &nbsp; : </span>
+        <select data-ng-model="loadReportId" data-ng-options="report._id as report.reportName for report in savedReports">
+        </select>
+    </div>
+
+    <button class="btn btn-primary btn-orange" data-ng-click="loadReport()">
+        Open Report
+    </button>
+</form>
+
+<div class="alert alert-info" data-ng-show="isMode('editReport') && !loadingSavedReports() && savedReports.length == 0">
+    <h4 class="text-center">You do not have any saved reports</h4>
+</div>
+
+<div data-ng-if="isLoadingComplete()">
+    <accordion close-others="true">
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 1: Background <i class="icon-question-sign icon-black" tooltip="Use this section to select the Test overview items" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid">
+                <div class="span4 text-center">
+                    <img data-once-src="getImageForWearTest()">
+                </div>
+
+                <div class="span8">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <strong>Product Name:</strong>
+                            <span data-once-text="weartest.productName"></span>
+                        </div>
+                        <div class="span6">
+                            <strong>Start Date:</strong>
+                            <span data-once-text="weartest.wearTestStartDate | UTCDate:'MM/dd/yyyy'"></span>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6" ng-if="weartest.retailPrice">
+                            <strong>Retail Price:</strong>
+                            $<span data-once-text="weartest.retailPrice"></span>
+                        </div>
+                        <div class="span6" ng-if="!weartest.retailPrice">
+                            <strong>Testers:</strong>
+                            <span data-once-text="getParticipantCount()"></span>
+                        </div>
+                        <div class="span6">
+                            <strong>End Date:</strong>
+                            <span data-once-text="weartest.wearTestEndDate | UTCDate:'MM/dd/yyyy'"></span>
+                        </div>
+                    </div>
+                    <div class="row-fluid" ng-if="weartest.retailPrice">
+                        <div class="span6">
+                            <strong>Testers:</strong>
+                            <span data-once-text="getParticipantCount()"></span>
+                        </div>
+                    </div>
+
+                    <h3 class="orange">EXPECTATIONS</h3>
+                    <p data-ng-bind-html-unsafe="weartest.expectationsOverview">
+                    </p>
+
+                    <h3 class="orange">Include</h3>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeHeight">
+                                Average Height
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeWeight">
+                                Average Weight
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeAge">
+                                Average Age
+                            </label>
+
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeSupplier">
+                                Supplier
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeFactory">
+                                Factory
+                            </label>
+                        </div>
+                        
+                        <div class="span4">
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeTime">
+                                Average Activity Log Time
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeDistance">
+                                Average Activity Log Distance
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeSeason">
+                                Season
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeLast">
+                                Last
+                            </label>
+                            <label class="checkbox" ng-if="!weartest.automaticRating">
+                                <input type="checkbox" data-ng-model="reportData.includeRating">
+                                Test Rating
+                            </label>
+                        </div>
+
+                        <div class="span4">
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeOccupations">
+                                Tester Occupation
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeLocation">
+                                Tester Location
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeStyleNumber">
+                                Style Number
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeProductDeveloper">
+                                Product Developer
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" data-ng-model="reportData.includeDesigner">
+                                Designer
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="span12-1"></div>
+                    <div class="row-fluid" ng-if="weartest.automaticRating">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="rpt-bg-tbl"></th>
+                                    <th class="rpt-bg-tbl text-left">Test Rating</th>
+                                    <th class="rpt-bg-tbl text-left">Initial vs Final</th>
+                                    <th class="rpt-bg-tbl text-left">A vs B</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-text-top">
+                                <tr ng-repeat="surveyId in getSurveyIds()"   ng-class-odd="alt">
+                                    <td class="rpt-bg-tbl span5">{{getSurveyName(surveyId)}}</td>
+                                    <td class="cb-center rpt-bg-tbl">
+                                        <input type="checkbox" data-ng-click="updateTestRatingSelection($event, surveyId)" data-ng-checked="isTestRatingSelected(surveyId) && hasSurveyTestRating(surveyId)" data-ng-disabled="!hasSurveyTestRating(surveyId)" class="ng-pristine ng-valid">
+                                    </td>
+                                    <td class="cb-center1 rpt-bg-tbl">
+                                        <input type="checkbox" data-ng-click="updateInitvsFinalSelection($event, surveyId)" data-ng-checked="isInitvsFinalSelected(surveyId) && hasSurveyInitVsFinal(surveyId)" data-ng-disabled="!hasSurveyInitVsFinal(surveyId)" class="ng-pristine ng-valid">
+                                    </td>
+                                    <td class="cb-center2 rpt-bg-tbl">
+                                        <input type="checkbox" data-ng-click="updateAvsBSelection($event, surveyId)" data-ng-checked="isAvsBSelected(surveyId) && hasSurveyAvsB(surveyId)" data-ng-disabled="!hasSurveyAvsB(surveyId)" class="ng-pristine ng-valid">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="span12-1 reportspacer"></div>
+                    <div class="nobreak" ng-show="getRatingGroupKeys().length > 0">
+                        <div class="span12-1 reportspacer"></div>
+                        <div class="row-fluid">
+                            <span class="rpt-bg-tbl">Categories To Include In Graphs</span>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4 rpt-row-fluid-second" ng-repeat="key in getRatingGroupKeys()">
+                                <label class="checkbox">
+                                    <input type="checkbox" data-ng-click="ratingGroupSelector($event, key)" data-ng-checked="isRatingGroupSelected(key)" class="ng-pristine ng-valid">
+                                    {{key}}
+                                </label>
+                            </div>
+                            <div class="span12-1 reportspacer"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 2: Test Summary <i class="icon-question-sign icon-black" tooltip="This section allows you to add summary information" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid">
+                <textarea class="span12" rows="15" placeholder="Enter summary information here" data-ng-model="reportData.testSummary" ui-tinymce="tinyMCEOptions">
+                </textarea>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 3: Areas of Improvement / Consideration <i class="icon-question-sign icon-black" tooltip="This section allows you to add opportunities for improvement" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid">
+                <textarea class="span12" rows="15" placeholder="Enter areas of improvement here" data-ng-model="reportData.areasOfImpCon" ui-tinymce="tinyMCEOptions">
+                </textarea>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 4: Performance Zones <i class="icon-question-sign icon-black" tooltip="Select Performance Zones" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div data-ng-repeat="image in productImages">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="performanceZoneOptionsVertical row-fluid">
+                            <div class="span11 image">
+                                <datapoints-viewer image="{{image}}" index="{{$index}}">
+                                </datapoints-viewer>
+                            </div>
+
+                            <div class="span11 text">
+                                <h2 class="brandPageTitle">
+                                    <span data-once-text="image.name"></span> Image
+                                </h2>
+
+                                <ul class="no-list-style">
+                                    <li>
+                                        <label class="includeAll">
+                                            <input type="checkbox" data-ng-click="selectImage($event, image._id, 'universal')" data-ng-checked="isImageSelected(image._id, 'universal')" data-ng-disabled="arePointsForImageSelectionDisabled(image._id, 'universal')">
+                                            Include image with both negative and positive points
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="includeAll">
+                                            <input type="checkbox" data-ng-click="selectImage($event, image._id, 'Red')" data-ng-checked="isImageSelected(image._id, 'Red')" data-ng-disabled="arePointsForImageSelectionDisabled(image._id, 'Red')">
+                                            Include image with only negative points
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="includeAll">
+                                            <input type="checkbox" data-ng-click="selectImage($event, image._id, 'Green')" data-ng-checked="isImageSelected(image._id, 'Green')" data-ng-disabled="arePointsForImageSelectionDisabled(image._id, 'Green')">
+                                            Include image with only positive points
+                                        </label>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <big><span data-once-text="image.dataPoints.length"></span> Notes</big>
+                                </p>
+
+                                <div class="row-fluid">
+                                    <div class="span3">
+                                        <span class="positive">
+                                            <span data-once-text="countPointsForImage(image._id, 'Green')"></span> Positive
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid">
+                                    <div class="span3">
+                                        <span class="negative">
+                                            <span data-once-text="countPointsForImage(image._id, 'Red')"></span> Negative
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="image span6">
+                        <div class="form-inline">
+                            <label class="includeAllPositive">
+                                <input type="checkbox" data-ng-click="selectAllColoredPointsForImage($event, image._id, 'Green')" data-ng-checked="areAllColoredPointsForImageSelected(image._id, 'Green')" data-ng-disabled="areAllColoredPointsForImageSelectionDisabled(image._id, 'Green')">
+                                Include All Positive Notes
+                            </label>
+
+                            <label class="includeAllNegative pull-right">
+                                <input type="checkbox" data-ng-click="selectAllColoredPointsForImage($event, image._id, 'Red')" data-ng-checked="areAllColoredPointsForImageSelected(image._id, 'Red')" data-ng-disabled="areAllColoredPointsForImageSelectionDisabled(image._id, 'Red')">
+                                Include All Negative Notes
+                            </label>
+                        </div>
+
+                        <table class="brand">
+                            <thead>
+                                <tr>
+                                    <th>Include</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr data-ng-repeat="dataPoint in image.dataPoints" data-ng-class-odd="alt">
+                                    <td class="text-center">
+                                        <input type="checkbox" data-ng-click="updateDataPointsSelection($event, image._id, dataPoint.color, dataPoint._id)" data-ng-checked="isDataPointSelected(image._id, dataPoint._id)" data-ng-class="{'Negative': dataPoint.color == 'Red', 'Positive': dataPoint.color == 'Green'}" data-ng-disabled="isDataPointSelectionDisabled(image._id, dataPoint.color, dataPoint._id)">
+                                    </td>
+                                    <td data-once-text="getParticipantName(dataPoint.userId)"></td>
+                                    <td>
+                                        <span data-ng-class="{'positive': dataPoint.color == 'Green'}" data-ng-show="dataPoint.color == 'Green'">
+                                            Positive
+                                        </span>
+                                        <span data-ng-class="{'negative': dataPoint.color == 'Red'}" data-ng-show="dataPoint.color == 'Red'">
+                                            Negative
+                                        </span>
+                                    </td>
+                                    <td data-once-text="dataPoint.comment"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 5: Surveys <i class="icon-question-sign icon-black" tooltip="Select Survey to include" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div data-ng-repeat="survey in surveys | orderBy:surveyDeliveryDate:false">
+                <h2>
+                    <span data-once-text="survey.name"></span>
+                    <label class="includeAll">
+                        <input type="checkbox" data-ng-click="selectAllChartsOfSurvey($event, survey._id)" data-ng-checked="areAllChartsOfSurveySelected(survey._id)">
+                        Include All Charts
+                    </label>
+                </h2>
+
+                <div class="surveyProgress row-fluid">
+                    <div data-ng-repeat="question in survey.questions">
+                        <div class="row-fluid" data-ng-if="!isFreeFormQuestion(question.type)">
+                            <div class="span12">
+                                <h3>
+                                    <label class="checkbox">
+                                        <input type="checkbox" data-ng-click="updateChartSelection($event, survey._id, question._id)" data-ng-checked="isChartSelected(survey._id, question._id)">
+                                        <span data-once-text="question.question"></span>
+                                    </label>
+                                </h3>
+
+                                <div data-ng-switch on="question.type">
+                                    <div data-ng-switch-when="Numeric">
+                                        <horizontal-bar-chart  abs-url="{{absUrl}}"  chart-data="{{getCumulativeDataForChart(survey._id, question._id)}}" index="$index">
+                                        </horizontal-bar-chart>
+                                    </div>
+
+                                    <div data-ng-switch-when="Rating">
+                                        <horizontal-bar-chart abs-url="{{absUrl}}"  chart-data="{{getCumulativeDataForChart(survey._id, question._id)}}" index="$index">
+                                        </horizontal-bar-chart>
+                                    </div>
+
+                                    <div data-ng-switch-when="Single Selection">
+                                        <donut-chart chart-data="{{getCumulativeDataForChart(survey._id, question._id)}}" index="$index" show-none-values="true">
+                                        </donut-chart>
+                                    </div>
+
+                                    <div data-ng-switch-when="Multiple Selection">
+                                        <donut-chart chart-data="{{getCumulativeDataForChart(survey._id, question._id)}}" index="$index" show-none-values="true">
+                                        </donut-chart>
+                                    </div>
+                                </div>
+
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <label class="includeAll">
+                                <input type="checkbox" data-ng-click="selectAllAnswersOfSurvey($event, survey._id)" data-ng-checked="areAllAnswersOfSurveySelected(survey._id)">
+                                Include All Comments
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span11 block">
+                            <table class="brand">
+                                <thead>
+                                    <tr>
+                                        <th>Include</th>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>Question</th>
+                                        <th>Response</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="answer in getAnswersForSurvey(survey._id)" data-ng-class-odd="'alt'">
+                                        <td class="text-center">
+                                            <input type="checkbox" data-ng-click="updateAnswerSelection($event, survey._id, answer._id)" data-ng-checked="isAnswerSelected(survey._id, answer._id)">
+                                        </td>
+                                        <td data-once-text="answer.createdDate | UTCDate:'MM/dd/yy'"></td>
+                                        <td data-once-text="getParticipantName(answer.userId)"></td>
+                                        <td data-ng-bind-html="answer.questionName"></td>
+                                        <td>
+                                            <span data-ng-hide="answer.type == 'Multiple Selection'" data-once-text="answer.value"></span>
+                                            <span data-ng-show="answer.type == 'Multiple Selection'" data-ng-list data-ng-bind="answer.valueArray" data-ng-model="answer.valueArray">
+                                            </span>
+                                            <br>
+                                            <i data-once-text="answer.comment"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 6: Product Images <i class="icon-question-sign icon-black" tooltip="Select product images to include in your report" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid" data-ng-show="wearAndTearImages.length > 0">
+                <div class="span12">
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="addRemoveAllWearAndTearImages($event)" data-ng-checked="areAllWearAndTearImagesSelected()"> Select all images
+                    </label>
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-repeat="division in getDivision(wearAndTearImages)">
+                <div class="span4" data-ng-repeat="image in getImagesPerDivision(division, wearAndTearImages)">
+                    <h2 data-once-text="getParticipantName(image.uploadedById)"></h2>
+                    <div class="rpt-img-border-bld">
+                        <figure class="rpt-figure">
+                            <img data-once-src="image.url | getScaledImage:230:230:'c_fit'" alt="">
+                        </figure>
+                    </div>
+                    <figcaption class="rpt-figcaption">
+                        <label class="checkbox offset1">
+                            <input type="checkbox" data-ng-click="updateWearAndTearImageSelection($event, image._id, image.brandUserComments)" data-ng-checked="isWearAndTearImageSelected(image._id)">
+                            Include
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="checkbox offset2">
+                            <input type="checkbox" data-ng-click="updateWearAndTearFeaturedImageSelection($event, image._id, image.brandUserComments)" data-ng-checked="isWearAndTearFeaturedImageSelected(image._id)">
+                            Featured
+                        </label>
+                    </figcaption>
+                    <textarea rows="2" class="span12" placeholder="Comment..." data-ng-model="image.brandUserComments" on-blur="updateCommentForImage(image._id, image.brandUserComments)" data-ng-disabled="!isWearAndTearImageSelected(image._id) 
+                        && !isWearAndTearFeaturedImageSelected(image._id)">
+                    </textarea>
+                </div>
+            </div>
+        </accordion-group>
+
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 7: Tester Quotes <i class="icon-question-sign icon-black" tooltip="" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid">
+                <textarea class="span12" rows="15" placeholder="Enter tester quotes here" data-ng-model="reportData.testerQuotes" report-ui-tinymce="testerQuotestinyMCEOptions">
+                </textarea>
+            </div>
+        </accordion-group>
+        <accordion-group>
+            <accordion-heading>
+                <h4>
+                    <a class="accordion-toggle">Section 8: Key Take Aways <i class="icon-question-sign icon-black" tooltip="" tooltip-placement="right"></i></a>
+                </h4>
+            </accordion-heading>
+            <div class="row-fluid">
+                <textarea class="span12" rows="5" placeholder="Enter Key Take Aways here" data-ng-model="reportData.keytakeAways" ui-tinymce="tinyMCEOptions">
+                </textarea>
+            </div>
+        </accordion-group>
+    </accordion>
+</div>
+
+<div class="row-fluid">
+    <form class="form-inline" data-ng-if="isLoadingComplete()">
+        <div class="input-prepend">
+            <span class="add-on">Report Name &nbsp;&nbsp;</span>
+            <input class="span7 report-name-input" type="text" data-ng-model="reportData.reportName">
+        </div>
+
+        <button type="button" class="btn btn-primary btn-orange" data-ng-click="saveSelection(true)" data-ng-show="isMode('createReport')">
+            Save and Generate Report
+        </button>
+
+        <button type="button" class="btn btn-primary btn-orange" data-ng-click="saveSelection(true)" data-ng-show="isMode('editReport')">
+            Save as new report and generate
+        </button>
+
+        <button type="button" class="btn btn-primary btn-orange" data-ng-click="saveSelection(false)" data-ng-show="isMode('editReport')">
+            Update existing report and generate
+        </button>
+    </form>
+</div>
+
+<h1 class="text-center" data-ng-hide="isLoadingComplete() || waitingForReportSelection()">
+    <i class="icon-spinner icon-spin"></i>
+</h1>
+
+            </div>
+        </div>
+    </div>
+</div>

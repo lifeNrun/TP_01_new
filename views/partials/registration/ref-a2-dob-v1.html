@@ -1,0 +1,48 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError || isUnder13()">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of the date of birth -->
+		<div class="row-fluid" ng-hide="isUnder13()">
+			<div class="span12 text-center">
+				<input type="text" class="input-small" ng-model="question.answer.value" placeholder="mm/dd/yyyy" required>
+			</div>
+		</div>
+		<!-- END OF Display of the date of birth -->
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton || isUnder13()">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton || isUnder13()">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

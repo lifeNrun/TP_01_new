@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #C51231!important;
+}
+
+.rpt-title2 {
+  background-color: #C51231!important;
+}
+
+.rpt-title5 {
+  color: #C51231!important;
+}
+
+.title-image {
+  background: #C51231!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-DJOGLOBAL.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/djo.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #C51231!important;
+}
+
+span.test-rating {
+    color: #C51231!important;
+}

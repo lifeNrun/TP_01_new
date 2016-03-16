@@ -1,0 +1,236 @@
+[
+	{
+		"id": "height",
+		"type": "Rating",
+		"question": "What is your height?",
+		"helpText": "Set your height by moving the slider",
+		"options": {
+			"defaultValue": 60
+		}
+	},
+	{
+		"id": "weight",
+		"type": "Rating",
+		"question": "What is your weight?",
+		"helpText": "Set your weight by moving the slider",
+		"options": {
+			"defaultValue": 150
+		}
+	},
+	{
+		"id": "shoeSize",
+		"type": "Rating",
+		"question": "What is your shoe size?",
+		"helpText": "Set your shoe size by moving the slider",
+		"options": {
+			"defaultValue": 10
+		}
+	},
+	{
+		"id": "shirtSize",
+		"type": "Single Selection",
+		"question": "What is your shirt size?",
+		"helpText": "Select your shirt size by moving the slider",
+		"options": {
+			"defaultValue": "xs"
+		}
+	},
+	{
+		"id": "sleeveLength",
+		"type": "Rating",
+		"question": "What is your sleeve length?",
+		"helpText": "Set your sleeve length by moving the slider",
+		"options": {
+			"defaultValue": 33
+		}
+	},
+	{
+		"id": "jacketSize",
+		"type": "Single Selection",
+		"question": "What is your jacket size?",
+		"helpText": "Select your jacket size by moving the slider",
+		"options": {
+			"defaultValue": "xs"
+		}
+	},
+	{
+		"id": "gloveSize",
+		"type": "Single Selection",
+		"question": "What is your glove size?",
+		"helpText": "Select your glove size by moving the slider",
+		"options": {
+			"defaultValue": "s"
+		}
+	},
+	{
+		"id": "dateOfBirth",
+		"type": "Free Form Text",
+		"question": "What is your Date of Birth?",
+		"helpText": "Please enter your birth date as mm/dd/yyyy"
+	},
+	{
+		"id": "gender",
+		"type": "Single Selection",
+		"question": "What is your gender?",
+		"helpText": "Select your gender by selecting Male or Female"
+	},
+	{
+		"id": "shoeWidthStr",
+		"type": "Rating",
+		"question": "What is your width of your shoe?",
+		"helpText": "Set your shoe width by moving the slider",
+		"options": {
+			"defaultValue": 3.25
+		}
+	},
+	{
+		"id": "pants",
+		"type": "Rating",
+		"question": "What is your pants inseam length and waist size?",
+		"helpText": "Set your inseam length and waist size by moving the slider"
+	},
+	{
+		"id": "personal",
+		"type": "Free Form Text",
+		"question": "What is your full name and email address?",
+		"helpText": "Enter your full name and email using the text fields below"
+	},
+	{
+		"id": "mobilePhone",
+		"type": "Numeric",
+		"question": "What is your mobile phone number?",
+		"helpText": "Enter your mobile phone below"
+	},
+	{
+		"id": "favoriteQuote",
+		"type": "Free Form Text",
+		"question": "What is your favorite quote",
+		"helpText": "Enter your favorite quote below"
+	},
+	{
+		"id": "runningShoeSize",
+		"type": "Rating",
+		"question": "What size running show do you wear?",
+		"helpText": "Set your running shoe size by moving the slider"
+	},
+	{
+		"id": "armPreference",
+		"type": "Single Selection",
+		"question": "Is your left or right arm dominant?",
+		"helpText": "Select your dominant arm"
+	},
+	{
+		"id": "legPreference",
+		"type": "Single Selection",
+		"question": "Is your left or right leg dominant?",
+		"helpText": "Select your dominant leg"
+	},
+	{
+		"id": "neckMeasurement",
+		"type": "Rating",
+		"question": "What is the size of your neck?",
+		"helpText": "Set your neck size by moving the slider"
+	},
+	{
+		"id": "chestMeasurement",
+		"type": "Rating",
+		"question": "What is the size of your chest?",
+		"helpText": "Set your chest size by moving the slider"
+	},
+	{
+		"id": "thighMeasurement",
+		"type": "Rating",
+		"question": "What is the size of your thigh?",
+		"helpText": "Set your thigh size by moving the slider"
+	},
+	{
+		"id": "bicepMeasurement",
+		"type": "Rating",
+		"question": "What is the size of your biceps?",
+		"helpText": "Set your bicep size by moving the slider"
+	},
+	{
+		"id": "profession",
+		"type": "Single Selection",
+		"question": "What is your profession?",
+		"helpText": "Select your profession from the dropdown list"
+	},
+	{
+		"id": "favoriteMemory",
+		"type": "Free Form Text",
+		"question": "What is your favorite memory while participating in your Sport, Activity or Profession?",
+		"helpText": "Provide us with your favorite memory"
+	},
+	{
+		"id": "address",
+		"type": "Free Form Text",
+		"question": "What is your contact info?",
+		"helpText": "Your shipping address is needed for us to ship the product to you for testing. Please do not use a P.O.Box"
+	},
+	{
+		"id": "winter",
+		"type": "Multiple Selection",
+		"question": "Please select  3 winter sports or activities",
+		"helpText": "Select up to 3 entries"
+	},
+	{
+		"id": "summer",
+		"type": "Multiple Selection",
+		"question": "Please select  3 summer sports or activities",
+		"helpText": "Select up to 3 entries"
+	},
+	{
+		"id": "recieveNotifType",
+		"type": "Multiple Selection",
+		"question": "Select the Notifications you would like to receive.",
+		"helpText": "Select the topics that you would want to be notified about"
+	},
+	{
+		"id": "loginInfo",
+		"type": "Free Form Text",
+		"question": "Enter a username and password",
+		"helpText": "Enter a username and password. Re-enter the password"
+	},
+	{
+		"id": "utype",
+		"type": "Single Selection",
+		"question": "What type of user are you?",
+		"helpText": "Select a user type from the list"
+	},
+	{
+		"id": "aboutMe",
+		"type": "Free Form Text",
+		"question": "Tell us a little about you",
+		"helpText": "Enter your text in the textarea provided"
+	},
+	{
+		"id": "shoulderMeasurement",
+		"type": "Rating",
+		"question": "What is your shoulder width?",
+		"helpText": "Set your shoulder width by moving the slider"
+	},
+	{
+		"id": "underBustMeasurement",
+		"type": "Rating",
+		"question": "What is your bust measurement?",
+		"helpText": "Set the bust value by moving the slider"
+	},
+	{
+		"id": "seatMeasurement",
+		"type": "Rating",
+		"question": "What is your seat measurement?",
+		"helpText": "Set the seat size by moving the slider"
+	},
+	{
+		"id": "changePassword",
+		"type": "Free Form Text",
+		"question": "Change password?",
+		"helpText": "Enter old password. Then enter new password. Re-enter the password."
+	},
+	{
+		"id": "brandAssociation",
+		"type": "Free Form Text",
+		"question": "If you have a brand code please enter it below. (Optional)",
+		"helpText": "This is a brand sponsored code for endorsed athletes and professionals. If this does not apply, please click next"
+	}
+]

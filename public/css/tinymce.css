@@ -1,0 +1,17 @@
+.mce-btn button {
+	padding: 4px 7px !important;
+}
+
+.mce-tinymce {
+	margin-bottom: 3px !important;
+}
+
+.mce-text {
+	white-space: pre-line !important;
+	margin-left: -5px !important;
+}
+
+.mce-menu-item {
+	max-width: 265px !important;
+	margin-right: 30px !important;
+}

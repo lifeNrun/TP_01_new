@@ -1,0 +1,128 @@
+<div id="content">
+<!-- Breaking Indentation to compromise with readability -->
+<div class="wrap full">
+<weartest-mode></weartest-mode>
+
+<div class="tab-content">
+<div class="row top-row">
+
+<weartest-header></weartest-header>
+
+<div class="row-fluid spacer">
+    <h2 class="brandSubPageTitle">
+        Activity Logs
+    </h2>
+
+    <div id="brandActivityLogs">
+        <!-- Placeholder for Chart Directive -->
+        <div data-activity-log-chart-brand>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">    
+    <h2 class="brandSubPageTitle">
+        <a href="" class="btn btn-orange btn-primary btn-small" download="activity_log.csv" data-ng-hide="preparingDataForExport" assist-with-export>Export activity logs</a>
+        {{choosenDropdownWT.name}}
+    </h2>
+
+    <table class="brand">
+        <thead>
+            <tr>
+                <th data-ng-click="changeSortOrder('date')">
+                    Date
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('date', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('date', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('userId')">
+                    User
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('userId', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('userId', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('activity')">
+                    Activity
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('activity', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('activity', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('distance')">
+                    Miles
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('distance', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('distance', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('time')">
+                    Minutes
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('time', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('time', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('temperature')">
+                    Temp &deg;F
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('temperature', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('temperature', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('terrain')">
+                    Terrain
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('terrain', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('terrain', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('intensity')">
+                    Intensity
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('intensity', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('intensity', 'descending')"></i>
+                </th>
+                <th class="condition" data-ng-click="changeSortOrder('condition')">
+                    Conditions
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('condition', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('condition', 'descending')"></i>
+                </th>
+                <th data-ng-click="changeSortOrder('note')">
+                    Notes
+                    <i class="icon-caret-up" data-ng-show="checkSortOrder('note', 'ascending')"></i>
+                    <i class="icon-caret-down" data-ng-show="checkSortOrder('note', 'descending')"></i>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody data-infinite-scroll="increaseLogLimit()">
+            <tr data-ng-class-even="'alt'" data-ng-repeat="entry in activityLogByUsers | filter:searchText | orderBy:predicate:reverse | limitTo: activityLogDisplayLimit">
+                <td>
+                    <span data-once-text="entry.activityDate | UTCDate:'MM/dd/yy'"></span>
+                </td>
+                <td>
+                    <span data-once-text="getUserName(entry.userId)"></span>
+                </td>
+                <td>
+                    <span data-once-text="entry.activityType"></span>
+                </td>
+                <td>
+                    <span data-once-text="getDistanceInMiles(entry)"></span>
+                </td>
+                <td>
+                    <span data-once-text="getTimeInMinutes(entry)"></span>
+                </td>
+                <td>
+                    <span data-once-text="getTemperatureInFahrenheit(entry)"></span>
+                </td>
+                <td>
+                    <span data-once-text="entry.terrain"></span>
+                </td>
+                <td>
+                    <span data-once-text="entry.intensity"></span>
+                </td>
+                <td>
+                    <span data-once-text="entry.conditions"></span>
+                </td>
+                <td class="notes">
+                    <img src="/img/icon-sticky.png" data-tooltip="{{entry.notes}}" data-tooltip-placement="left" data-ng-show="entry.notes != ''" alt="notes">
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+</div>
+</div>
+</div>
+</div>

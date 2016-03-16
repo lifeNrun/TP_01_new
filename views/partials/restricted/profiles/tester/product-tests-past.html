@@ -1,0 +1,89 @@
+<!-- This template displays the currently "Closed" Wear Tests in which
+	the current user was on team -->
+
+<h2 ng-show="entriesExist() && !loadingData">Past Product Tests</h2>
+
+<!-- Show this container only if entries exist to display and all entries have been loaded -->
+<div ng-show="entriesExist() && !loadingData">
+	<div id="newProductTest">
+		<!-- For each Wear Test, repeat the following template -->
+		<div ng-repeat="item in weartests">
+			<div class="row-fluid">
+				<div class="span3 logo">
+					<img ng-src="{{getScaledWearTestImage(item.featureImageLink)}}">
+				</div>
+				<div class="span9">
+					<h2 class="alt">
+						<a href="" class="orange no-line" ng-click="showInfoModal(item)">
+							{{item.name}}
+						</a>
+					</h2>
+
+					<div class="row-fluid">
+						<table class="plain">
+							<thead>
+								<tr>
+									<th class="first">
+										Category
+									</th>
+									<th>
+										Activity
+									</th>
+									<th>
+										Registration
+									</th>
+									<th>
+										Duration
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr class="shade">
+									<td class="first">
+										{{item.productType}}
+									</td>
+									<td>
+										{{item.activity.join(', ')}}
+									</td>
+									<td>
+										{{item.registrationStart | UTCDate:'MM/dd'}} - {{item.registrationDeadline | UTCDate:'MM/dd'}}
+									</td>
+									<td>
+										{{item.wearTestStartDate | UTCDate:'MM/dd'}} - {{item.wearTestEndDate | UTCDate:'MM/dd'}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<hr ng-show="$index < weartests.length - 1">
+		</div>
+	</div>
+</div>
+
+<!-- Information Text - Show only if entries do not exist and data has been loaded -->
+<div ng-hide="entriesExist() || loadingData">
+	<div class="alert alert-info">
+		<h1 class="text-center">
+			There are no Past Product Tests
+		</h1>
+	</div>
+</div>
+
+<!-- Information Text - Show when the data is being loaded -->
+<div ng-show="loadingData">
+	<h1 class="text-center">
+		<i class="icon-spin icon-spinner">
+		</i>
+	</h1>
+	<p class="muted text-center">
+		Loading data...
+	</p>
+</div>
+
+<!-- Wear Test Detail Info -->
+<weartest-info wear-test-details="wearTestInfo" display="displayInfo">
+</weartest-info>

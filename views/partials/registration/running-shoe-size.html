@@ -1,0 +1,62 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup>
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display the running shoe size -->
+		<div class="row-fluid">
+			<div id="shoes-input-b" ng-show="genderValue == 'Male'">
+				<label>{{genderValue}}</label>
+				<input id="shoesValue-b" type="text" class="text-center" value="10" ng-model="question.answer.value" readonly>
+			</div>
+			<div id="shoes-input-d" ng-show="genderValue == 'Female'">
+				<label>{{genderValue}}</label>
+				<input id="shoesValue-d" type="text" class="text-center" value="10" ng-model="question.answer.value" readonly>
+			</div>
+		</div>
+
+		<div class="row-fluid spacer">
+			<div id="slider-shoes-b" ng-show="genderValue == 'Male'">
+				<div class="slider" bootstrap-slider data-slider-field="runningShoesValue" data-slider-min="6" data-slider-max="22" data-slider-step="0.5" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"></div>
+			</div>
+			<div id="slider-shoes-d" ng-show="genderValue == 'Female'">
+				<div class="slider" bootstrap-slider data-slider-field="runningShoesValue" data-slider-min="5" data-slider-max="14" data-slider-step="0.5" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"></div>
+			</div>
+		</div>
+		<!-- END OF Display the running shoe size -->
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

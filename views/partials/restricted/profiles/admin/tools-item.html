@@ -1,0 +1,268 @@
+<!--
+This is the page that loads when the administrator clicks on the
+Administrator Tools Item in the administrator's dashboard
+-->
+
+<div id="content">
+    <div class="wrap full">
+        <ul class="nav nav-tabs left-tab">
+            <li ng-class="{active: isTabActive(1)}">
+                <a href="" ng-click="setActiveTab(1)">
+                    <span>C.R.U.D. Tools</span>
+                </a>
+                <span class="arrow"></span>
+            </li>
+            <li ng-class="{active: isTabActive(4)}">
+                <a href="" ng-click="setActiveTab(4)">
+                    <span>Manage ImageSets</span>
+                </a>
+                <span class="arrow"></span>
+            </li>
+            <li ng-class="{active: isTabActive(5)}">
+                <a href="" ng-click="setActiveTab(5)">
+                    <span>Info</span>
+                </a>
+                <span class="arrow"></span>
+            </li>
+            <li data-ng-class="{active: isTabActive(6)}">
+                <a href="/dashboard/settings">
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Displayed based on the active tab -->
+        <div class="tab-content">
+            <div class="row top-row">
+                <div class="row-fluid">
+                    <div ng-switch on="activeTab">
+                        <!-- C.R.U.D. Tools Tab -->
+                        <div ng-switch-when="1">
+
+                            <!-- The left hand navigation for selection of the modules -->
+                            <div class="span2">
+                                <ul class="nav nav-tabs nav-stacked">
+                                    <!-- <li ng-class="{active: currentlyActiveTable('answers')}"><a href="/dashboard/AdminTools/answers">Answers</a></li> -->
+                                    <li ng-class="{active: currentlyActiveTable('imagesets')}"><a href="/dashboard/AdminTools/imagesets">Image Sets</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('surveys')}"><a href="/dashboard/AdminTools/surveys">Surveys</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('wearTests')}"><a href="/dashboard/AdminTools/wearTests">Product Tests</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('users')}"><a href="/dashboard/AdminTools/users">Users</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('blogContents')}"><a href="/dashboard/AdminTools/blogContents">Contents</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('messages')}"><a href="/dashboard/AdminTools/messages">Messages</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('activityLogs')}"><a href="/dashboard/AdminTools/activityLogs">activity Logs</a></li>
+                                    <li ng-class="{active: currentlyActiveTable('surveys_submitted')}"><a href="/dashboard/AdminTools/surveys_submitted">Surveys Submitted</a>
+                                    </li>
+                                    <li ng-click="manageRules()"><a href="">Rules Maintenance</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- The right hand display of the data of the selected module -->
+                            <div class="span10">
+
+                                <div class="row-fluid" ng-show="noRuleImageSetIdFound">
+                                    <div class="span12">
+                                        <div class="alert alert-danger">
+                                            <h1 class="text-center">No ImageSet configured for rules</h1>
+                                            <p class="text-center">
+                                                Create an ImageSet of type 'Common' and configure the ImageSet's ID in the server's configuration file
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Loading Table Data -->
+                                <div class="row-fluid" ng-show="loadingTable">
+                                    <div class="span12">
+                                        <h1 class="text-center"><i class="icon-spinner icon-spin"></i></h1>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid" ng-show="displaySuccessMessage">
+                                    <div class="span6 offset3">
+                                        <div class="alert alert-success">
+                                            <p class="text-center">{{successMessage}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid" ng-show="displayErrorMessage">
+                                    <div class="span6 offset3">
+                                        <div class="alert alert-error">
+                                            <p class="text-center">{{errorMessage}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <div ng-hide="hideTable || loadingTable || editMode">
+
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    Search:
+                                                    <input id="searchFilter" type="text" data-ng-model="searchFilter.input"/>
+
+                                                    <div class="pull-right" ng-show="currentlyActiveTable('users')">
+                                                        Total Testers: {{getTotalUsers('Tester')}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <div class="pull-right" ng-show="currentlyActiveTable('users')">
+                                                        Total Brand Users: {{getTotalUsers('Brand')}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-fluid" ng-show="currentlyActiveTable('users')">
+                                                <div class="span12">
+                                                        <a href="" class="btn" download="users.csv" assist-with-export onClick="document.getElementById('exportButton').click();">
+                                                          <i class="icon-share-sign"></i>
+                                                          Export Testers
+                                                        </a>
+                                                        <button type="button" name="exportButton" id="exportButton" ng-hide="alwaysHide" onClick="document.getElementById('exportButton').value = document.getElementById('searchFilter').value" ng-click="prepareDataForExport('searchFilter')">Invisible!
+                                                        </button>
+                                                </div>
+                                            </div>
+
+                                            <hr/>
+                                            <div class="table-scroll">
+                                                <div data-double-scroll-bar-horizontal="always">
+                                                    <table class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- Row Data -->
+                                                                <th class="pointer" ng-repeat="header in selectedTable.Columns">
+                                                                    <span>
+                                                                        <span class="headerLabel" ng-click="sortEntries(header.name)" data-once-text="header.label"></span>
+                                                                        <span ng-show="sortColumnsBy == header.name">
+                                                                            <i class="icon-chevron-up" ng-show="sortColumnsOrder=='desc'"></i>
+                                                                            <i class="icon-chevron-down" ng-show="sortColumnsOrder=='asc'"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </th>
+
+                                                                <!-- Row Deletion -->
+                                                                <th>
+                                                                    &nbsp;
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody infinite-scroll="increaseRecordDisplayCount()">
+                                                            <tr ng-repeat="entry in tableRecords | filter:searchFilter.input | orderBy:sortColumnsBy:(sortColumnsOrder=='desc') | limitTo:recordDisplayLimit">
+                                                                <td ng-repeat="header in selectedTable.Columns" ng-click="editEntry(entry)" data-once-text="entry[header.name]">
+                                                                    <div ng-show="header.value">
+                                                                        <p class="pad-top" data-once-text="entry[header.value]"></p>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger" ng-click="deleteEntry(entry)">
+                                                                        <i class="icon-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid" ng-hide="hideTable || loadingTable">
+                                    <div class="span12">
+                                        <div class="pull-right">
+                                            <button type="button" class="btn btn-inverse" ng-click="addNewEntry()">
+                                                <i class="icon-plus-sign"></i> New Entry
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid" ng-if="editMode">
+                                    <div data-ng-switch on="selectedTableName">
+                                        <div data-ng-switch-when="users">
+                                            <div data-ng-include="'/partials/restricted/profiles/admin/collections/user.html'"></div>
+                                        </div>
+                                        <div data-ng-switch-default>
+                                            <div class="span6 offset2">
+                                                <form class="form-horizontal">
+                                                    <div class="control-group" ng-repeat="header in selectedTable.DetailColumns">
+                                                        <label class="control-label">{{header.label}}</label>
+                                                        <div class="controls">
+                                                            <div ng-show="header.editable">
+                                                                <div data-ng-switch on="header.type">
+                                                                    <div data-ng-switch-when="Array">
+                                                                        <input type="text" data-ng-model="itemInEditMode[header.name]" data-ng-list />
+                                                                    </div>
+                                                                    <div data-ng-switch-when="Boolean">
+                                                                        <input type="checkbox" ng-model="itemInEditMode[header.name]" ng-value="itemInEditMode[header.name]" />
+                                                                    </div>
+                                                                    <div data-ng-switch-default>
+                                                                        <textarea ng-model="itemInEditMode[header.name]" ng-bind-html="itemInEditMode[header.name]">
+                                                                        </textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span ng-hide="header.editable">{{itemInEditMode[header.name]}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <button type="submit" class="btn btn-success" ng-click="saveChanges(itemInEditMode)">
+                                                                <i class="icon-save"></i> Save
+                                                            </button>
+                                                            &nbsp;&nbsp;&nbsp;
+                                                            <button type="button" class="btn" ng-click="cancelChanges()">
+                                                                <i class="icon-remove"></i> Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Manage ImageSets -->
+                        <div ng-switch-when="2">
+                            <div ng-switch on="imageSetDisplayMode">
+                                <!-- Tabular Display of all ImageSets -->
+                                <div ng-switch-when="list">
+                                    <!-- Creation of new Image Set -->
+                                    <imageset-create display-entry="displayImageSet">
+                                    </imageset-create>
+
+                                    <!-- Display of existing Image Sets in a table -->
+                                    <tabular-display header-fields="imagesetHeader" table-entries="existingImageSets" entries-per-page='1000' allow-deletion="imagesetConfig.deletion" allow-viewing="imagesetConfig.viewing" view-entry="displayImageSet">
+                                    </tabular-display>
+                                </div>
+
+                                <!-- Individual ImageSet display -->
+                                <div ng-switch-when="single">
+                                    <!-- Back to all imagset -->
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-inverse" ng-click="backToImageSet()">Back To ImageSet</button>
+                                    </div>
+                                    <imageset-single-display display-entry-id="displayEntryId">
+                                    </imageset-single-display>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info Tab -->
+                        <div ng-switch-when="3">
+                            <admin-info-tab>
+                            </admin-info-tab>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

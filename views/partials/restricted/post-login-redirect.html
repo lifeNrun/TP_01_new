@@ -1,0 +1,37 @@
+<!--
+This is the page that loads when the user logs in successfully
+This page loads the appropriate directive based on the user type
+which in turn loads the dashboard for that user type
+-->
+
+<!-- Determine the type of user -->
+<div ng-switch="user.utype">
+
+	<!-- User is of type Admin -->
+	<div ng-switch-when="Admin">
+		<!-- Load the admin profile -->
+		<admin-profile user-data="user">
+		</admin-profile>
+	</div>
+
+	<!-- User is of type Tester -->
+	<div ng-switch-when="Tester">
+		<!-- Load the tester profile -->
+		<tester-profile user-data="user">
+		</tester-profile>
+	</div>
+
+	<!-- User is of type Brand -->
+	<div ng-switch-when="Brand">
+		<!-- Load the brand profile -->
+		<brand-profile user-data="user">
+		</brand-profile>
+	</div>
+
+	<!-- User is of type Designer -->
+	<div ng-switch-when="Designer">
+		<!-- Load the designer profile -->
+		<designer-profile user-data="user">
+		</designer-profile>
+	</div>
+</div>

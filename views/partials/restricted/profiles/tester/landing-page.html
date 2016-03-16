@@ -1,0 +1,101 @@
+<!-- 
+This is the landing page for the user of type Tester.
+Immediately after logging in, the user will see this page
+-->
+
+<!-- top navigation bar -->
+<div id="top-bar" class="navbar navbar-static-top">
+	<div class="navbar-inner">
+		<ul class="nav">
+			<li><a href="http://design.mesh01.com">Design<span class="arrow"></span></a></li>
+			<li class="active"><a href="">Wear Test<span class="arrow"></span></a></li>
+		</ul>
+	</div>
+</div>
+
+<header>
+	<div class="wrap">
+
+		<!-- The Logo -->
+		<h1>
+			<a href="/"><img src="/img/logo.png"></a>
+		</h1>
+
+		<div id="welcome">Welcome Back {{currentUser.username}}</div>
+
+		<!-- top right social media icons -->
+		<div class="social-media">
+			<a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+			<a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+			<a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+			<a href="" class="rss temp-hidden"><span>RSS</span></a>
+			<a href="" class="logout" ng-click="logout()"><i class="icon-off icon-black"></i> Logout</a>
+		</div>
+
+		<!-- Message Center -->
+		<message-center user-data="currentUser"></message-center>
+<!-- 		<div id="message-center">
+			<div class="dropdown">
+				<a href="" class="trigger" data-toggle="dropdown">
+					<span class="icon"></span>
+					<span class="badge badge important">{{1}}</span>
+				</a>
+
+				<ul class="dropdown-menu" role="menu">
+					<li>Test Message - Will be updated soon</li>
+				</ul>
+			</div>
+		</div> -->
+	</div>
+</header>
+
+<!-- The Dashboard Display -->
+<nav>
+	<ul class="nav nav-tabs">
+		<li ng-class="{active: isActiveItem('ActivityLogs')}">
+			<a href="/dashboard/ActivityLogs" class="activity-logs">
+				<span>Activity<br>Logs</span>
+			</a>
+			<!-- <span class="badge badge-info">{{2}}</span> -->
+			<span class="arrow"></span>
+		</li>
+
+		<li ng-class="{active: isActiveItem('ProductTests')}">
+			<a href="/dashboard/ProductTests/current" class="product-test">
+				<span>Product<br>Tests</span>
+			</a>
+			<!-- <span class="badge badge-info">{{2}}</span> -->
+			<span class="arrow"></span>
+		</li>
+
+		<li ng-class="{active: isActiveItem('Profile')}">
+			<a href="/dashboard/Profile" class="your-profile">
+				<span>My<br>Profile</span>
+			</a>
+			<span class="arrow"></span>
+		</li>
+	</ul>
+</nav>
+
+<!-- Directives - Activated based on the selected dashboard item -->
+<div ng-switch="activeDashboardItem">
+	<div ng-switch-when="ActivityLogs">
+		<tester-activity-logs-item>
+		</tester-activity-logs-item>
+	</div>
+
+	<div ng-switch-when="ProductTests">
+		<tester-product-tests-item>
+		</tester-product-tests-item>
+	</div>
+
+	<div ng-switch-when="Profile">
+		<tester-profile-item>
+		</tester-profile-item>
+	</div>
+
+	<!-- Until optimized code comes, directly insert the video page-->
+	<div data-ng-switch-when="weartest">
+		<video-manager/>
+	</div>
+</div>

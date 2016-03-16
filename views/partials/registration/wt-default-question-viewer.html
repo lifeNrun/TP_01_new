@@ -1,0 +1,78 @@
+<!-- Display of Error messages, if any
+<div class="row-fluid" ng-show="question.answer.errorMessage">
+	<div class="span12">
+		<div class="alert alert-error text-center">
+			<strong>Error!</strong>&nbsp;
+			{{question.answer.errorMessage}}
+		</div>
+	</div>
+</div>
+
+Display of input placeholder for questions of type Numeric
+<div class="row-fluid" ng-show="question.type == 'Numeric'">
+	<div class="span12 text-center">
+		<input type="text" placeholder="Numeric value" ng-model="question.answer.value">
+	</div>
+</div>
+
+ Display of slider for questions of type Rating
+<div class="row-fluid" ng-show="question.type == 'Rating'">
+	<div class="span2">
+		{{question.options.minValueLabel}}
+	</div>
+
+	<div class="span4">
+		<slider min="question.options.minValue" max="question.options.maxValue" value="question.answer.value" >
+		</slider>
+	</div>
+
+	<div class="span2">
+		{{question.options.maxValueLabel}}
+	</div>
+</div>
+
+ Display of the value of the above slider
+<div class="row-fluid" ng-show="question.type == 'Rating'">
+	<div class="span4 offset2">
+		Value: <strong>{{question.answer.value}}</strong>
+	</div>
+</div>
+
+
+Display of value for questions of type Single Selection
+<div class="row-fluid" ng-show="question.type == 'Single Selection'">
+	<div class="registration-body">
+		<div class="span12 text-center">
+			<div class="btn-group btn-group-vertical" data-toggle="buttons-radio">
+				<button ng-show="v.key.length>0" ng-repeat="v in question.options.values" type="button" class="btn btn-warning btn-block" ng-click="question.answer.value=v.value">
+					&nbsp;&nbsp;{{v.key}}&nbsp;&nbsp;
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+<!-- Display of value for questions of type Multiple Selection -->
+<div class="row-fluid" ng-show="question.type == 'Multiple Selection'">
+	<div class="registration-body">
+		<div class="span6 offset4">
+		    <div ng-repeat="v in question.options.values">
+		    	<label class="checkbox">
+		      		<input type="checkbox" ng-click="toggleSelection(v.key)" ng-checked="isChecked(v.key)"> {{v.key}}
+		      	</label>
+		    </div>
+	 	</div>
+	</div>
+</div>
+
+<!-- Display of text area for questions of type Free Form text -->
+<div class="row-fluid" ng-show="question.type == 'Free form text'">
+	<div class="registration-body">
+		<div class="span6 offset3">
+			<input type="text" class="text-center" ng-show="question.options.isSingleLine" placeholder="{{question.hintText}}" ng-model="question.answer.value">
+			<textarea class="text-center" ng-hide="question.options.isSingleLine" placeholder="{{question.hintText}}" ng-model="question.answer.value">
+			</textarea>
+		</div>
+	</div>
+</div>

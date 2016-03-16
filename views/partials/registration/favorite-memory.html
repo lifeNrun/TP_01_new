@@ -1,0 +1,49 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of Favorite Memory -->
+		<div class="row-fluid">
+			<div class="span8 offset2">
+				<textarea class="text-center span12" rows="5" ng-model="question.answer.value">
+				</textarea>
+			</div>
+		</div>
+		<!-- END OF Display of Favorite Memory -->
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

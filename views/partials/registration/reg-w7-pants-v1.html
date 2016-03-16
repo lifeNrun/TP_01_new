@@ -1,0 +1,74 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of Pants Selection -->
+		<div class="row-fluid registration-body">
+			<div class="span12 fill-it-up">
+				<div class="row-fluid">
+					<div class="span3">
+						<div id="slider-pants-inseam">
+							<div class="slider" bootstrap-slider data-slider-field="pantsInseamValue" data-slider-min="22" data-slider-max="40" data-slider-step="1" data-slider-value="32" data-slider-orientation="vertical" data-slider-selection="none" data-slider-tooltip="hide"></div>
+						</div>
+					</div>
+					<div class="span3">
+						<img src="/img/pants.png" alt="">
+					</div>				
+					<div class="span6">
+					
+						<div class="row-fluid">
+							<div id="slider-pants-waist">
+								<div class="slider" bootstrap-slider data-slider-field="pantsWaistValue" data-slider-min="24" data-slider-max="60" data-slider-step="1" data-slider-value="32" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"></div>
+							</div>
+						</div>
+						
+						<div class="row-fluid spacer">
+							<div id="pants-input">
+								<input id="pantsInseamValue" type="text" class="text-center" value="37" readonly ng-model="question.answer.inseamLength">								
+								<input id="pantsWaistValue" type="text" class="text-center" value="32" readonly ng-model="question.answer.waistMeasurement">
+							</div>					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--END OF Display of Pants Selection -->
+
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>
+

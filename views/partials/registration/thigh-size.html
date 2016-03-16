@@ -1,0 +1,57 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of thigh size -->
+		<div class="row-fluid">
+			<div class="span6 text-right">
+				<img src="/img/thigh.png" alt="">
+			</div>
+
+			<div class="span6">
+				<div id="thigh-input">
+					<input id="thighValue" type="text" class="text-center" ng-model="question.answer.value" readonly>
+				</div>
+				<div id="slider-thigh">
+					<div class="slider" bootstrap-slider data-slider-field="thighSizeValue" data-slider-min="10" data-slider-max="36" data-slider-step="0.5" data-slider-value="24" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"></div>
+				</div>					
+			</div>
+		</div>
+		<!-- END OF Display of thigh size -->
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

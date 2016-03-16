@@ -1,0 +1,347 @@
+<!-- Display of the user's profile -->
+<div class="row-fluid" ng-show="!showError && !loadingProfileDetails">
+	<div class="span6">
+		<div class="profile-control profile-detail" ng-click="edit('personal')">
+			<strong>FULLNAME:</strong>
+			<p class="profile-detail" ng-click="edit('personal')">
+				{{user.fname | capitalize}}&nbsp;{{user.lname | capitalize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('gender')">
+			<strong>GENDER:</strong>
+			<p class="profile-detail" ng-click="edit('gender')">
+				{{user.gender | capitalize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('dateOfBirth')">
+			<strong>DATE OF BIRTH:</strong>
+			<p class="profile-detail" ng-click="edit('dateOfBirth')">
+				{{user.dateOfBirth | date:'MM/dd/yyyy'}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('personal')">
+			<strong>EMAIL:</strong>
+			<p class="profile-detail" ng-click="edit('personal')">
+				{{user.email}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('address')">
+			<strong>SHIPPING ADDRESS:</strong>
+			<p class="profile-detail">
+				{{getAddress('ship').address1}}<br>
+				<span ng-show="getAddress('ship').address2">{{getAddress('ship').address2}}<br></span>
+				{{getAddress('ship').city}} {{getAddress('ship').state}} {{getAddress('ship').zipCode}}<br>
+				{{getAddress('ship').country}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('mobilePhone')">
+			<strong>PHONE (MOBILE):</strong>
+			<p class="profile-detail" ng-click="edit('mobilePhone')">
+				{{user.mobilePhone}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('recieveNotifType')">
+			<strong>NOTIFICATION:</strong>
+			<p class="profile-detail" ng-click="edit('recieveNotifType')">
+				<span ng-repeat="entry in user.recieveNotifType">
+					{{entry | capitalize}}<br>
+				</span>
+				<span ng-show="user.recieveNotifType.length == 0">
+					None
+				</span>
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('height')">
+			<strong>HEIGHT:</strong>
+			<p class="profile-detail" ng-click="edit('height')">
+				{{getFormattedHeight(user.height)}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('weight')">
+			<strong>WEIGHT:</strong>
+			<p class="profile-detail" ng-click="edit('weight')">
+				<span ng-show="user.weight">{{user.weight}} (lbs)</span>
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('winter')">
+			<strong>WINTER ACTIVITIES:</strong>
+			<p class="profile-detail" ng-click="edit('winter')">
+				<span ng-repeat="entry in user.winter">
+					{{entry | capitalize}}<br>
+				</span>
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('summer')">
+			<strong>SUMMER ACTIVITIES:</strong>
+			<p class="profile-detail" ng-click="edit('summer')">
+				<span ng-repeat="entry in user.summer">
+					{{entry | capitalize}}<br>
+				</span>
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('shoulderMeasurement')">
+			<strong>SHOULDER WIDTH:</strong>
+			<p class="profile-detail" ng-click="edit('shoulderMeasurement')">
+				{{user.shoulderMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('profession')">
+			<strong>PROFESSION:</strong>
+			<p class="profile-detail" ng-click="edit('profession')">
+				{{user.profession}}
+			</p>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="profile-control profile-detail" ng-click="edit('legPreference')">
+			<strong>LEG LEFT/RIGHT DOMINANT:</strong>
+			<p class="profile-detail" ng-click="edit('legPreference')">
+				{{user.legPreference | capitalize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('armPreference')">
+			<strong>ARM LEFT/RIGHT DOMINANT:</strong>
+			<p class="profile-detail" ng-click="edit('armPreference')">
+				{{user.armPreference | capitalize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('shoeSize')">
+			<strong>SHOE SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('shoeSize')">
+				{{user.shoeSize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('shoeWidthStr')">
+			<strong>SHOE WIDTH:</strong>
+			<p class="profile-detail" ng-click="edit('shoeWidthStr')">
+				{{user.shoeWidthStr}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('runningShoeSize')">
+			<strong>RUNNING SHOE SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('runningShoeSize')">
+				{{user.runningShoeSize}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('shirtSize')">
+			<strong>SHIRT SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('shirtSize')">
+				{{user.shirtSize | uppercase}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('sleeveLength')">
+			<strong>SLEEVE LENGTH:</strong>
+			<p class="profile-detail" ng-click="edit('sleeveLength')">
+				{{user.sleeveLength}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('jacketSize')">
+			<strong>JACKET SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('jacketSize')">
+				{{user.jacketSize | uppercase}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('gloveSize')">
+			<strong>GLOVE SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('gloveSize')">
+				{{user.gloveSize | uppercase}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('pants')">
+			<strong>INSEAM LENGTH:</strong>
+			<p class="profile-detail" ng-click="edit('pants')">
+				{{user.inseamLength}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('pants')">
+			<strong>WAIST MEASUREMENT:</strong>
+			<p class="profile-detail" ng-click="edit('pants')">
+				{{user.waistMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('neckMeasurement')">
+			<strong>NECK SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('neckMeasurement')">
+				{{user.neckMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('chestMeasurement')">
+			<strong>CHEST SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('chestMeasurement')">
+				{{user.chestMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('bicepMeasurement')">
+			<strong>BICEP SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('bicepMeasurement')">
+				{{user.bicepMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('thighMeasurement')">
+			<strong>THIGH SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('thighMeasurement')">
+				{{user.thighMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('underBustMeasurement')" ng-show="user.gender == 'female'">
+			<strong>BUST:</strong>
+			<p class="profile-detail" ng-click="edit('underBustMeasurement')">
+				{{user.underBustMeasurement}}
+			</p>
+		</div>
+		<div class="profile-control profile-detail" ng-click="edit('seatMeasurement')" ng-show="user.gender == 'female'">
+			<strong>SEAT SIZE:</strong>
+			<p class="profile-detail" ng-click="edit('seatMeasurement')">
+				{{user.seatMeasurement}}
+			</p>
+		</div>
+	</div>
+</div>
+
+<hr ng-show="!showError && !loadingProfileDetails">
+
+<div class="profile-control profile-detail" ng-show="!showError && !loadingProfileDetails" ng-click="edit('aboutMe')">
+	<strong>ABOUT YOU:</strong>
+	<p class="profile-detail" ng-click="edit('aboutMe')">
+		{{user.aboutMe}}
+	</p>
+</div>
+
+<div class="profile-control profile-detail" ng-show="!showError && !loadingProfileDetails" ng-click="edit('favoriteQuote')">
+	<strong>FAVORITE QUOTE:</strong>
+	<p class="profile-detail" ng-click="edit('favoriteQuote')">
+		{{user.favoriteQuote}}
+	</p>
+</div>
+
+<div class="profile-control profile-detail" ng-show="!showError && !loadingProfileDetails" ng-click="edit('favoriteMemory')">
+	<strong>FAVORITE MEMORY:</strong>
+	<p class="profile-detail" ng-click="edit('favoriteMemory')">
+		{{user.favoriteMemory}}
+	</p>
+</div>
+
+<div class="row-fluid" ng-show="loadingProfileDetails">
+	<div class="span12">
+		<h1 class="text-center"> <i class="icon-spinner icon-spin"></i>
+		</h1>
+	</div>
+</div>
+
+<div class="row-fluid" ng-show="showError">
+	<div class="span12">
+		<div class="alert alert-danger alert-error">{{errorMessage}}</div>
+	</div>
+</div>
+
+
+<!-- Editing of the user profile -->
+<!-- Modals to allow the user to edit the profile -->
+<div modal="detailToEdit != ''" close="cancelEdit()" options="editModalOptions">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancelEdit()">&times;</button>
+			<h3 id="myModalLabel">{{editDetail.question}}</h3>
+		</div>
+		<div ng-switch on="detailToEdit">
+			<div ng-switch-when="height">
+				<height-selection question="editDetail" show-update-button="true"></height-selection>
+			</div>
+			<div ng-switch-when="weight">
+				<weight-selection question="editDetail" show-update-button="true"></weight-selection>
+			</div>
+			<div ng-switch-when="shoeSize">
+				<shoe-size-selection question="editDetail"  show-update-button="true" gender-value="gender"></shoe-size-selection>
+			</div>
+			<div ng-switch-when="shirtSize">
+				<shirt-selection question="editDetail" show-update-button="true"></shirt-selection>
+			</div>
+			<div ng-switch-when="sleeveLength">
+				<sleeve-length-selection question="editDetail" show-update-button="true"></sleeve-length-selection>
+			</div>
+			<div ng-switch-when="jacketSize">
+				<jacket-selection question="editDetail" show-update-button="true"></jacket-selection>
+			</div>
+			<div ng-switch-when="gloveSize">
+				<glove-selection question="editDetail" show-update-button="true"></glove-selection>
+			</div>
+			<div ng-switch-when="dateOfBirth">
+				<dob-selection question="editDetail" show-update-button="true"></dob-selection>
+			</div>
+			<div ng-switch-when="gender">
+				<gender-selection question="editDetail" show-update-button="true"></gender-selection>
+			</div>
+			<div ng-switch-when="shoeWidthStr">
+				<shoe-width-selection question="editDetail" show-update-button="true"></shoe-width-selection>
+			</div>
+			<div ng-switch-when="pants">
+				<pant-selection question="editDetail" show-update-button="true"></pant-selection>
+			</div>
+			<div ng-switch-when="personal">
+				<personal-selection question="editDetail" show-update-button="true"></personal-selection>
+			</div>
+			<div ng-switch-when="mobilePhone">
+				<mobile-number-selection question="editDetail" show-update-button="true"></mobile-number-selection>
+			</div>
+			<div ng-switch-when="favoriteQuote">
+				<favorite-quote-selection question="editDetail" show-update-button="true"></favorite-quote-selection>
+			</div>
+			<div ng-switch-when="runningShoeSize">
+				<running-shoe-size-selection question="editDetail" show-update-button="true" gender-value="gender"></running-shoe-size-selection>
+			</div>
+			<div ng-switch-when="legPreference">
+				<leg-pref-selection question="editDetail" show-update-button="true"></leg-pref-selection>
+			</div>
+			<div ng-switch-when="armPreference">
+				<arm-pref-selection question="editDetail" show-update-button="true"></arm-pref-selection>
+			</div>
+			<div ng-switch-when="neckMeasurement">
+				<neck-size-selection question="editDetail" show-update-button="true"></neck-size-selection>
+			</div>
+			<div ng-switch-when="chestMeasurement">
+				<chest-size-selection question="editDetail" show-update-button="true"></chest-size-selection>
+			</div>
+			<div ng-switch-when="bicepMeasurement">
+				<bicep-size-selection question="editDetail" show-update-button="true"></bicep-size-selection>
+			</div>
+			<div ng-switch-when="thighMeasurement">
+				<thigh-size-selection question="editDetail" show-update-button="true"></thigh-size-selection>
+			</div>
+			<div ng-switch-when="profession">
+				<profession-selection question="editDetail" show-update-button="true"></profession-selection>
+			</div>
+			<div ng-switch-when="favoriteMemory">
+				<favorite-memory-selection question="editDetail" show-update-button="true"></favorite-memory-selection>
+			</div>
+			<div ng-switch-when="address">
+				<address-selection question="editDetail" show-update-button="true"></address-selection>
+			</div>
+			<div ng-switch-when="winter">
+				<winter-activity-selection question="editDetail" show-update-button="true"></winter-activity-selection>
+			</div>
+			<div ng-switch-when="summer">
+				<summer-activity-selection question="editDetail" show-update-button="true"></summer-activity-selection>
+			</div>
+			<div ng-switch-when="recieveNotifType">
+				<notification-selection question="editDetail" show-update-button="true"></notification-selection>
+			</div>
+			<div ng-switch-when="aboutMe">
+				<about-me-selection question="editDetail" show-update-button="true"></about-me-selection>
+			</div>
+			<div ng-switch-when="shoulderMeasurement">
+				<shoulder-selection question="editDetail" show-update-button="true"></shoulder-selection>
+			</div>
+			<div ng-switch-when="underBustMeasurement">
+				<bust-selection question="editDetail" show-update-button="true"></bust-selection>
+			</div>
+			<div ng-switch-when="seatMeasurement">
+				<seat-selection question="editDetail" show-update-button="true"></seat-selection>
+			</div>
+	</div>
+	<div class="row-fluid">
+		<ul class="pager">
+			<li>
+				<a href="" class="next" ng-click="update()">Update</a>
+			</li>
+		</ul>
+	</div>
+</div>

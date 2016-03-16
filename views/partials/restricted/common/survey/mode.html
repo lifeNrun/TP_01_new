@@ -1,0 +1,66 @@
+<!-- Survey types -->
+<ul class="nav nav-tabs left-tab">
+    <li data-ng-class="{'active': isTabActive('recent')}" data-ng-hide="isUserAdmin()">
+        <a href="/dashboard/surveys/recent">
+            <span>My Recent Surveys</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-class="{'active': isTabActive('activity')}" data-ng-show="isUserAdmin()">
+        <a href="/dashboard/surveys/activity">
+            <span>Activity Surveys</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-class="{'active': isEditMode()}" data-ng-hide="!isEditMode()">
+        <a href="">
+            <span>Edit Survey</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-hide="isEditMode()">
+        <a href="" data-ng-click="openCreateSurveyModal()">
+            <span>Create Survey</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-class="{'active': isTabActive('owned')}" data-ng-hide="isUserAdmin()">
+        <a href="/dashboard/surveys/owned">
+            <span>My Survey Archive</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-class="{'active': isTabActive('weartest')}" data-ng-show="isUserAdmin()">
+        <a href="/dashboard/surveys/weartest">
+            <span>Product Test Surveys</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+    <li data-ng-class="{'active': isTabActive('public')}">
+        <a href="/dashboard/surveys/public">
+            <span>Public Archive</span>
+        </a>
+        <span class="arrow"></span>
+    </li>
+</ul>
+
+<!-- Create a survey modal -->
+<div modal="showCreateSurveyModal" close="closeCreateSurveyModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <h3 class="text-center">Enter name of new Survey</h3>
+    </div>
+
+    <!-- Survey name -->
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span6 offset3">
+                <input type="text" data-ng-model="newSurvey.name" class="span12"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn" ng-click="closeCreateSurveyModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="createSurvey()" data-ng-disabled="!newSurvey.name.length">Create Survey</button>
+    </div>
+</div>

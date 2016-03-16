@@ -1,0 +1,16 @@
+<div id="replyModal" eat-click>
+    <div class="modal-header">
+        <h3 id="myModalLabel4">Reply message</h3>
+    </div>
+    <div class="modal-body">
+        <label ng-show="errorMessage" style="color:red;">{{errorMessage}}</label>
+        <div class="row-fluid">
+            <textarea rows="4" class="span12" ng-model="message.body"></textarea>
+        </div>
+        <span ng-show="isSendingMessage">Sending message...</span>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="close()">Close</button>
+        <button  ng-hide="isSendingMessage" class="btn btn-primary" ng-click="send(message)">Send</button>  
+    </div>
+</div>

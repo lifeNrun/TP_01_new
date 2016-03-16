@@ -1,0 +1,31 @@
+<div ng-hide="raw">
+	<span ng-show="loading">Loading content...</span>
+	<div ng-hide="loading">
+		<span ng-show="errorLoading">Error loading content: reload page.</span>
+		<div ng-hide="errorLoading">
+			<div ng-repeat="p in blogPosts">
+				<blockquote class="blockNoBorder">
+					<p ng-show="showTitle"><b>{{p.title}}</b></p>
+					<cite ng-hide="raw"><span ng-bind-html-unsafe="p.body"></span></cite>
+					<br/>
+					<span ng-show="showTags" ng-repeat="v in p.tags"><span class="label label-info">{{v}}</span>&nbsp;</span>
+					<small ng-show="showDate">{{p.createdDate|date : "MM/dd/yyyy"}}</small>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-show="raw">
+	<span ng-show="loading">Loading content...</span>
+	<div ng-hide="loading">
+		<span ng-show="errorLoading">Error loading content: reload page.</span>
+		<div ng-hide="errorLoading">
+			<div ng-repeat="p in blogPosts">
+				<blockquote class="blockNoBorder">
+					<cite ><span ng-bind-html="p.body"></span></cite>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</div>

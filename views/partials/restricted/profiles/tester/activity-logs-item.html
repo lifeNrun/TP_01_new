@@ -1,0 +1,244 @@
+<!--
+This is the page that loads when the tester clicks on the
+Activity Logs Item in the dashboard
+-->
+
+<div id="content">
+	<div class="wrap">
+
+		<div class="row-fluid spacer">
+			<div class="span4">
+				<h6>TIP OF THE DAY</h6>
+				<div id="tipOfTheDay">
+					<div class="contentNoSytling">
+    					<wt-content-view 
+    						location="'tipOfDay'" 
+    						limit="blogEntries['tipOfDay'].limit"
+    						audience="blogEntries['tipOfDay'].audience" 
+    			  			raw="false">
+    					</wt-content-view>
+					</div>
+				</div>
+			</div>
+			<div class="span4">
+				<h6>LOCAL CONDITIONS</h6>
+				<div id="localConditions">
+					<div class="row-fluid top-row">
+						<div class="span6 temperature">72&deg;</div>
+						<div class="span6"><img src="/img/content/big-sunny-cloud.png" alt=""></div>
+					</div>
+					<div class="row-fluid bottom-row">
+						<div class="span2">
+							<strong>10:00</strong>
+							<img src="/img/content/small-sunny-cloud.png" alt="">
+							<span>74&deg;</span>
+						</div>
+						<div class="span2">
+							<strong>11:00</strong>
+							<img src="/img/content/small-sunny-cloud.png" alt="">
+							<span>78&deg;</span>
+						</div>
+						<div class="span2">
+							<strong>12:00</strong>
+							<img src="/img/content/small-sunny.png" alt="">
+							<span>82&deg;</span>
+						</div>
+						<div class="span2">
+							<strong>1:00</strong>
+							<img src="/img/content/small-sunny.png" alt="">
+							<span>84&deg;</span>
+						</div>
+						<div class="span2">
+							<strong>2:00</strong>
+							<img src="/img/content/small-sunny.png" alt="">
+							<span>84&deg;</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="span4">
+				<h6>Complete your profile</h6>
+				<div id="progress" class="row-fluid">
+					<div class="span6">
+						<div class="chart" jquery-chart data-percent="{{completed}}">{{completed}}<em>%</em><span>COMPLETE</span></div>
+					</div>
+					<div class="span6 text-block">
+						Complete your bio and increase your draft status!
+						<div class="pull-center"><a href="/dashboard/Profile" class="btn btn-mini btn-primary btn-orange"><span>GO &gt;</span></a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row-fluid spacer" ng-show="!loadingActivityLogs && activityLogs.length != 0">
+			<div class="span12">
+				<h3>Activity Log Tracking</h3>
+				<div id="activityLog" class="row-fluid">
+					<div class="span8">
+						<!-- Directive for displaying the activity log chart -->
+						<activity-log-chart>
+						</activity-log-chart>
+					</div>
+					<div class="span4">
+						<div class="details">
+							<div class="top-row running">
+								<h2 data-ng-bind="latestLog.activityDate | date:'EEEE':'UTC'"></h2>
+								<p><span data-ng-bind="latestLog.activityDate | date:'MMMM':'UTC'"></span> <span data-ng-bind="latestLog.activityDate | date:'dd':'UTC'"></span></p>
+							</div>
+							<div class="bottom-row">
+								<div class="row-fluid miles">
+									<div class="span4" data-ng-bind="latestLog.distance"></div>
+									<div class="span8" data-ng-bind="latestLog.distanceUnits"></div>
+								</div>
+								<div class="row-fluid pace">
+									<div class="span4">
+										<strong>Intensity:</strong><br>
+										<span data-ng-bind="latestLog.intensity"></span>
+									</div>
+									<div class="span8">
+										<strong>TOTAL TIME</strong><br>
+										<span>{{latestLog.durationHours}}:{{getCorrectMinute(latestLog.durationMinutes)}}:{{latestLog.durationSeconds}}</span>
+									</div>
+								</div>
+								<div class="row-fluid notes">
+									<strong>NOTES:</strong>
+									<p data-ng-bind="latestLog.notes"></p>
+								</div>
+
+							</div>
+						</div>
+						<div class="arrow"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row-fluid spacer">
+			<div class="span12">
+				<div class="row-fluid">
+					<div class="span4">
+						<h3>Activity Log</h3>
+					</div>
+					<div class="span4">
+						<button class="btn btn-primary btn-orange log-controls" ng-click="createNewLog()">CREATE NEW LOG <i class="icon-plus-sign"></i></button>
+					</div>
+					<div class="span4">
+						<div class="input-prepend log-controls">
+							<span class="add-on"><i class="icon-filter"></i></span>
+							<input class="input-medium" type="text" placeholder="Filter log items" ng-model="logFilter">
+						</div>
+					</div>
+				</div>
+				
+				<div id="activityLogTable">
+					<table class="table">
+						<thead>
+							<tr>
+								<th ng-click="changeSortOrder('date')">
+									Date
+									<i class="icon-caret-up" ng-show="checkSortOrder('date', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('date', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('productTest')">
+									Product Test
+									<i class="icon-caret-up" ng-show="checkSortOrder('productTest', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('productTest', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('activity')">
+									Activity
+									<i class="icon-caret-up" ng-show="checkSortOrder('activity', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('activity', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('time')">
+									Time
+									<i class="icon-caret-up" ng-show="checkSortOrder('time', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('time', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('distance')">
+									Distance
+									<i class="icon-caret-up" ng-show="checkSortOrder('distance', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('distance', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('temperature')">
+									Temp
+									<i class="icon-caret-up" ng-show="checkSortOrder('temperature', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('temperature', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('terrain')">
+									Terrain
+									<i class="icon-caret-up" ng-show="checkSortOrder('terrain', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('terrain', 'descending')"></i>
+								</th>
+								<th class="condition" ng-click="changeSortOrder('condition')">
+									Conditions
+									<i class="icon-caret-up" ng-show="checkSortOrder('condition', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('condition', 'descending')"></i>
+								</th>
+								<th ng-click="changeSortOrder('intensity')">
+									Intensity
+									<i class="icon-caret-up" ng-show="checkSortOrder('intensity', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('intensity', 'descending')"></i>
+								</th>
+								<th class="notes last" ng-click="changeSortOrder('note')">
+									Notes
+									<i class="icon-caret-up" ng-show="checkSortOrder('note', 'ascending')"></i>
+									<i class="icon-caret-down" ng-show="checkSortOrder('note', 'descending')"></i>
+								</th>
+							</tr>
+						</thead>
+						<tbody ng-show="activityLogs.length == 0">
+							<tr>
+								<td colspan="10">
+									<h3 class="text-center">
+										No Activity logs found
+									</h3>
+								</td>
+							</tr>
+						</tbody>
+						<tbody ng-hide="activityLogs.length == 0">
+							<tr ng-repeat="log in activityLogs | filter:logFilter | orderBy:predicate:reverse">
+								<td class="date" ng-click="editActivityLog(log, 1)">
+									<span>{{log.activityDate | UTCDate:'MM/dd/yyyy'}}</span>
+								</td>
+								<td class="product-test" ng-click="editActivityLog(log, 1)">
+									<span ng-repeat="item in log.wearTests">
+										{{item.name}}<br>
+									</span>
+								</td>
+								<td class="activity" ng-click="editActivityLog(log, 2)">
+									<span>{{log.activityType}}</span>
+								</td>
+								<td class="time" ng-click="editActivityLog(log, 7)">
+									<span>{{log.durationHours}}:{{getCorrectMinute(log.durationMinutes)}}:{{log.durationSeconds}}</span>
+								</td>
+								<td class="distance" ng-click="editActivityLog(log, 7)">
+									<span>{{log.distance}}&nbsp;{{log.distanceUnits}}</span>
+								</td>
+								<td class="temp" ng-click="editActivityLog(log, 6)">
+									<span>{{log.temperature}}&deg;{{log.temperatureUnits}}</span>
+								</td>
+								<td class="terrain" ng-click="editActivityLog(log, 5)">
+									<span ng-class="log.terrain | lowercase">{{log.terrain}}</span>
+								</td>
+								<td class="condition" ng-click="editActivityLog(log, 3)">
+									<span ng-class="log.conditions | lowercase">{{log.conditions}}</span>
+								</td>
+								<td class="intensity" ng-click="editActivityLog(log, 4)">
+									{{log.intensity}}
+								</td>
+								<td class="notes last" ng-click="editActivityLog(log, 8)">
+									<img src="/img/icon-sticky.png" tooltip="{{log.notes}}" ng-show="log.notes != ''">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>
+
+<!-- Create / Edit new Activity Log -->
+<activity-log-item show-activity-log-modal="showActivityLogModal" log-data="logData" question-number="activeLogModalIndex" wear-tests="{{wearTests}}" activity-log-mode="{{activityLogMode}}" update-log-info="loadActivityLogs" current-user="{{currentUser}}" hide-wear-test-selection="{{hideWearTestSelection}}">
+</activity-log-item>

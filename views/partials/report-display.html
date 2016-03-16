@@ -1,0 +1,361 @@
+<div id="content">
+    <div class="wrap full">
+        <div class="tab-content" ng-if="!error">
+            <div class="row top-row">
+                <div class="row-fluid">
+                    <div class="title-image span9">
+                       <h2 class="title-text" data-once-text="reportData.weartest.name"></h2>
+                    </div>
+                    <div class="span3 text-right report-logo"></div>
+                </div>
+                <br>
+                <div class="row-fluid">
+                    <div class="span4 rpt-str-rtg report-rating" ng-if="reportData.testRating">
+                        <test-rating read-only="true" stars="reportData.testRating"></test-rating>
+                        <span class="test-rating" ng-if="reportData.starActualRating">
+                            <span data-once-text="reportData.starActualRating"></span>
+                            <span> out of 5</span>
+                        </span>
+                    </div>
+                    <div class="span5">
+                        <p class="alt">
+                            <strong>Start Date:</strong> <span data-once-text="reportData.weartest.wearTestStartDate | UTCDate:'MM/dd/yyyy'"></span>
+                        </p>
+                    </div>
+                    <div class="span3">
+                        <p class="alt">
+                            <strong>End Date:</strong> <span data-once-text="reportData.weartest.wearTestEndDate | UTCDate:'MM/dd/yyyy'"></span>
+                        </p>
+                    </div>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+
+                <div class="row-fluid nobreak">
+                    <div class="span3">
+                        <div class="rpt-img-border">
+                            <figure class="rpt-figure">
+                                <img data-once-src="reportData.weartestImage | getScaledImage:210:210:'c_fit'">
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="span9">
+                        <div class="row-fluid" ng-show="reportData.keytakeAways != ''">
+                            <div class="row-fluid">
+                                <div class="span1">
+                                    <img class="rpt-img" src="img/key-takeaways.png">
+                                </div>
+                                <div class="span10-1 rpt-title-left">
+                                    <h3 class="rpt-title1"> KEY TAKEAWAYS </h3>
+                                    <hr class="rpt-title2">
+                                </div>
+                            </div>
+                            <div class="span12-1 reportspacer"></div>
+                            <p class="alt rpt-alt4-left span10" ng-bind-html-unsafe="reportData.keytakeAways"></p>
+                        </div>
+                    </div>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+                <div class="row-fluid nobreak">
+                    <div class="row-fluid">
+                        <div class="span1">
+                            <img class="rpt-img" src="img/test-details.png">
+                        </div>
+                        <div class="span11-1 rpt-title-left">
+                            <h3 class="rpt-title1"> TEST DETAILS </h3>
+                            <hr class="rpt-title2">
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class=" rpt-alt2-left" ng-if="doesInformationSectionExist()">
+                                <div class="rpt-alt2"><strong>Product Name:</strong> <span data-once-text="reportData.weartest.productName"></span></div>
+                                <div class="rpt-alt2" ng-if="reportData.weartest.retailPrice"><strong>Retail Price:</strong> $<span data-once-text="reportData.weartest.retailPrice"></span></div>
+                                <div class="span12-1 reportspacer"></div>
+                                <div class="rpt-condensed">
+                                    <p class="rpt-alt2">
+                                        <strong>Testers:</strong> <span data-once-text="reportData.userData.length"></span>
+                                    </p>
+                                </div>
+                                <div class="row-fluid" ng-repeat="division in getDivision(averages, 2)">
+                                    <div class="span6 rpt-condensed" ng-repeat="average in getDataPerDivision(division, averages, 2)">
+                                        <p class="rpt-alt2">
+                                            <strong data-once-text="average.text"></strong> <span data-once-text="getAverageValueInUnit(average.text, average.value)"></span>
+                                       </p>
+                                    </div>
+                                </div>
+                                <div class="span12-1 reportspacer"></div>
+                            </div>
+                            <div ng-if="reportData.occupations && doesInformationSectionExist()">
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <p class="rpt-alt2 rpt-alt2-left">
+                                            <strong>Tester Occupations:</strong>
+                                            <span data-once-text="getStringForArray(reportData.occupations)"></span>
+                                        <p>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div ng-if="reportData.locations && doesInformationSectionExist()">
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <p class="rpt-alt2 rpt-alt2-left">
+                                            <strong>Tester Location:</strong>
+                                            <span data-once-text="getStringForArray(reportData.locations)"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nobreak">
+                    <div class="row-fluid">
+                        <div class="span1">
+                           <img class="rpt-img" src="img/test-summary.png">
+                        </div>
+                        <div class="span11-1 rpt-title-left">
+                           <h3 class="rpt-title1"> TEST SUMMARY </h3>
+                           <hr class="rpt-title2">
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+    
+                    <div class="row-fluid" ng-show="ratingGroupWeights.data.length > 0">
+                        <div class="span11 rpt-alt3-left">
+                            <rating-group-bar-chart abs-url="{{absUrl}}" chart-data="{{ratingGroupWeights}}">
+                            </rating-group-bar-chart>
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                </div>
+    
+                <div class="row-fluid" ng-show="reportData.summary != ''">
+                    <div class="span12">
+                        <p class="alt rpt-alt2-left span11" ng-bind-html-unsafe="reportData.summary"></p>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                </div>
+
+                <div class="row-fluid nobreak" ng-show="reportData.areasOfImpCon !== undefined && reportData.areasOfImpCon.length > 0">
+                    <h3 class="alt rpt-alt2-left rpt-title5">Areas of Improvement / Consideration</h3>
+                    <p class="span11 rpt-alt2-left alt" ng-bind-html-unsafe="reportData.areasOfImpCon"></p>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+
+                <div class="row-fluid nobreak" ng-show="reportData.testerQuotes != ''">
+                    <h3 class="alt rpt-alt2-left rpt-title5">Tester Quotes</h3>
+                    <p class="span11 rpt-alt2-left alt" ng-bind-html-unsafe="reportData.testerQuotes"></p>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+
+                <div class="nobreak" ng-show="getFeaturedImages(featuredImages, 1).length > 0">
+                    <h3 class="alt rpt-alt2-left rpt-title5">Featured Images</h3>
+                    <div class="row-fluid">
+                        <div class="span3" ng-repeat="image in getFeaturedImages(featuredImages, 4)">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <h4 class="rpt-title3" data-once-text="getParticipantName(image.uploadedById)"></h4>
+                                    <hr class="rpt-title4">
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="rpt-img-border-featured">
+                                    <figure class="rpt-figure">
+                                        <img data-once-src="image.url | getScaledImage:185:185:'c_fit'">
+                                    </figure>
+                                </div>
+                                <div ng-show="image.brandUserComments.length > 0">
+                                    <h3>Note</h3>
+                                    <p><figcaption class="reportst10" data-once-text="image.brandUserComments"></figcaption></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                </div>
+                <div class="row-fluid nobreak" ng-show="initialVsFinalChart.data.length > 0">
+                    <h3 class="alt rpt-alt2-left rpt-title5">Initial Versus Final</h3>
+                    <div class="span11 rpt-alt3-left">
+                        <init-final-bar-chart abs-url="{{absUrl}}"  chart-data="{{initialVsFinalChart}}">
+                        </init-final-bar-chart>
+                    </div>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+
+                <div class="row-fluid nobreak" ng-show="versionWeightsChart.data.length > 0">
+                    <h3 class="alt rpt-alt2-left rpt-title5">Comparison Summary (A/B)</h3>
+                    <div class="span11 rpt-alt3-left">
+                        <version-bar-chart abs-url="{{absUrl}}"  chart-data="{{versionWeightsChart}}">
+                        </version-bar-chart>
+                    </div>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+
+                <div class="row-fluid" ng-if="reportData.performanceZones">
+                    <div class="pageBreak"></div>
+                    <div class="row-fluid">
+                        <div class="span1">
+                            <img class="rpt-img" src="img/perf-zone.png">
+                        </div>
+                        <div class="span11-1 rpt-title-left">
+                            <h3 class="rpt-title1">PERFORMANCE ZONES</h3>
+                            <hr class="rpt-title2">
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                    <performance-zone  report-data="reportData"></performance-zone>
+                    <div class="span12-1 reportspacer"></div>
+                </div>
+                
+                <div class="row-fluid" ng-repeat="survey in reportData.surveys">
+                    <div class="pageBreak"></div>
+                    <div class="row-fluid" ng-show="$index > 0 && $index % 2 == 0"></div>
+                    <div class="row-fluid">
+                        <div class="span1">
+                            <img class="rpt-img" src="img/initial-survey.png">
+                        </div>
+                        <div class="span11-1">
+                            <h3 data-once-text="survey.surveyName" class="rpt-title1"> </h3>
+                            <hr class="rpt-title2">
+                        </div>
+                    </div>
+                    <div class="surveyProgress row-fluid">
+                        <div class="span12">
+                            <div ng-repeat="group in survey.donutChartQuestions">
+                                <div class="row-fluid">
+                                    <div ng-repeat="question in group" class="report-chart-display rpt-alt2-left">
+                                        <div class="span6 nobreak">
+                                            <div class="row-fluid">
+                                                <div class="span11">
+                                                    <h4 data-once-text="question.question"></h4>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span11">
+                                                    <donut-chart chart-data="{{question.cumulativeData}}" index="$index" svg-width="450" svg-height="question.expectedHeight" reference-radius="175" inner-radius-offset="45" translate-horizontal="130" translate-vertical="100" print-mode="true" show-none-values="true">
+                                                    </donut-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-repeat="question in survey.horizontalChartQuestions">
+                                <div class="row-fluid nobreak">
+                                    <div class="span11 rpt-alt2-left">
+                                        <h4 data-once-text="question.question"></h4>
+                                        <horizontal-bar-chart abs-url="{{absUrl}}"  chart-data="{{question.cumulativeData}}" index="$index">
+                                        </horizontal-bar-chart>
+                                    </div>
+                                </div>
+                                <div class="span12-1 reportspacer"></div>
+                            </div>
+
+                            <div class="row-fluid" ng-if="survey.answers.length > 0">
+                                <div class="span12">
+                                    <div class="span12 block">
+                                        <table class="reportbrand">
+                                            <thead>
+                                                <tr class="nobreak">
+                                                    <th class="th-bottom-border-red nobreak">Date</th>
+                                                    <th class="th-bottom-border-red nobreak">User</th>
+                                                    <th class="th-bottom-border-red nobreak">Question</th>
+                                                    <th class="th-bottom-border-red nobreak">Response</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="table-text-top">
+                                                <tr class="nobreak" ng-repeat="answer in survey.answers">
+                                                    <td class="print-cell nobreak" data-once-text="answer.createdDate | UTCDate:'MM/dd/yy'"></td>
+                                                    <td class="print-cell nobreak" data-once-text="getParticipantName(answer.userId)"></td>
+                                                    <td class="print-cell nobreak" data-once-text="answer.questionName"></td>
+                                                    <td class="print-cell nobreak">
+                                                        <span ng-hide="answer.type == 'Multiple Selection'" data-once-text="answer.value"></span>
+                                                        <span ng-show="answer.type == 'Multiple Selection'" ng-list ng-bind="answer.valueArray" ng-model="answer.valueArray">
+                                                        </span>
+                                                        <br>
+                                                        <i data-once-text="answer.comment"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="span12-1 reportspacer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="reportData.wearAndTear">
+                    <div class="pageBreak"></div>
+                    <div class="row-fluid">
+                        <div class="span1">
+                            <img class="rpt-img" src="img/wear-tear.png">
+                        </div>
+                        <div class="span11-1 rpt-title-left">
+                            <h3 class="rpt-title1"> Product Images </h3>
+                            <hr class="rpt-title2">
+                        </div>
+                        <div class="span12-1 reportspacer"></div>
+                    </div>
+                    <div class="row-fluid nobreak">
+                        <div class="span11 rpt-margin-left">
+                            <div class="row-fluid" ng-repeat="division in getDivision(reportData.wearAndTear, 3)">
+                                <div class="span4" ng-repeat="image in getDataPerDivision(division, reportData.wearAndTear, 3)">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h4 class="rpt-title3" data-once-text="getParticipantName(image.uploadedById)"></h4>
+                                            <hr class="rpt-title4">
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="rpt-img-border-wt">
+                                            <figure class="rpt-figure">
+                                                <img data-once-src="image.url | getScaledImage:230:230:'c_fit'">
+                                            </figure>
+                                        </div>
+                                        <div ng-show="image.brandUserComments.length > 0">
+                                            <h3>Note</h3>
+                                            <p><figcaption class="reportst10" data-once-text="image.brandUserComments"></figcaption></p>
+                                        </div>
+                                        <div ng-hide="image.brandUserComments.length > 0">
+                                            <div class="span12-1 reportspacer"></div>
+                                        </div>
+                                    </div>
+                                    <div class="span12-1 reportspacer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" ng-show="error">
+            <div class="row-fluid">
+                <div class="span11">
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span11">
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span10 offset1">
+                    <div class="alert alert-error">
+                        <h4 class="text-center">
+                            Report does not contain any data - try generating once more
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

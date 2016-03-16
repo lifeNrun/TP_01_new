@@ -1,0 +1,45 @@
+<div id="imageset" class="well">
+    <h3 class="orange underline" ng-show="typeSpecific == 'wearAndTear'">
+        <!-- Wear and Tear for the tester is product images -->
+        Your Product Images
+    </h3>
+    <h3 class="orange underline" ng-show="typeSpecific == 'productImage'">
+        Your Uploaded Product Images
+    </h3>
+    <h3 class="orange underline" ng-show="typeSpecific == 'rules'">
+        Your Uploaded Rules
+    </h3>
+    <h3 class="orange underline" ng-show="typeSpecific == 'bio'">
+        Your Uploaded Bio Images
+    </h3>
+
+    <div class="row-fluid imageCardRow" ng-repeat="once in getDivision()">
+        <div class="span3 imageCard" ng-repeat="image in getImagesPerDivision(once)" ng-drop="true" ng-drop-success="onDropComplete($parent.$index, $index, $data,$event)" ng-drag="true" ng-drag-data="image">
+            <div class="text-right">
+                <a href="" ng-click="setImageAsCoverPhoto(image._id)" ng-disabled="record.dirty" ng-hide="disableCoverPhotoFeature(image.type)">
+                    <i class="icon-star-empty" title="Set as Cover Photo" ng-hide="isCoverPhoto(image._id)">
+                    </i>
+                    <i class="icon-star" title="Image is Cover Photo" ng-show="isCoverPhoto(image._id)">
+                    </i>
+                </a>
+                <a href="" ng-click="deleteImage(image._id)" ng-disabled="record.dirty">
+                    <i class="icon-trash icon-black" title="Delete Image (Caution: No Confirmation)">
+                    </i>
+                </a>
+            </div>
+
+            <img ng-src="{{getScaledImage(image.url, 'w_195', 'h_146', 'c_fit')}}" class="img-polaroid full" ng-hide="disableImageDisplayFeature(image.type)">
+
+            <img src="/img/content/pdf.png" class="img-polaroid full" alt="" ng-show="disableImageDisplayFeature(image.type)">
+
+            <form class="st10">
+                <input ng-cancel-drag type="text" placeholder="Name" class="span12" ng-model="image.name" ng-disabled="record.dirty" on-blur="updateImageset(image)">
+                <textarea ng-cancel-drag placeholder="Description" class="span12" rows="2" ng-model="image.description" ng-disabled="record.dirty" on-blur="updateImageset(image)">
+                </textarea>
+                <input ng-cancel-drag type="text" placeholder="Tags seperated by a comma" class="span12" ng-list ng-model="image.tags" ng-disabled="record.dirty" on-blur="updateImageset(image)" ng-hide="disableTagFeature(image.type)">
+            </form>
+
+            <hr>
+        </div>
+    </div>
+</div>

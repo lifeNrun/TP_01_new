@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #86A14A!important;
+}
+
+.rpt-title2 {
+  background-color: #86A14A!important;
+}
+
+.rpt-title5 {
+  color: #86A14A!important;
+}
+
+.title-image {
+  background: #86A14A!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-ExOfficio.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/exofficio.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #86A14A!important;
+}
+
+span.test-rating {
+    color: #86A14A!important;
+}

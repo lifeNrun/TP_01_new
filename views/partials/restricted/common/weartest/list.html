@@ -1,0 +1,220 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+                <div class="row-fluid">
+                    <div class="input-append pull-right">
+                        <input class="input-large" type="text" data-ng-model="weartestFilter" placeholder="Search for a product test">
+                        <button class="btn btn-orange">
+                            <i class="icon-search icon-white"></i>
+                        </button>
+                    </div>
+
+                    <table class="brand alt compressed">
+                        <thead>
+                            <tr>
+                                <th class="blank">
+                                    <a href="" data-ng-class="{sort: isSortOrder('circleSortOrder'), 'up': isSortOrder('circleSortOrder', 'ascending')}" data-ng-click="setSortOrder('circleSortOrder')">
+                                    	   PZ
+                                    </a>
+                                </th>
+                                <th class="blank">&nbsp;</th>
+                                <th>
+                                    <a href="" data-ng-class="{sort: isSortOrder('identification'), 'up': isSortOrder('identification', 'ascending')}" data-ng-click="setSortOrder('identification')">
+                                        Test ID
+                                    </a>
+                                </th>
+                                <th class="span2">
+                                    <a href="" data-ng-class="{sort: isSortOrder('name'), 'up': isSortOrder('name', 'ascending')}" data-ng-click="setSortOrder('name')">
+                                        Product Test
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{'sort': isSortOrder('rating'), 'up': isSortOrder('rating', 'ascending')}" data-ng-click="setSortOrder('rating')">
+                                        Rating
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{'sort': isSortOrder('registrationStart'), 'up': isSortOrder('registrationStart', 'ascending')}" data-ng-click="setSortOrder('registrationStart')">
+                                        Reg Dates
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{sort: isSortOrder('wearTestStartDate'), 'up': isSortOrder('wearTestStartDate', 'ascending')}" data-ng-click="setSortOrder('wearTestStartDate')">
+                                        Test Dates
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{sort: isSortOrder('productType'), 'up': isSortOrder('productType', 'ascending')}" data-ng-click="setSortOrder('productType')">
+                                        Category
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{sort: isSortOrder('activity'), 'up': isSortOrder('activity', 'ascending')}" data-ng-click="setSortOrder('activity')">
+                                        Activity
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="" data-ng-class="{sort: isSortOrder('status'), 'up': isSortOrder('status', 'ascending')}" data-ng-click="setSortOrder('status')">
+                                        Test Status
+                                    </a>
+                                </th>
+                                <th data-ng-hide="(isTab('closed') && currentUser.utype!='Admin')">
+                                    Test Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody data-ng-hide="loadingInitialWeartests" data-infinite-scroll="increaseWeartestDisplayLimit()">
+                            <tr class="top" data-ng-class-even="'alt'" data-ng-repeat="weartest in shownWeartests | filter:weartestFilter | orderBy:predicate:reverse | limitTo:weartestDisplayLimit" >
+                                <td>
+                                    <div>
+                                        <img data-ng-if="!loadingInitialCircles" data-once-src="getCircleColor(weartest.imageSetId)" class="actual">
+                                        <img data-ng-show="loadingInitialCircles" src="/img/dot-grey.png" class="actual">
+                                        <span data-ng-if="!loadingInitialCircles" data-ng-show="!alwaysHide" data-once-text="weartest.circleSortOrder" class="actual"
+                                    </div>
+                                </td>
+                                <td>
+                                    <img src="/img/no-image.png" data-imageset-id="{{weartest.imageSetId}}" data-image-width="120" data-image-height="120" data-image-mode= "c_fit" class="actual" data-process-image>
+                                </td>
+                                <td>
+                                    <span data-once-text="weartest.identification"></span>
+                                </td>
+                                <td>
+                                    <strong data-once-text="weartest.name"></strong>
+                                    <div data-ng-show="currentUser.utype=='Admin'" >
+                                        <p class="pad-top"><strong>{{weartest.brand}}</strong></p>
+                                    </div>
+                                    <p class="pad-top">
+                                        <a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/overview'" class="btn btn-gray btn-mini" data-once-wait-for="weartest._id">
+                                            Dashboard <i class="icon-chevron-right icon-white"></i>
+                                        </a>
+                                    </p>
+                                </td>
+                                <td>
+                                    <span data-once-text="weartest.rating"></span>
+                                </td>
+                                <td>
+                                    <strong>Start:</strong><br/>
+                                    <span data-once-text="weartest.registrationStart | UTCDate:'MM/dd/yy'"></span>
+                                    <strong>End:</strong><br/>
+                                    <span data-once-text="weartest.registrationDeadline | UTCDate:'MM/dd/yy'"></span>
+                                </td>
+                                <td>
+                                    <strong>Start:</strong><br/>
+                                    <span data-once-text="weartest.wearTestStartDate | UTCDate:'MM/dd/yy'"></span>
+                                    <strong>End:</strong><br/>
+                                    <span data-once-text="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></span>
+                                </td>
+                                <td>
+                                    <span data-once-text="weartest.productType"></span>
+                                </td>
+                                <td>
+                                    <span data-once-text="weartest.activity.join(', ')"></span>
+                                </td>
+                                <td>
+                                    <span data-once-text="weartest.status"></span>
+                                </td>
+                                <td data-ng-show="isTab('current')">
+                                    <ul>
+                                        <li>
+                                            <a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/overview'">
+                                                Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="" data-ng-click="putonHoldWeartest(weartest)" data-ng-hide="weartest.puttingonhold">Hold</a>
+                                            <span data-ng-show="weartest.puttingonhold" class="text-warning">Putting On Hold</span>
+                                        </li>
+                                        <li>
+                                            <a href="" data-ng-click="deActivateWeartest(weartest)" data-ng-hide="weartest.deactivating">End</a>
+                                            <span data-ng-show="weartest.deactivating" class="text-warning">Ending Test</span>
+                                        </li>
+                                        <li>
+                                            <a href="" data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/draft'" data-once-wait-for="weartest._id">Draft&nbsp;a&nbsp;Team</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td data-ng-hide="isTab('current') || (isTab('closed') && currentUser.utype!='Admin')">
+                                    <ul>
+                                    	  <div  data-ng-show="isTab('draft')">
+                                            <li>
+                                                <a href="" data-ng-click="openConfirmDeleteModal(weartest)" data-ng-hide="weartest.deleting">Delete</a>
+                                                <span data-ng-show="weartest.deleting" class="text-error">Deleting</span>
+                                            </li>
+                                            <li>
+                                                <a href="" data-ng-click="activateWeartest(weartest)" data-ng-hide="weartest.activating">Activate</a>
+                                                <span data-ng-show="weartest.activating" class="text-success">Activating</span>
+                                            </li>
+                                        </div>
+                                    	  <div>
+                                            <li data-ng-show="currentUser.utype=='Admin' && !isTab('draft') && !isTab('active')">
+                                                <a href="" data-ng-click="activateWeartest(weartest)" data-ng-hide="weartest.activating">Activate</a>
+                                                <span data-ng-show="weartest.activating" class="text-success">Activating</span>
+                                            </li>
+                                            <li data-ng-hide="isTab('current') || (isTab('closed') && currentUser.utype!='Admin')">
+                                                <a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/edit/overview'">Edit</a>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody data-ng-show="loadingInitialWeartests">
+                            <tr>
+                                <td colspan="12">
+                                    <div class="well">
+                                        <h1 class="text-center"><i class="icon-spinner icon-spin"></i></h1>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody data-ng-hide="doWeartestsExist()">
+                            <tr>
+                                <td colspan="12">
+                                    <div class="alert alert-info">
+                                        <h1 class="text-center">
+                                            No Product Tests found
+                                        </h1>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row-fluid" data-ng-show="loadingAllWeartests && !loadingInitialWeartests">
+                    <div class="span12">
+                        <p class="text-center text-info"><i class="muted icon-spinner icon-spin"></i> Loading more Product Tests</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Deletion -->
+<div modal="showConfirmDeleteModal" close="closeConfirmDeleteModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <h3 class="text-center">Confirm Action</h3>
+    </div>
+
+    <div class="modal-body">
+        <p class="text-center text-error">
+            Are you sure you want to delete product test '{{weartestToDelete.name }}'?
+        </p>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn" ng-click="closeConfirmDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" ng-click="deleteWeartest()">Delete</button>
+    </div>
+</div>

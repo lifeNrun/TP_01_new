@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #8cc63e!important;
+}
+
+.rpt-title2 {
+  background-color: #8cc63e!important;
+}
+
+.rpt-title5 {
+  color: #8cc63e!important;
+}
+
+.title-image {
+  background: #8cc63e!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-Superfeet.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/superfeet.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #8cc63e!important;
+}
+
+span.test-rating {
+    color: #444!important;
+}

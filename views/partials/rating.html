@@ -1,0 +1,53 @@
+<div>
+    <ul class="test-rating" data-ng-hide="isRatingNotSet() || !isRatingReadOnly()">
+        <!--li data-ng-repeat="star in fullStars" class="set">
+            <i class="icon-circle"></i>
+        </li>
+        <li data-ng-show="floatPart > 0" class="set">
+            <i class="icon-circle-half"></i>
+        </li-->
+        <li data-ng-class="{'set': isStarSet(1) || floatPart >= 0}" data-ng-click="toggleRating(1)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(1), 'icon-circle-half': (isHalfStarSet(1)), 'icon-circle-blank': (!isStarSet(1) && !isHalfStarSet(1))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(2) || floatPart >= 0}" data-ng-click="toggleRating(2)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(2), 'icon-circle-half': (isHalfStarSet(2)), 'icon-circle-blank': (!isStarSet(2) && !isHalfStarSet(2))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(3) || floatPart >= 0}" data-ng-click="toggleRating(3)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(3), 'icon-circle-half': (isHalfStarSet(3)), 'icon-circle-blank': (!isStarSet(3) && !isHalfStarSet(3))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(4) || floatPart >= 0}" data-ng-click="toggleRating(4)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(4), 'icon-circle-half': (isHalfStarSet(4)), 'icon-circle-blank': (!isStarSet(4) && !isHalfStarSet(4))}"></i>
+        </li>
+
+        <li data-ng-class="{'set': isStarSet(5) || floatPart >= 0}" data-ng-click="toggleRating(5)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(5), 'icon-circle-half': (isHalfStarSet(5)), 'icon-circle-blank': (!isStarSet(5) && !isHalfStarSet(5))}"></i>
+        </li>
+    </ul>
+    <ul class="test-rating" data-ng-hide="isRatingReadOnly()" data-ng-class="{'click': !isRatingReadOnly()}">
+        <li data-ng-class="{'set': isStarSet(1) || floatPart >= 0}" data-ng-click="toggleRating(1)">
+             <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(1), 'icon-circle-half': (isHalfStarSet(1)), 'icon-circle-blank': (!isStarSet(1) && !isHalfStarSet(1))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(2) || floatPart >= 0}" data-ng-click="toggleRating(2)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(2), 'icon-circle-half': (isHalfStarSet(2)), 'icon-circle-blank': (!isStarSet(2) && !isHalfStarSet(2))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(3) || floatPart >= 0}" data-ng-click="toggleRating(3)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(3), 'icon-circle-half': (isHalfStarSet(3)), 'icon-circle-blank': (!isStarSet(3) && !isHalfStarSet(3))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(4) || floatPart >= 0}" data-ng-click="toggleRating(4)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(4), 'icon-circle-half': (isHalfStarSet(4)), 'icon-circle-blank': (!isStarSet(4) && !isHalfStarSet(4))}"></i>
+        </li>
+        <li data-ng-class="{'set': isStarSet(5) || floatPart >= 0}" data-ng-click="toggleRating(5)">
+            <i class="icon-circle-blank"></i>
+            <i data-ng-class="{'icon-circle': isStarSet(5), 'icon-circle-half': (isHalfStarSet(5)), 'icon-circle-blank': (!isStarSet(5) && !isHalfStarSet(5))}"></i>
+        </li>
+    </ul>
+</div>

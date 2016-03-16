@@ -1,0 +1,65 @@
+<!--
+This template is used to display the message center 
+-->
+
+<script type="text/ng-template" id="message-render.html">
+	<!-- Add button for open send message model -->
+	<a href="" id="send-message-trigger" ng-click="openSendMessageModal()" class="btn btn-primary btn-mini btn-orange" >Send Message</a>
+	<span ng-repeat="message in messages">
+		<li ng-class="{broadcast:message.broadcast && !message.isStiky, sticky: message.isStiky, inMessage :message.createUserId == message.toUser && !message.isStiky && !message.broadcast, outMessage: message.createUserId != message.toUser && !message.isStiky && !message.broadcast}" ng-click="markMessageAsRead(message)" role="presentation" bs-popover="'popover.html'"  data-unique="1" eat-click>
+			<br/>
+			<strong>{{message.title}}</strong>
+			<i ng-show="message.isRead !== true && userData._id == message.toUser || hasUnreadResponses(message)" class="icon-envelope"></i>
+			 <span class="date">{{message.createdDate|date:"MM/dd/yyyy"}}</span>
+		</li>
+		<li class='divider' role='presentation'></li>
+	</span>
+</script>
+
+
+<script type="text/ng-template" id="message-render-response.html">
+	<strong>{{message.title}}</strong>
+	<p>{{message.body}}</p>
+	<ul >
+  	<li class="response" ng-repeat="message in message.responses" ng-include="'message-render-response.html'"></li>
+	</ul>
+</script>
+
+
+<br/><br/><br/>
+
+<script type="text/ng-template" id="popover.html">
+	<!-- Popover (external ./partials/popover.html or inline ng-template)  -->
+	<h6 ng-class="{broadcast:message.broadcast && !message.isStiky, sticky: message.isStiky, inMessage :message.createUserId == message.toUser && !message.isStiky && !message.broadcast, outMessage: message.createUserId != message.toUser && !message.isStiky && !message.broadcast}">{{message.title}}</h6>
+	<span class='popdate'>{{message.createdDate|date:"d MMM"}}</span>
+	<p>{{message.body}}  
+		<br/>
+		- <span class="text-info" data-ng-bind="message.fromUsername"></span>
+		<br/>
+		<span ng-hide="userData._id == message.fromUser">
+			<button class="btn btn-mini btn-inverse btn-orange"  ng-click="replyTo(message,false)">reply</button>  
+			<button ng-show="message.roomType" class="btn btn-mini btn-inverse btn-orange"  ng-click="replyTo(message,true)">reply</i></button>
+		</span>
+	</p>
+	
+	<popover-respones family="message.responses" on-reply="replyTo(messageData, booleanData)" show-reply-button="userData._id"></popover-respones>
+</script>
+
+
+<!-- Determine the type of user -->
+<div>
+	<div id="message-center">
+		<div ng-show="isLoading">Loading...</div>
+		
+		<div ng-hide="isLoading" class="dropdown" ng-class="{open: dropdownActive}">
+		<a href="" class="trigger" data-toggle="dropdown">
+			<span class="icon"></span>
+			<span class="badge badge-important">{{unreadMessages}}</span>
+		</a>
+			<ul class="dropdown-menu" role="menu" ng-include="'message-render.html'">
+				<!-- messages generated from message-render.html template will be added in here-->
+			</ul>
+		</div>
+	</div>
+	<br/>
+</div>

@@ -1,0 +1,53 @@
+<div id="content" data-ng-controller="SettingsCtrl">
+    <div class="wrap full">
+        <div class="page-contents">
+            <h3 class="title">Application Settings</h3>
+
+            <div data-ng-if="listSettings">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <strong>Surveys</strong><br>
+                        <a href="/dashboard/settings/survey_answer_chart_colors">[Charts] Change colors associated with answers</a>
+                    </div>
+                </div>
+            </div>
+
+            <div data-ng-if="!listSettings">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="/dashboard/settings" class="btn btn-inverse"><span class="icon-chevron-left"></span> Back to Settings</a>
+                    </div>
+                </div>
+
+                <!-- Dummy Spacing -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        &nbsp;
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div data-ng-switch on="setting">
+                            <div data-ng-switch-when="survey_answer_chart_colors">
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        Enter the colors separated by a comma
+                                    </label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control span6" data-ng-model="config.value" data-ng-list data-ng-disabled="!config">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <button class="btn btn-primary btn-orange" data-ng-click="saveSetting()" data-ng-disabled="saveInProgress" data-ng-show="config"><span data-ng-show="saveInProgress">Saving...</span><span data-ng-hide="saveInProgress">Save</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

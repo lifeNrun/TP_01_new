@@ -1,0 +1,57 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of Height - in Feet and Inches -->
+		<div class="row-fluid">
+			<div class="span3 offset3">
+				<div id="slider-height">
+					<div class="slider" bootstrap-slider data-slider-field="heightValue" data-slider-min="3" data-slider-max="8" data-slider-step="0.08" data-slider-value="5" data-slider-orientation="vertical" data-slider-selection="after" data-slider-tooltip="hide"></div>
+				</div>
+			</div>
+			<div class="span6">
+				<div id="height-input">
+					<input id="heightValue" type="text" class="text-center" value="" readonly ng-model="question.answer.heightValue">
+					<input id="heightInchValue" type="text" class="text-center" value="" readonly ng-model="question.answer.heightInchValue">
+				</div>
+			</div>
+		</div>
+		<!-- END OF Display of Height - in Feet and Inches -->
+
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

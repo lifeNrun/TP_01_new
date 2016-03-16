@@ -1,0 +1,184 @@
+<!-- main header -->
+<header>
+    <div class="wrap">
+
+        <!-- the logo -->
+        <h1>
+            <a href="/">
+                <img src="/img/logo2.png"></a>
+        </h1>
+        <div id="slogan" class="large orange">/ Answer Survey</div>
+
+    </div>
+</header>
+
+<!-- main content -->
+<div id="content" class="brandPage">
+    <section class="fullwidth">
+        <div class="wrap">
+            <div class="row-fluid">
+                <div class="span12">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-show="invalidLink">
+                <h3 class="span12 text-center">
+                    This link is not valid
+                </h3>
+            </div>
+            <div class="row-fluid" data-ng-show="surveyExpired">
+                <h3 class="span12 text-center">
+                    This link has expired
+                </h3>
+            </div>
+            <div class="row-fluid" data-ng-show="loading">
+                <div class="span12">
+                    <h1 class="text-center">
+                        <i class="icon-spin icon-spinner"></i>
+                    </h1>
+                </div>
+            </div>
+            <div class="row-fluid" data-ng-show="alreadySubmitted">
+                <h3 class="span12 text-center">
+                    You have already submitted this survey. Thank you.
+                </h3>
+            </div>
+            <div class="row-fluid" data-ng-show="surveySubmittedSuccessfully">
+                <h3 class="span12 text-center">
+                    Survey submitted successfully.
+                </h3>
+            </div>
+            <div class="row-fluid" data-ng-show="showSurvey && !surveySubmittedSuccessfully">
+                <div class="span10">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h1 data-ng-bind="survey.name" class="text-center"></h1>
+                        </div>
+
+                    </div>
+                    <div class="row-fluid relative" data-ng-repeat="entry in surveyAnswers">
+                        <div class="span11 offset1" data-ng-class="{'big-required': entry.options.isRequired, 'big-not-required': !entry.options.isRequired}">
+
+                            <h4 data-ng-class="{'text-orange': entry.type == 'Title / Header'}">
+                                <span data-ng-hide="entry.type == 'Title / Header'">{{getQuestionNumber($index)}}. </span><span data-ng-bind-html="entry.questionName"></span>
+                            </h4>
+
+                            <hr data-ng-show="entry.type == 'Title / Header'">
+
+                            <div class="row-fluid" data-ng-show="entry.supportingImage">
+                                <img ng-src="{{entry.supportingImage | getScaledImage:'360':'200':'c_limit'}}" alt="Supporting image for question" class="survey-image">
+                            </div>
+
+                            <div data-ng-show="entry.type == 'Numeric'" class="row-fluid">
+                                <input type="number" class="span4" data-ng-model="entry.value">
+                            </div>
+
+                            <div data-ng-show="entry.type == 'Rating'" class="row-fluid">
+                                <div class="slider-rookie-expert alt">
+                                    <div generic-slider value="entry.value" default-value="entry.options.defaultValue" min="entry.options.minValue" max="entry.options.maxValue" data-slider-step="1" data-slider-orientation="horizontal" data-slider-value="10" data-slider-selection="none" data-slider-tooltip="hide"></div>
+                                    <div class="row-fluid text-center">
+                                        <span class="range-display range-min" data-ng-bind="entry.value">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span1 labelMargin">{{entry.options.minValueLabel}}</div>
+                                    <div class="span1 labelLeftMargin offset3">{{entry.options.maxValueLabel}}</div>
+                                </div>
+                            </div>
+
+                            <div data-ng-show="entry.type == 'Single Selection'" class="row-fluid">
+                                <div class="row-fluid">
+                                    <label class="radio" data-ng-repeat="v in entry.options.values" data-ng-show="v.key.length > 0">
+                                        <input type="radio" name="{{entry.questionId}}" value="{{v.value}}" data-ng-click="entry.value = v.value">
+                                        {{v.key}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div data-ng-show="entry.type == 'Multiple Selection'">
+                                <div class="btn-group btn-group-vertical">
+                                    <label class="checkbox" data-ng-repeat="v in entry.options.values">
+                                        <input type="checkbox" name="{{entry.questionId}}" value="{{v.value}}" data-ng-click="addMultipleAnswer($event, entry, v.value)">
+                                        {{v.key}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div data-ng-show="entry.type == 'Free form text'">
+                                <input type="text" class="span4" data-ng-show="entry.options.isSingleLine" data-ng-model="entry.value"/>
+                                <textarea data-ng-hide="entry.options.isSingleLine" class="span12" data-ng-model="entry.value"></textarea>
+                            </div>
+
+                            <div data-ng-show="entry.options.showCommentFlag">
+                                <strong>Comment</strong>
+                                <br/>
+                                <textarea class="span10" rows="1" data-ng-model="entry.comment"/>
+                            </div>
+
+                            <div class="alert alert-error" data-ng-show="questionNumberWithError == $index">
+                                <strong data-ng-bind="errorMessage"></strong>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span2 offset1">
+                            <button type="button" class="btn btn-primary" data-ng-click="submitSurvey()">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span9 offset2">
+                            <p class="text-error" data-ng-show="errorMessage">One or more questions have errors. Cannot submit survey with errors. Resolve errors and try submitting again.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="span2" data-ng-show="logo">
+                    <img ng-src="{{weartest.brandLogoLink | getScaledImage:'129':'79':'c_fit'}}" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Get user details -->
+<div modal="showCollectUserDetailsModal" close="closeCollectUserDetailsModal()" options="collectUserDetailsModalOption">
+    <div class="modal-header">
+        <h3 class="text-center">Tell us about yourself</h3>
+    </div>
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="fname">First Name</label>
+                <div class="controls">
+                    <input type="text" id="fname" placeholder="Enter first name here" data-ng-model="userDetails.fname">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="lname">Last Name</label>
+                <div class="controls">
+                    <input type="text" id="lname" placeholder="Enter last name here" data-ng-model="userDetails.lname">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">Email Address</label>
+                <div class="controls">
+                    <input type="email" id="email" placeholder="Enter email address here" data-ng-model="userDetails.email">
+                    <i class="icon-question-sign" content-rendered="true" title="We will not share your email ID with anybody. We are only requesting it for verification purposes and it is protected under the Mesh01 Privacy Policy" data-placement="top" bootstrap-tooltip></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submitUserDetail()">Continue</button>
+    </div>
+</div>
+
+<!-- main footer -->
+<page-footer>
+</page-footer>

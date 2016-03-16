@@ -1,0 +1,115 @@
+<!-- This template displays the currently "Active" Wear Tests for which
+	registrations are still open and the tester has not yet indicated
+	his / her participation -->
+
+<h2 ng-show="entriesExist() && !loadingData">New Product Tests</h2>
+
+<!-- Show this container only if entries exist to display and all entries have been loaded -->
+<div ng-show="entriesExist() && !loadingData">
+	<div id="newProductTest">
+		<!-- For each Wear Test, repeat the following template -->
+		<div ng-repeat="item in weartests">
+			<div class="row-fluid">
+				<div class="span3 logo">
+					<img ng-src="{{getScaledWearTestImage(item.featureImageLink)}}">
+				</div>
+				<div class="span9">
+					<h2 class="alt">
+						<a href="" class="orange no-line" ng-click="showInfoModal(item)">
+							{{item.name}}
+						</a>
+					</h2>
+
+					<div class="row-fluid">
+						<table class="plain">
+							<thead>
+								<tr>
+									<th class="first">
+										Category
+									</th>
+									<th>
+										Activity
+									</th>
+									<th>
+										Registration
+									</th>
+									<th>
+										Duration
+									</th>
+									<th>
+										Pre - Register
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr class="shade">
+									<td class="first">
+										{{item.productType}}
+									</td>
+									<td>
+										{{item.activity.join(', ')}}
+									</td>
+									<td>
+										{{item.registrationStart | UTCDate:'MM/dd'}} - {{item.registrationDeadline | UTCDate:'MM/dd'}}
+									</td>
+									<td>
+										{{item.wearTestStartDate | UTCDate:'MM/dd'}} - {{item.wearTestEndDate | UTCDate:'MM/dd'}}
+									</td>
+									<td>
+										<button class="btn btn-primary btn-orange btn-mini" ng-click="joinWearTest(item)" ng-hide="requestInProgress">
+											Request to Join
+										</button>
+										<span ng-show="isRequestInProgress(item)">Requesting...</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<hr ng-show="$index < weartests.length - 1">
+		</div>
+	</div>
+</div>
+
+<!-- Information Text - Show only if entries do not exist and data has been loaded -->
+<div ng-hide="entriesExist() || loadingData">
+	<div class="alert alert-info">
+		<h1 class="text-center">
+			There are no new Product Tests
+		</h1>
+	</div>
+</div>
+
+<!-- Information Text - Show when the data is being loaded -->
+<div ng-show="loadingData">
+	<h1 class="text-center">
+		<i class="icon-spin icon-spinner">
+		</i>
+	</h1>
+	<p class="muted text-center">
+		Loading data...
+	</p>
+</div>
+
+<!-- Wear Test Detail Info -->
+<weartest-info wear-test-details="wearTestInfo" display="displayInfo">
+</weartest-info>
+
+<!-- Confirm user participation in the Wear Test -->
+<div modal="showParticipationConfirmation" close="closeParticipationConfirmationModal()" options="participationConfirmDialogOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="closeParticipationConfirmationModal()">&times;</button>
+		<h3>Thank You!</h3>
+	</div>
+	<div class="modal-body">
+		
+        <h5 class="text-center">Your request to join the "{{wearTestInfo.name}}" product test has been sent.   If  you should be selected an invitation will be sent to you via email.</h5>
+		
+	</div>
+	<div class="modal-footer">
+		<a href="" class="btn" ng-click="closeParticipationConfirmationModal()">Close</a>
+	</div>
+</div>	

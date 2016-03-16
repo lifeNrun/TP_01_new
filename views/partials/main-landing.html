@@ -1,0 +1,187 @@
+<header>
+    <div class="wrap">
+
+        <!-- the logo -->
+        <h1>
+            <a href="">
+                <img src="/img/logo1_r.png">
+            </a>
+        </h1>
+        <div id="slogan">
+            <strong>&nbsp;</strong><br>
+            Merging Innovation and Intelligence
+        </div>
+
+        <!-- top right social media icons -->
+        <div class="social-media">
+            <a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+            <a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+            <a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+            <a href="" class="rss temp-hidden"><span>RSS</span></a>
+            <a href="/login" class="login" ng-hide="userIsLoggedIn">
+                <i class="icon-user icon-black"></i> Login
+            </a>
+            <a href="/register" class="register" ng-hide="userIsLoggedIn">
+                Register
+            </a>
+            <a href="" class="logout" ng-click="logout()" ng-show="userIsLoggedIn">
+                <i class="icon-off icon-black"></i> Logout
+            </a>
+            <a href="/dashboard" class="dashboard" ng-show="userIsLoggedIn">
+                <i class="icon-dashboard icon-black"></i> Dashboard
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<!-- main content -->
+<div id="content">
+
+    <section class="fullwidth">
+        <div class="wrap">
+            <!-- carousel -->
+            <div class="row-fluid">
+                <div id="mainCarousel" class="carousel slide" bootstrap-carousel>
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="item" ng-class="{active:$index==0, orange:$index==1}" ng-repeat="image in carouselLandingImages.images">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <img ng-src="{{getImageForWearTests(image.url,900,340)}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carousel nav -->
+                    <a class="carousel-control left" href="" data-slide="prev" data-target="#mainCarousel">&lsaquo;</a>
+                    <a class="carousel-control right" href="" data-slide="next" data-target="#mainCarousel">&rsaquo;</a>
+
+                    <!-- Carousel indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#mainCarousel" ng-repeat="image in carouselLandingImages.images" data-slide-to="{{$index}}" ng-class="{active:$index==0}"></li>
+                    </ol>
+
+                </div>
+
+            </div>
+            <!-- end of carousel -->
+
+            <div class="row-fluid">
+                <div class="span12">
+                    &nbsp;
+                </div>
+            </div>
+
+
+            <div class="row-fluid">
+                <div class="span4 box designers contentNoSytling">
+                    <h2>Designers</h2>
+                    <p><public-blog-posts name="'homeDesignersMore'"></public-blog-posts></p>
+                    <a href="https://design.mesh01.com/register" class="button"><span>Join Now</span></a><br>
+                    <a href="/info/Design" class="more">More Info</a>
+                </div>
+                <div class="span4 box productTesters contentNoSytling">
+                    <h2>Product Testers</h2>
+                    <p><public-blog-posts name="'homeTestersMore'"></public-blog-posts></p>
+                    <a href="" ng-click="registerNewUser('Tester')" class="button"><span>Join Now</span></a><br>
+                    <a href="/info/Tester" class="more">More Info</a>
+                </div>
+                <div class="span4 box brands contentNoSytling">
+                    <h2>Brands</h2>
+                    <p><public-blog-posts name="'homeBrandsMore'"></public-blog-posts></p>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <h3>Product Test</h3>
+                            <a href="" ng-click="registerNewUser('Brand')" class="button"><span>Launch</span></a><br>
+                            <a href="/info/Brand" class="more">More Info</a>
+                        </div>
+                        <div class="span2 or">OR</div>
+                        <div class="span5">
+                            <h3>Design Project</h3>
+                            <a href="http://design.mesh01.com/forms/brief/CompetitionOverview.aspx" class="button"><span>Launch</span></a><br>
+                            <a href="/info/Brand" class="more">More Info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- wrap -->
+
+    </section>
+
+
+    <section class="fullwidth">
+        <div class="wrap">
+            <div class="row-fluid">
+                <div class="span4 block small">
+                    <h2>Testimonials</h2>
+                    <div class="block-body testimonials">
+                        <p class="large">
+                        <public-blog-posts name="'testimonials'"></public-blog-posts>
+                        </p>
+                    </div>
+                </div>
+                <div class="span4 block small">
+                    <h2>Our Stats</h2>
+                    <div class="block-body">
+                        <p>
+                            Our co-creation community continues to grow.
+                        </p>
+                        <div class="counter">
+                            <span>1</span>
+                            <span>5</span>
+                            <span>5</span>
+                            <span>1</span>
+                            <span>0</span>
+                        </div>
+                        <p class="members-label">MEMBERS</p>
+                    </div>
+                </div>
+                <div class="span4 block small">
+                    <h2>Brands We Have Worked With</h2>
+                    <div class="block-body">
+                        <div ng-show="!homePageBrandsImages.images"> Loading </div>
+                        <div ng-show="homePageBrandsImages.images" class="carousel slide litecarouselwrap" bootstrap-carousel>
+                            <ul class="carousel-inner litecarousel">
+                                <li class="item"  ng-class="{active:$index==0}" ng-repeat="brandImage in homePageBrandsImages.images">
+                                    <div class="img"><img ng-src="{{brandImage.url}}" alt=""></div>
+                                    <p><a href="">{{brandImage.description}}</a></p>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- wrap -->
+    </section>
+</div>
+
+
+<div modal="showBrowserSupportModal" close="closeBrowserSupportModal()" options="strictModalOptions">
+    <div class="modal-body" data-ng-show="!browserSupported">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+            	  <div>
+                    <span class="span12" style="font-weight:bold">You are using a browser that is not supported. Please update your current browser to one of the following supported browsers.</span>
+                    <span class="span12" style="font-weight:bold"></span>
+                    <span class="span12" style="font-weight:bold"><a href="https://www.google.com/chrome/browser/desktop/">Google Chrome</a></span>
+                    <span class="span12" style="font-weight:bold"><a href="https://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a></span>
+                    <span class="span12" style="font-weight:bold"><a href="http://windows.microsoft.com/en-IN/internet-explorer/download-ie">Internet Explorer</a></span>
+                    <span class="span12" style="font-weight:bold"><a href="https://support.apple.com/downloads/safari">Safari</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-orange btn-primary" ng-click="closeBrowserSupportModal()">Continue</button>
+    </div>
+</div>
+
+<!-- main footer -->
+<page-footer>
+</page-footer>

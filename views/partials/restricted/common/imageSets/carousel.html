@@ -1,0 +1,13 @@
+<div id="imageCarousel" class="carousel slide" bootstrap-carousel>
+	<div class="row-fluid">
+		<div class="span8 offset2">
+			<div class="carousel-inner">
+				<div class="item" ng-repeat="image in record.images" ng-class="{active: $index == 0}">
+					<img ng-src="{{getScaledImage(image.url)}}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<a class="carousel-control left" href="#imageCarousel" data-slide="prev">&lsaquo;</a>
+	<a class="carousel-control right" href="#imageCarousel" data-slide="next">&rsaquo;</a>
+</div>

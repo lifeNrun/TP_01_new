@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #142377!important;
+}
+
+.rpt-title2 {
+  background-color: #142377!important;
+}
+
+.rpt-title5 {
+  color: #142377!important;
+}
+
+.title-image {
+  background: #142377!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-K2.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/k2.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #142377!important;
+}
+
+span.test-rating {
+    color: #142377!important;
+}

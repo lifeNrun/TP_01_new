@@ -1,0 +1,160 @@
+<!-- Display of error messages, if any -->
+<div class="row-fluid" ng-show="showError">
+	<div class="span12">
+		<div class="alert alert-error text-center">{{errorMessage}}</div>
+	</div>
+</div>
+
+<!-- main header -->
+<header>
+	<div class="wrap">
+
+		<!-- the logo -->
+		<h1>
+			<a href="/">
+				<img src="/img/logo2.png"></a>
+		</h1>
+		<div id="slogan" class="large orange">/ Registration</div>
+
+		<!-- top right social media icons -->
+		<div class="social-media">
+			<a href="/" class="linkedin">
+				<span>LinkedIn</span>
+			</a>
+			<a href="/" class="twitter">
+				<span>Twitter</span>
+			</a>
+			<a href="/" class="facebook">
+				<span>Facebook</span>
+			</a>
+			<a href="/" class="rss">
+				<span>RSS</span>
+			</a>
+		</div>
+
+	</div>
+</header>
+
+<!-- Display of loading status - when the application is loading the survey -->
+<div class="row-fluid" ng-show="loadingSurvey && !showError">
+	<div class="span12 text-center"> <i class="icon-spinner icon-spin icon-4x"></i>
+		<br></div>
+</div>
+
+<!-- Dummy Spacing -->
+<div class="row-fluid">
+	<div class="span12">&nbsp;</div>
+</div>
+
+<!-- Display of loading status - when the application is loading the survey -->
+<div class="row-fluid" ng-show="loadingSurvey && !showError">
+	<div class="span12 text-center muted">Loading registration wizard...</div>
+</div>
+
+<!-- Directives for the questions -->
+<div class="row-fluid" ng-hide="loadingSurvey || showError || showFinalScreen || userIsUnderAge">
+	<div ng-switch on="currentQuestion.id" ng-animate="cssAnimation">
+		<div ng-switch-when="gender">
+			<gender-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></gender-selection>
+		</div>
+		<div ng-switch-when="height">
+			<height-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></height-selection>
+		</div>
+		<div ng-switch-when="weight">
+			<weight-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></weight-selection>
+		</div>
+		<div ng-switch-when="shoeSize">
+			<shoe-size-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber" gender-value="gender"></shoe-size-selection>
+		</div>
+		<div ng-switch-when="shirtSize">
+			<shirt-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></shirt-selection>
+		</div>
+		<div ng-switch-when="pants">
+			<pant-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></pant-selection>
+		</div>
+		<div ng-switch-when="dateOfBirth">
+			<dob-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></dob-selection>
+		</div>
+		<div ng-switch-when="reg-a5-username-v1">
+			<username-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></username-selection>
+		</div>
+		<div ng-switch-when="reg-a6-password-v1">
+			<password-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></password-selection>
+		</div>
+		<div ng-switch-when="personal">
+			<personal-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></personal-selection>
+		</div>
+		<div ng-switch-when="recieveNotifType">
+			<notification-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></notification-selection>
+		</div>
+		<div ng-switch-when="address">
+			<address-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></address-selection>
+		</div>
+		<div ng-switch-when="winter">
+			<winter-activity-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></winter-activity-selection>
+		</div>
+		<div ng-switch-when="summer">
+			<summer-activity-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber"></summer-activity-selection>
+		</div>
+		<div ng-switch-when="loginInfo">
+			<username-password-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber">
+			</username-password-selection>
+		</div>
+		<div ng-switch-when="utype">
+			<user-type-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber">
+			</user-type-selection>
+		</div>
+		<div ng-switch-when="brandAssociation">
+			<brand-association-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber">
+			</brand-association-selection>
+		</div>
+		<div ng-switch-when="jacketSize">
+			<jacket-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber" show-update-button="false">
+			</jacket-selection>
+		</div>
+		<div ng-switch-when="profession">
+			<profession-selection question="currentQuestion" next-question="nextQuestion()" previous-question="previousQuestion()" is-first-question="isFirstQuestion()" validation-error="validationError" validation-error-message="validationErrorMessage" get-question-count="getQuestionCount()" current-question-number="currentQuestionNumber" show-update-button="false">
+			</profession-selection>
+		</div>
+	</div>
+</div>
+
+<!-- Shown after registration process is completed -->
+<div id="content" ng-show="showFinalScreen">
+	<section class="fullwidth">
+		<div id="registration-complete" class="text-center">
+			<h2>Thank you for registering on MESH01</h2>
+			<hr>
+			<p>
+				Please click <a href="/login">here</a> to login.
+				<br>
+				If you have any questions, feel free to contact us at info@mesh01.com or by calling 603-766-0977.
+			</p>
+		</div>
+	</section>
+</div>
+
+<!-- Shown when the user is under 13 years of age -->
+<div id="content" ng-show="userIsUnderAge">
+	<section class="fullwidth">
+		<div class="text-center">
+			<h3 class="text-error">
+				Sorry, we do not allow children under the age of 13 to register
+			</h3>
+		</div>
+	</section>
+</div>
+
+<!-- Dummy Spacing -->
+<div class="row-fluid" ng-hide="showFinalScreen || userIsUnderAge">
+	<div class="span12">&nbsp;</div>
+</div>
+
+<!-- Dummy Spacing -->
+<div class="row-fluid" ng-hide="showFinalScreen || userIsUnderAge">
+	<div class="span12">&nbsp;</div>
+</div>
+
+<!-- main footer -->
+<page-footer>
+</page-footer>

@@ -1,0 +1,77 @@
+<div class="span6 offset3 well anti-well registration-questions" ng-hide="hideModalFrame">
+
+	<div class="registration-header">
+		<h3 id="myModalLabel">
+			{{question.question}}
+			<span ng-show="question.options.isRequired">*</span>
+			<sup ng-show="question.helpText" tooltip="{{question.helpText}}" tooltip-placement="bottom"><i class="icon-info-sign"></i></sup> 
+		</h3>
+	</div>
+
+	<div class="registration-body">
+		<div class="alert alert-danger" ng-show="validationError">
+			{{validationErrorMessage}}
+			<br/>
+		</div>
+		<!-- Display of possible notifications -->
+		<div class="row-fluid">
+			<div class="span2 offset2 tall">
+				<label class="checkbox">
+					<input type="checkbox" class="checkall" ng-click="selectAll($event)" ng-checked="isSelectedAll()">
+					All
+				</label>
+			</div>
+			<div class="span8 divider-vertical">
+				<div class="span1"></div>
+				<div class="span11">
+					<label class="checkbox">
+						<input type="checkbox" class="check-notification" ng-checked="isSelected('General Updates')" ng-click="updateSelection($event, 'General Updates')">
+						General Updates
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" class="check-notification" ng-checked="isSelected('Design Projects')" ng-click="updateSelection($event, 'Design Projects')">
+						Design Projects
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" class="check-notification" ng-checked="isSelected('Product Tests')" ng-click="updateSelection($event, 'Product Tests')">
+						Product Tests
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" class="check-notification" ng-checked="isSelected('Educational Information')" ng-click="updateSelection($event, 'Educational Information')">
+						Educational Information
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" class="check-notification" ng-model="noneSelection" ng-checked="isNoneSelected()" ng-click="selectNone()">
+						None
+					</label>					
+				</div>
+			</div>
+		</div>
+		<!-- END OF Display of possible notifications -->
+		
+	</div>
+
+	<!-- Question Details -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<ul class="pager">
+			<li>
+				<a href="" class="prev" ng-click="previousQuestion()" ng-class="{disabled: isFirstQuestion()}">Prev</a>
+			</li>
+			<li class="steps">
+				{{currentQuestionNumber + 1}}
+				<small>of</small>
+				{{getQuestionCount()}}
+			</li>
+			<li>
+				<a href="" class="next" ng-click="nextQuestion()">Next</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Registration Progress Display -->
+	<div class="row-fluid" ng-hide="showUpdateButton">
+		<div class="progress">
+			<div class="bar" ng-style="{width: ((currentQuestionNumber + 1)/getQuestionCount())*100+'%'}"></div>
+		</div>
+	</div>
+</div>

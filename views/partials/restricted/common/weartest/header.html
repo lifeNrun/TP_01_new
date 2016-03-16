@@ -1,0 +1,129 @@
+<h2 class="brandPageTitle" data-once-text="weartest.name | capitalize"></h2>
+
+<div class="row-fluid">
+    <div class="span2">
+        <strong>Test ID</strong>
+        <br/>
+        <strong>Product</strong>
+        <br/>
+        <strong>&#35; of testers required</strong>
+    </div>
+    <div class="span3">
+        <span data-once-text="weartest.identification" data-once-show="weartest.identification"></span>
+        <span data-once-hide="weartest.identification">Unassigned</span>
+        <br/>
+        <span data-once-text="weartest.productType | capitalize"></span>
+        <br/>
+        <span data-once-text="weartest.requiredNumberofTesters"></span>
+    </div>
+    <div class="span2">
+        <strong>Start</strong>
+        <br/>
+        <strong>End</strong>
+        <br/>
+        <strong data-ng-show="weartestRating > 0">Test Rating</strong>
+    </div>
+    <div class="span2">
+        <span data-ng-bind="weartest.wearTestStartDate | UTCDate:'MM/dd/yy'"></span>
+        <br/>
+        <span data-ng-bind="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></span>
+        <test-rating read-only="true" stars="weartestRating"></test-rating>
+    </div>
+    <div class="span3 text-right">
+        <a class="btn btn-orange btn-primary btn-small" data-once-href="getUrlOfTabToReturnTo()">
+            <i class="icon-chevron-left icon-white"></i> Back to <span data-once-text="getNameOfTabToReturnTo()"></span>
+        </a>
+    </div>
+</div>
+
+<div id="test-status" class="row-fluid">
+    <h3>TEST STATUS</h3>
+    <ul>
+        <li class="first">
+            <div class="inner">
+                <h4>Survey:</h4>
+                <div class="complete">
+                    <span data-ng-bind="surveyPercentage | percentage"></span>% Complete
+                </div>
+                <div class="complete-by">
+                    Complete by <span data-ng-bind="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></span>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="inner">
+                <h4>Product Images:</h4>
+                <div class="complete">
+                    <span data-ng-bind="wearTearPercentage | percentage"></span>% Complete
+                </div>
+                <div class="complete-by">
+                    Complete by <span data-ng-bind="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></span>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="inner">
+                <h4>Performance Zones:</h4>
+                <div class="complete">
+                    <span data-ng-bind="performanceZonePercentage | percentage"></span>% Complete
+                </div>
+                <div class="complete-by">
+                    Complete by <span data-ng-bind="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<!-- end of #test-status -->
+
+<div class="row-fluid">
+    <ul id="tertiary-nav" class="nav nav-tabs">
+        <li ng-class="{active: isSectionActive('overview')}">
+            <a ng-href="{{getUrlOfWeartestSection('overview')}}">
+                Admin Overview
+            </a>
+        </li>
+        <li ng-class="{active: isSectionActive('roster')}">
+            <a ng-href="{{getUrlOfWeartestSection('roster')}}">
+                Roster
+            </a>
+        </li>
+        <li ng-class="{active: isSectionActive('activityLogs')}">
+            <a ng-href="{{getUrlOfWeartestSection('activityLogs')}}">
+                Activity Logs
+            </a>
+        </li>
+        <li ng-class="{'active': isSectionActive('submittedSurveys')}">
+            <a ng-href="{{getUrlOfWeartestSection('submittedSurveys')}}">
+                Surveys
+            </a>
+        </li>
+        <li ng-class="{'active': isSectionActive('wearAndTear')}">
+            <a ng-href="{{getUrlOfWeartestSection('wearAndTear')}}">
+                Product Images and Videos
+            </a>
+        </li>
+        <li ng-class="{'active': isSectionActive('performanceZone')}">
+            <a ng-href="{{getUrlOfWeartestSection('performanceZone')}}">
+                Performance Zones
+            </a>
+        </li>
+        <li class="dropdown tabdrop" ng-class="{'active': isSectionActive('reportBuilder')}">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                Report Builder<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-class="{'active': isSectionActive('reportBuilder', 'createReport')}">
+                    <a ng-href="{{getUrlOfWeartestSection('reportBuilder', 'createReport')}}" class="dropdown-element">
+                        Create New Report
+                    </a>
+                </li>
+                <li ng-class="{'active': isSectionActive('reportBuilder', 'editReport')}">
+                    <a ng-href="{{getUrlOfWeartestSection('reportBuilder', 'editReport')}}" class="dropdown-element">
+                        Select Existing Report
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

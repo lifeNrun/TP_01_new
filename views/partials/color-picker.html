@@ -1,0 +1,8 @@
+<span class="selected-color" data-ng-style="getBackgroundColor(activeColor)" data-ng-click="toggleColorPicker()"></span>
+<div>
+  <ul class="color-picker" data-ng-show="showColorChoices" data-ng-class="{'align-top': displayTop}">
+      <li data-ng-repeat="p in palette" data-ng-click="selectColor(p)" data-ng-style="getBackgroundColor(p)"></li>
+      <li data-ng-click="selectColor(p)" class='noneli'>None</li>
+      
+  </ul>
+</div>

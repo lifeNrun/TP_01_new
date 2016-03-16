@@ -1,0 +1,70 @@
+<div id="content">
+    <div class="wrap full">
+        <!-- Survey types -->
+        <survey-mode></survey-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+                <!-- Filter surveys -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="input-append pull-right">
+                            <input class="input-medium" type="text" data-ng-model="surveyFilter.name" placeholder="Search for a survey">
+                            <button class="btn btn-orange">
+                                <i class="icon-search icon-white"></i>
+                            </button>
+                        </div>  
+                    </div>
+                </div>
+                <!-- List of surveys arranged in group of three -->
+                <div class="row-fluid">
+                    <div class="span4">
+                        <div class="survey-item-span">
+                            <div class="survey-item" data-ng-repeat="(groupName, surveys) in surveyColumnOne">
+                                <h5 data-once-text="groupName"></h5>
+                                <p>
+                                    <span data-ng-repeat="survey in surveys | filter:surveyFilter | orderBy:'name'">
+                                        <a href="" data-tooltip="Created: {{survey.createdDate  | UTCDate:'MM/dd/yy'}}" data-ng-click="openSurveyDetailsModal(survey)" data-toggle="modal" data-once-text="survey.name"></a>
+                                        <br>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="span4">
+                        <div class="survey-item-span">
+                            <div class="survey-item" data-ng-repeat="(groupName, surveys) in surveyColumnTwo">
+                                <h5 data-once-text="groupName"></h5>
+                                <p>
+                                    <span data-ng-repeat="survey in surveys | filter:surveyFilter | orderBy:'name'">
+                                        <a href="" data-tooltip="Created: {{survey.createdDate  | UTCDate:'MM/dd/yy'}}" data-ng-click="openSurveyDetailsModal(survey)" data-toggle="modal" data-once-text="survey.name"></a>
+                                        <br>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="span4">
+                        <div class="survey-item-span">
+                            <div class="survey-item" data-ng-repeat="(groupName, surveys) in surveyColumnThree">
+                                <h5 data-once-text="groupName"></h5>
+                                <p>
+                                    <span data-ng-repeat="survey in surveys | filter:surveyFilter | orderBy:'name'">
+                                        <a href="" data-tooltip="Created: {{survey.createdDate  | UTCDate:'MM/dd/yy'}}" data-ng-click="openSurveyDetailsModal(survey)" data-toggle="modal" data-once-text="survey.name"></a>
+                                        <br>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Survey preview modal -->
+<survey-preview></survey-preview>

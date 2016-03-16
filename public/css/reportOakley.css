@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #0A0A0A!important;
+}
+
+.rpt-title2 {
+  background-color: #0A0A0A!important;
+}
+
+.rpt-title5 {
+  color: #0A0A0A!important;
+}
+
+.title-image {
+  background: #0A0A0A!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-Oakley.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/oakley.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #0A0A0A!important;
+}
+
+span.test-rating {
+    color: #0A0A0A!important;
+}

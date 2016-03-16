@@ -1,0 +1,282 @@
+<!-- Template that allows tester to edit or create a new Activity Log -->
+<div modal="showActivityLogModal" options="activityLogModalOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancelLogCreation()">×</button>
+		<h3 id="myModalLabel">
+			{{getQuestion()}}
+		</h3>
+	</div>
+
+	<div class="modal-body" ng-class="{'temperature-modal': questionNumber == 6}">
+		<div class="row-fluid">
+            <div class="span6">
+            	<strong class="product-name">
+            		{{getWeartestNames()}}
+            	</strong>
+            </div>
+            <div class="span6 relative">
+				<input type="text" class="product-date span4 offset6 text-center" ng-model="logData.activityDate" required data-date-format="mm/dd/yyyy" bs-datepicker readonly>
+				<img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="..." title="..." data-toggle="datepicker" >
+            </div>
+		</div>
+
+		<div ng-switch on="questionNumber">
+
+			<div ng-switch-when="1">
+				<div class="row-fluid" ng-repeat="w in wearTests" ng-show="wearTests.length > 0">
+					<div class="span1 offset4 text-right">
+						<i class="icon-check-empty weartest-select" ng-hide="isWearTestSelected(w._id)" ng-click="selectWearTest(w._id)"></i>
+						<i class="icon-check weartest-select" ng-show="isWearTestSelected(w._id)" ng-click="unSelectWearTest(w._id)"></i>
+					</div>
+					<div class="span3 weartest-select" ng-hide="isWearTestSelected(w._id)" ng-click="selectWearTest(w._id)">
+						{{w.name}}
+					</div>
+					<div class="span3 weartest-select" ng-show="isWearTestSelected(w._id)" ng-click="unSelectWearTest(w._id)">
+						{{w.name}}
+					</div>
+				</div>
+
+				<div class="row-fluid" ng-hide="wearTests.length > 0">
+					<div class="span12">
+						<div class="alert">
+							<h3 class="text-center">
+								Currently, you are not participating in a Product Test. Please click next to continue.
+							</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-switch-when="2">
+				<div class="row-fluid text-center">
+					<select ng-model="logData.activityType" ng-options="c for c in activityTypes">
+					</select>
+				</div>
+			</div>
+
+			<div ng-switch-when="3">
+				<div class="row-fluid">				
+					<div class="span2 condition sun" ng-class="{'selected': isConditionTypeSelected('Sun')}">
+						<label for="condition-sun" ng-click="selectCondition('Sun')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Sun')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Sun')"></i>
+							Sun
+						</label>									
+					</div>
+					<div class="span2 condition rain" ng-class="{selected: isConditionTypeSelected('Rain')}">
+						<label for="condition-rain" ng-click="selectCondition('Rain')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Rain')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Rain')"></i>
+							Rain
+						</label>									
+					</div>
+					<div class="span2 condition overcast" ng-class="{selected: isConditionTypeSelected('Overcast')}">
+						<label for="condition-overcast" ng-click="selectCondition('Overcast')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Overcast')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Overcast')"></i>
+							Overcast
+						</label>									
+					</div>
+					<div class="span2 condition storm" ng-class="{selected: isConditionTypeSelected('Storm')}">
+						<label for="condition-storm" ng-click="selectCondition('Storm')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Storm')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Storm')"></i>
+							Storm
+						</label>									
+					</div>
+					<div class="span2 condition snow" ng-class="{selected: isConditionTypeSelected('Snow')}">
+						<label for="condition-snow" ng-click="selectCondition('Snow')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Snow')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Snow')"></i>
+							Snow
+						</label>									
+					</div>
+					<div class="span2 condition indoors" ng-class="{selected: isConditionTypeSelected('Indoors')}">
+						<label for="condition-indoors" ng-click="selectCondition('Indoors')">
+							<i class="icon-circle-blank" ng-hide="isConditionTypeSelected('Indoors')"></i>
+							<i class="icon-circle" ng-show="isConditionTypeSelected('Indoors')"></i>
+							Indoors
+						</label>									
+					</div>
+				</div>
+			</div>
+
+			<div ng-switch-when="4">
+				<div class="row-fluid">
+					<div class="span2 align-center">
+						<p><img src="/img/icon-rest.png" alt=""></p>
+						<p>Rest</p>
+					</div>		
+					<div class="span8">
+						<p id="labelIntensity" class="horizontal-slider-label">
+							<span class="start">1</span>
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+							<span>7</span>
+							<span>8</span>
+							<span>9</span>
+							<span class="end">10</span>
+						</p>
+						<div class="slider" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="0.01" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="hide" data-slider-field="intensityValue" bootstrap-slider></div>
+					</div>
+					<div class="span2 align-center">
+						<p><img src="/img/icon-allout.png" alt=""></p>
+						<p>All Out</p>
+					</div>
+				</div>
+			</div>
+
+			<div ng-switch-when="5">
+				<div class="row-fluid">
+				
+					<div class="span2">
+					</div>
+					<div class="span2 terrain plain" ng-class="{selected: isTerrainSelected('Flat')}">
+						<label for="terrain-plain" ng-click="selectTerrain('Flat')">
+							<i class="icon-circle-blank" ng-hide="isTerrainSelected('Flat')"></i>
+							<i class="icon-circle" ng-show="isTerrainSelected('Flat')"></i>
+							Flat
+						</label>
+					</div>
+					<div class="span2 terrain hills" ng-class="{selected: isTerrainSelected('Hills')}">
+						<label for="terrain-hills" ng-click="selectTerrain('Hills')">
+							<i class="icon-circle-blank" ng-hide="isTerrainSelected('Hills')"></i>
+							<i class="icon-circle" ng-show="isTerrainSelected('Hills')"></i>
+							Hills
+						</label>
+					</div>
+					<div class="span2 terrain mixed" ng-class="{selected: isTerrainSelected('Mixed')}">
+						<label for="terrain-mixed" ng-click="selectTerrain('Mixed')">
+							<i class="icon-circle-blank" ng-hide="isTerrainSelected('Mixed')"></i>
+							<i class="icon-circle" ng-show="isTerrainSelected('Mixed')"></i>
+							Mixed
+						</label>
+					</div>
+					<div class="span2 terrain water" ng-class="{selected: isTerrainSelected('Water')}">
+						<label for="terrain-water" ng-click="selectTerrain('Water')">
+							<i class="icon-circle-blank" ng-hide="isTerrainSelected('Water')"></i>
+							<i class="icon-circle" ng-show="isTerrainSelected('Water')"></i>
+							Water
+						</label>
+					</div>
+					<div class="span2">
+					</div>
+				
+				</div>
+			</div>
+
+			<div ng-switch-when="6">
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="temperature-slider pull-right">							
+							<div class="slider" data-slider-field="temperatureValue" data-slider-min="-10" data-slider-max="100" data-slider-step="1" data-slider-value="100" data-slider-orientation="vertical" data-slider-selection="after" data-slider-tooltip="hide" bootstrap-slider></div>
+						</div>
+					</div>
+					<div class="span6">
+						<input type="text" readonly id="temperatureValue" ng-model="logData.temperature" class="uneditable-input">
+						<label class="checkbox" ng-click="setTemperatureUnit('C')">
+							<i class="icon-circle-blank" ng-hide="isTemperatureUnit('C')"></i>
+							<i class="icon-circle" ng-show="isTemperatureUnit('C')"></i>
+							C&deg;
+						</label>
+						<label class="checkbox" ng-click="setTemperatureUnit('F')">
+							<i class="icon-circle-blank" ng-hide="isTemperatureUnit('F')"></i>
+							<i class="icon-circle" ng-show="isTemperatureUnit('F')"></i>
+							F&deg;
+						</label>
+					</div>									
+				</div>
+			</div>
+
+			<div ng-switch-when="7">
+				<div class="row-fluid">
+					<div class="span6">										
+						<p>Distance</p>
+						<div class="row-fluid">
+							<div class="span5">
+								<input type="number" ng-model="logData.distance" min="0" step="0.1" class="span12">
+							</div>
+							<div class="span7">
+								<label class="checkbox" ng-click="setDistanceUnit('miles')">
+									<i class="icon-circle-blank" ng-hide="isDistanceUnit('miles')"></i>
+									<i class="icon-circle" ng-show="isDistanceUnit('miles')"></i>
+									Miles
+								</label>
+								<label class="checkbox" ng-click="setDistanceUnit('kilometers')">
+									<i class="icon-circle-blank" ng-hide="isDistanceUnit('kilometers')"></i>
+									<i class="icon-circle" ng-show="isDistanceUnit('kilometers')"></i>
+									Kilometers
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<p>Duration</p>
+						<select class="span3" ng-model="logData.durationHours" ng-options="h for h in possibleHours" data-tooltip="Hours" data-tooltip-direction="bottom">
+							<option value="">hh</option>
+						</select>
+						
+						: 
+						
+						<select class="span3" ng-model="logData.durationMinutes" ng-options="m for m in possibleMinutes" data-tooltip="Minutes" data-tooltip-direction="bottom">
+							<option value="">mm</option>
+						</select>
+
+						:
+
+						<select class="span3" ng-model="logData.durationSeconds" ng-options="s for s in possibleSeconds" data-tooltip="Seconds" data-tooltip-direction="bottom">
+							<option value="">ss</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div ng-switch-when="8">
+				<div class="row-fluid">
+					<div class="span10 offset1">
+						<textarea class="span12" rows="5" ng-model="logData.notes">
+						</textarea>
+					</div>
+				</div>
+			</div>
+		</div>		
+		
+		<div class="row-fluid">
+			<ul class="pager">
+				<li>
+					<a href="" class="prev" ng-class="{'disabled':isFirstQuestion()}" ng-disabled="isFirstQuestion()" ng-click="loadPreviousLogItem()">
+						Prev
+					</a>
+				</li>
+				<li class="steps">
+					{{getCurrentQuestionNumber()}} <small>of</small> {{questions.length}}
+				</li>
+				<li>
+					<a href="" class="next" ng-click="createActivityLog()" ng-show="!showEditLogControls() && isLastQuestion()">Create</a></li>
+				<li>
+					<a href="" class="next" ng-click="loadNextLogItem()" ng-hide="isLastQuestion()">
+						Next
+					</a>
+				</li>
+			</ul>								
+		</div>
+
+		<div class="row-fluid text-center" ng-show="showEditLogControls()">
+			<p>
+				<a href="" class="btn btn-primary btn-gray" ng-click="updateActivityLog()">
+					Save
+				</a>
+			</p>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="progress">
+				<div class="bar" style="width: {{(getCurrentQuestionNumber() - 1) / questions.length * 100}}%;"></div>
+			</div>									
+		</div>
+		
+	</div>
+</div>

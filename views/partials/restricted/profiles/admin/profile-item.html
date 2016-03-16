@@ -1,0 +1,243 @@
+<!--
+This is the page that loads when the administrator clicks on the
+Profile Item in the administrator's dashboard
+-->
+
+<!-- main content -->
+<div id="content">
+	<div class="wrap full">
+
+		<ul class="nav nav-tabs centered-tab sub-nav">
+			<li class="active">
+				<a href="#tabBio" data-toggle="tab">
+					<span>Bio</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li>
+				<a href="#tabRunning" data-toggle="tab">
+					<span>Running</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li>
+				<a href="#tabSkiing" data-toggle="tab">
+					<span>Cross-country Skiing</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li>
+				<a href="#tabCycling" data-toggle="tab">
+					<span>Cycling</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+			<li>
+				<a href="#tabSwimming" data-toggle="tab">
+					<span>Swimming</span>
+				</a>
+				<span class="arrow"></span>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tabBio">
+				<div class="row top-row">
+					<div class="row-fluid">
+						<div class="span6">
+					  	<h2>{{user.username}} Bio
+									<!-- Profile Change Password -->
+							<profile-change-password  update-info="fetchUserDetails"></profile-change-password>
+							</h2>
+
+
+							<!-- Profile Display -->
+							<profile-display completed="completed" update-info="fetchUserDetails"></profile-display>
+
+						</div>
+						<div class="span6">
+							<h2>Complete your profile</h2>
+							<div class="row-fluid">
+								<div class="span4 human" ng-class="{female: user.gender == 'female'}">
+									<div ng-switch on="user.gender">
+										<div ng-switch-when="male">
+											<img src="/img/content/human.png" alt="">
+										</div>
+										<div ng-switch-default>
+											<img src="/img/content/human.png" alt="">
+										</div>
+									</div>
+
+									<ul class="labels">
+										<li class="one left">1</li>
+										<li class="two right">2</li>
+										<li class="three left done">3</li>
+										<li class="four right">4</li>
+										<li class="five left">5</li>
+										<li class="six right done">6</li>
+									</ul>
+
+									<div class="chart" jquery-chart data-percent="{{completed}}">
+										{{completed}} <em>%</em>
+										<span>COMPLETE</span>
+									</div>
+								</div>
+								<!-- .span4 -->
+								<div class="span8">
+									<ul class="label-description">
+										<li>
+											<strong>1. Headwear</strong>
+										</li>
+										<li>
+											<strong>2. Eyewear</strong>
+										</li>
+										<li>
+											<strong>3. Apparel / Tops</strong>
+										</li>
+										<li>
+											<strong>4. Monitors / Watches</strong>
+										</li>
+										<li>
+											<strong>5. Apparel / Bottoms</strong>
+										</li>
+										<li>
+											<strong>6. Footwear</strong>
+										</li>
+									</ul>
+									<div class="pull-center">
+										<p>Ensure your profile is completed</p>
+									</div>
+								</div>
+								<!-- .span8 -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- .row -->
+
+				<div id="runningImageGallery" class="row">
+					<h2>Running Image Gallery</h2>
+					<div class="row-fluid">
+						<div class="span6">
+							<img src="/img/content/image-full.jpg" alt="">
+
+							<div class="details">
+								<span>September 3, 2012</span>
+
+								<h3>Barndoor Classic - Bolton MA</h3>
+								<p>
+									Ut nulla. Vivamus bibendum, nulla ut congue fringilla, lorem ipsum ultricies risus, ut rutrum velit tortor vel purus.
+								In hac habitasse platea Morbi egestas lorem ipsum dolor sit amet vivamus bebendum.
+								</p>
+
+								<h3>
+									Tags
+									<a href="/">(add a tag)</a>
+								</h3>
+								<p>Running, cross-country, wet, hot, mud, Bolton</p>
+							</div>
+
+						</div>
+						<!-- .span6 -->
+						<div class="span6">
+							<div class="row-fluid">
+								<ul class="thumbnails">
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image1.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image2.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image3.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image4.jpg" alt=""></a>
+									</li>
+
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image5.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image6.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image7.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image8.jpg" alt=""></a>
+									</li>
+
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image9.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image10.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image11.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image12.jpg" alt=""></a>
+									</li>
+
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image13.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image14.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image15.jpg" alt=""></a>
+									</li>
+									<li class="span3">
+										<a href="/">
+											<img src="/img/content/image16.jpg" alt=""></a>
+									</li>
+								</ul>
+								<div class="pagination pagination-centered">
+									<ul>
+										<li class="prev disabled">
+											<a href="/">&lt;</a>
+										</li>
+										<li class="active first">
+											<a href="/">1</a>
+										</li>
+										<li>
+											<a href="/">2</a>
+										</li>
+										<li>
+											<a href="/">3</a>
+										</li>
+										<li class="next">
+											<a href="/">&gt;</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- .row-fluid -->
+						</div>
+						<!-- .span6 -->
+					</div>
+					<!-- .row-fluid -->
+				</div>
+				<!-- .row -->
+			</div>
+		</div>
+	</div>
+</div>

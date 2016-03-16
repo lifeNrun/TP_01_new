@@ -1,0 +1,33 @@
+.rpt-title1 {
+  color: #EE1C24!important;
+}
+
+.rpt-title2 {
+  background-color: #EE1C24!important;
+}
+
+.rpt-title5 {
+  color: #EE1C24!important;
+}
+
+.title-image {
+  background: #EE1C24!important;
+}
+
+.rpt-img {
+  background-image: url(../img/bgcolor-Insite.png)!important;
+}
+
+.report-logo {
+  background-image: url(../img/insite.png)!important;
+  background-size: 208px!important;
+  min-height: 90px!important;
+}
+
+.report-rating .test-rating .set i.icon-circle:before, .report-rating .test-rating .set i.icon-circle-half:before {
+  background-color: #EE1C24!important;
+}
+
+span.test-rating {
+    color: #EE1C24!important;
+}

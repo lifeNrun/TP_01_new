@@ -1,0 +1,24 @@
+This document provides the guidelines while working on this application.
+
+1. As much as possible user AngularJS and not jQuery. This is an 
+AngularJS application and chances are that what you want to achieve 
+using jQuery can be done using AngularJS too.
+
+2. While writing code, use 2 or 4 space indents, not more. For files 
+that you create, go with 4 space indentations. Else, go with the 
+indentation that is already present in the file.
+
+3. Comment your code as much as possible. Remember that your 
+application could be enhanced later by some other developer.
+
+4. Follow the directory structure of the application. Do not place 
+files and folders in any arbitrary folder - understand the application structure and 
+place them accordingly. The directory structure has been borrowed from the AngularJS - 
+Express seed repository:
+https://github.com/btford/angular-express-seed#directory-layout
+
+5. Make as little use of custom CSS as possible. This application has been built using
+Twitter Bootstrap CSS and thus you are expected to take full advantage of the existing
+bootstrap classes before defining your own.
+
+6. No inline styling. No inline javascript.

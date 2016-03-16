@@ -1,0 +1,104 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h2>Share survey as a link</h2>                        
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Include Brand Logo :
+                    </div>
+                    <div class="span10">
+                        <label class="checkbox">
+                            <input type="checkbox" data-ng-model="includeLogo">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Product Test Name :
+                    </div>
+                    <div class="span10" data-ng-bind="weartest.name"></div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Product Test End Date :
+                    </div>
+                    <div class="span10" data-ng-bind="weartest.wearTestEndDate | UTCDate:'MM/dd/yy'"></div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Survey Name :
+                    </div>
+                    <div class="span10" data-ng-bind="survey.name"></div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        To :
+                    </div>
+                    <div class="span10">
+                        <textarea data-ng-model="email.to" data-ng-list rows="3" class="span12" placeholder="Comma seperated list of email addresses"></textarea>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Subject :
+                    </div>
+                    <div class="span10">
+                        <input type="text" data-ng-model="email.subject" class="span12">
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span2 text-right">
+                        Body :
+                    </div>
+                    <div class="span10">
+                        <textarea ng-model="email.body" rows="15" class="span12" data-ui-tinymce on-blur="updateBody()"></textarea>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span10 offset2 muted">
+                        Please copy and paste the following &lt;&#37;unique_survey_link&#37;&gt; where you would like to insert the link into the body of your email. The link is automatically updated with the survey name. <br>Example: <span class="text-info">Please click on the following &lt;&#37;unique_survey_link&#37;&gt; and complete.</span>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span10 offset2">
+                        <button class="btn btn-primary btn-orange" data-ng-click="sendEmail()">Send Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div modal="showSuccessModal" close="closeSuccessModal()" options="successModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeSuccessModal()" aria-hidden="true">&times;</button>
+        <h3 class="text-center">Success</h3>
+    </div>
+
+    <div class="modal-body">
+        <h3 class="text-center text-orange">
+            Emails sent successfully.
+        </h3>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn" ng-click="closeSuccessModal()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="goBack()">Go back to Product Test</button>
+    </div>
+</div>

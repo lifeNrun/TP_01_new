@@ -1,0 +1,84 @@
+<!-- 
+	Creation of a new Image Set.
+	Template for directive that allows creation of a new
+	Image Set
+ -->
+
+<div class="row-fluid">
+	<div class="span12">
+		<p class="text-center">
+			<button class="btn btn-large btn-inverse" ng-click="openCreationModal()">
+				<i class="icon-plus-sign"></i> New Imageset
+			</button>
+		</p>
+	</div>
+</div>
+
+<!-- Modal that allows creation of new Image Set -->
+<div modal="showCreateModal" close="closeCreationModal()" options="modalOptions">
+	<div class="modal-header">
+		<h3 class="text-center">New ImageSet Info</h3>
+	</div>
+
+	<div class="modal-body" ng-hide="creationSuccess">
+		<div class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label">Name</label>
+				<div class="controls">
+					<input type="text" ng-model="newImageSet.name" placeholder="Name">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Description</label>
+				<div class="controls">
+					<textarea ng-model="newImageSet.description" placeholder="Description" rows="5"></textarea>
+				</div>
+			</div>	  
+			<div class="control-group">
+				<label class="control-label">Tags</label>
+				<div class="controls">
+					<input type="text" ng-model="newImageSet.tags" placeholder="Enter tags seperated by a comma" ng-list>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Status</label>
+				<div class="controls">
+					<select ng-model="newImageSet.status" ng-options="option.value as option.name for option in imageSetStatuses"></select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Type</label>
+				<div class="controls">
+					<select ng-model="newImageSet.type" ng-options="option.value as option.name for option in imageSetTypes"></select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<!-- Displayed when creation results in an error -->
+		<div class="text-center" ng-show="creationFailure">
+			<p class="text-error">
+				Error during Image Set Creation. Check logs.
+			</p>
+		</div>
+
+		<!-- Displayed when creation has not been triggered yet / Error occurred during creation -->
+		<div class="text-center" ng-hide="creationSuccess">
+			<button type="button" class="btn" ng-click="closeCreationModal()">
+				Cancel
+			</button>
+			<button type="button" class="btn btn-primary" ng-click="createNewImageSet()" ng-disabled="creationInProgress">
+				<span ng-hide="creationInProgress">Create ImageSet</span>
+				<span ng-show="creationInProgress">Creating...</span>
+			</button>
+		</div>
+
+		<!-- Displayed when creation is a success -->
+		<div ng-show="creationSuccess">
+			<h3 class="text-center text-success">
+				Image Set created successfully. You will now be redirected to the newly created Image Set
+			</h3>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,41 @@
+<form class="fileupload" action="" method="POST" enctype="multipart/form-data">
+
+	<div class="dropzone">
+
+		<div class="droptext">Drop Images Here</div>
+		<div class="droptext smaller">or</div>
+		<button class="btn btn-success btn-large btn-addimages">
+			<i class="icon-plus"></i>
+			<span>Add Images</span>
+		</button>
+
+		<div class="pending-images clearfix" ng-show="pendingImages && pendingImages.length">
+			<h2>Pending Images</h2>
+			<div class="note">Note: These images are not uploaded to the server until you click the 'Upload' button below</div>
+
+			<div class="progress progress-striped active">
+				<div class="bar" style="width: {{uploadProgress}}%;">
+				</div>
+			</div>
+
+			<div class="row-fluid">
+				<ul class="thumbnails">
+					<li ng-repeat="pendingImage in pendingImages" class="span3">
+						<div class="thumbnail">
+							<img ng-src="{{pendingImage.src}}" alt="{{pendingImage.name}}" />
+							<h3>{{pendingImage.name}}</h3>
+							<a href="" ng-click="removeImage(pendingImage.id)" type="button" class="span11 text-center">Remove Image</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="clearfix">
+				<button class="btn btn-success btn-large btn-upload" ng-click="uploadImages($event)" ng-disabled="uploading">Upload</button>
+				<button class="btn btn-danger btn-large btn-cancel" ng-click="cancelUpload($event)">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+	<input class="fileinput" type="file" name="files[]" multiple />  
+</form>

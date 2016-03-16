@@ -1,0 +1,43 @@
+<!-- send message tester modal -->
+<div id="tester-send-message" eat-click>
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="close()">&times;</button>
+		<h3>Send Message <i class="icon-info-sign" rel="tooltip" title="Admin - this will send a notification to Mesh01<br>Brand - You will be able to select a test and send a notification to the test sponsor" data-placement="right"></i></h3>
+	</div>
+	<div class="modal-body">
+		<div id="message-to" class="row-fluid">
+				<label ng-show="errorMessage" style="color:red;">{{errorMessage}}</label>
+		</div>
+		<div id="message-to" class="row-fluid">
+			<div class="span4 text-right"><label>To : </label></div>
+			<div class="span8">
+				<select id="message-from-me-to" ng-model="message.userType" ng-change="fillWearTest()">
+					<option></option>
+					<option value="Admin">Admin</option>
+					<option value="Brand">Brand</option>
+				</select>
+     </div>
+		</div>
+
+		<div id="message-product-test"
+		class="row-fluid" ng-show="message.userType == 'Brand'">
+			<div class="span4 text-right"><label>Product Test : </label></div>
+			<div class="span8">
+				<select  ng-model="message.wearTest" ng-options="option as option.name for option in wearTests"></select>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span4 text-right"><label>Subject : </label></div>
+			<div class="span8"><input type="text" ng-model="message.title" ></div>
+		</div>
+		<div class="row-fluid">
+			<div class="span4 text-right"><label>Message : </label></div>
+			<div class="span8"><textarea class="span12" rows="5" ng-model="message.body"></textarea></div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="" class="btn" data-dismiss="modal" aria-hidden="true" ng-click="close()" >Close</a>
+		<a href="" ng-hide="isSendingMessage"  class="btn btn-primary" ng-click="send(message)" >Send</a>
+		<span ng-show="isSendingMessage">Sending message...</span>
+	</div>
+</div>

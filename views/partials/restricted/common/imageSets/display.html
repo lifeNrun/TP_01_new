@@ -1,0 +1,152 @@
+    <!-- Displays existing imagesets -->
+
+    <div class="row-fluid">
+        <div class="span12">
+            There are {{tableEntries.length}} imageSets
+
+            <!-- only called fillter-logs to use same style -->
+            <div class="pull-right">
+                <div class="input-prepend">
+                <span class="add-on"><i class="icon-filter"></i></span>
+                <input class="input-medium" type="text" placeholder="Filter Image Sets on this page" ng-model="searchText">
+                </div>
+            </div> 
+
+            <table class="table table-condensed" ng-hide="loadingData" data-infinite-scroll="increaseDisplayLimit()">
+                <thead>
+                    <tr>
+                        <th ng-repeat="entry in headerFields">
+                            {{entry.name}}
+                        </th>
+                        <!-- For Viewing the entry -->
+                        <th ng-show="allowViewing">
+                            View
+                        </th>
+                        <!-- For deleting the entry -->
+                        <th ng-show="allowDeletion">
+                            Delete
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody ng-hide="noEntriesToDisplay"> 
+                    <!-- <tr ng-repeat="entry in visibleData | filter:searchImageSets   "> -->
+                    <tr ng-repeat="entry in tableEntries | filter:searchText | orderBy: '-createdDate' | limitTo:imagesetDisplayLimit">
+                        <td ng-repeat="item in headerFields" ng-class="{'span2': item.name == 'cover photo'}">
+                            <div ng-switch on="item.name">
+                                <!-- Image Set Cover Photo -->
+                                <div ng-switch-when="cover photo">
+                                    <a ng-href="{{entry.coverPhoto}}">
+                                        <img ng-src="{{getScaledImage(entry.coverPhoto,'w_100', 'h_100')}}" class="thumbnail cover-photo">
+                                    </a>
+                        
+                                </div>
+
+                                <!-- Name and count of images -->
+                                <div ng-switch-when="name / count">
+                                    {{entry.name}}<br/>
+                                    # of images : {{entry.images.length}}
+                                    <br> id: {{entry._id}} 
+
+                                </div>
+                                <div ng-switch-when="description">
+                                    {{entry.description}}<br>
+                                    <br> CreatedDate: {{entry.createdDate}}
+                                    <br>ModifiedDate: {{entry.modifiedDate}}
+                                    <br>createdby: {{entry.createUsername}}
+                                </div>
+
+                                <!-- Image Set Tags -->
+                                <div ng-switch-when="tags">
+                                    <ul>
+                                        <li ng-repeat="tag in entry.tags">
+                                            {{tag}} 
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Status / Type -->
+                                <div ng-switch-when="status / type">
+                                    {{entry.status}}
+                                    <br>
+                                    <br>
+                                    <br>
+                                    {{entry.type}}
+                                </div>
+
+                                <!-- Other Attributes of the Image Set -->
+                                <div ng-switch-default>
+                                    {{entry[item.name]}}
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- View the Entry -->
+                        <td ng-show="allowViewing">
+                            <button type="button" class="btn" ng-click="displayEntry(entry._id)">
+                                <i class="icon-zoom-in"></i>
+                            </button>
+                        </td>
+
+                        <!-- Delete the Entry -->
+                        <td ng-show="allowDeletion">
+                            <button type="button" class="btn btn-danger" ng-click="openConfirmDeletionModal(entry._id)">
+                                <i class="icon-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody ng-show="noEntriesToDisplay">
+                    <tr>
+                        <td colspan="{{getTotalColumnLength()}}">
+                            <h3 class="text-center">
+                                No entries to display
+                            </h3>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h1 class="text-center" ng-show="loadingData">
+                <i class="icon-spinner icon-spin"></i>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Confirm Deletion -->
+    <div modal="showConfirmModal" close="closeConfirmDeletionModal()" options="modalOptions">
+        <div class="modal-header">
+            <h3 class="text-center">Confirm Action</h3>
+        </div>
+
+        <div class="modal-body" ng-hide="deletionSuccess">
+            <p class="text-center text-error">
+                Are you sure you want to delete this Image Set?
+            </p>
+        </div>
+
+        <div class="modal-footer">
+
+            <div class="text-center" ng-show="deletionFailure">
+                <p class="text-error">
+                    Error during Image Set Creation. Check logs.
+                </p>
+            </div>
+
+            <p class="text-right" ng-hide="deletionSuccess">
+                <button type="button" class="btn" ng-click="closeConfirmDeletionModal()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-dange" ng-click="deleteEntry()" ng-disabled="deletionInProgress">
+                    <span ng-hide="deletionInProgress">Delete</span>
+                    <span ng-show="deletionInProgress">Deleting</span>
+                </button>
+            </p>
+
+            <div class="modal-body" ng-show="deletionSuccess">
+                <h3 class="text-center text-success">
+                    Image Set deleted successfully
+                </h3>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,262 @@
+{
+	"answers": {
+		"Endpoint": "/answers",
+		"Columns": [
+			{"label": "Survey ID", "name": "surveyId", "sortable": true },
+			{"label": "ImageSet ID", "name": "imageSetId", "sortable": true },
+			{"label": "Free form Text", "name": "freeFormText", "sortable": true },
+			{"label": "Scalar Value", "name": "scalarValue", "sortable": true }
+			],
+		"DetailColumns": [
+			{"label": "Survey", "name": "surveyId", "editable": true },
+			{"label": "Image Set", "name": "imageSetId", "editable": true, "type": "imageSet"},
+			{"label": "Free form text", "name": "freeFormText", "editable": true },
+			{"label": "Scalar value", "name": "scalarValue", "editable": true },
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+			]
+	},
+	"users" : {
+		"Endpoint": "/users",
+		"Columns": [
+			{"label": "Type", "name": "utype", "sortable": true },
+			{"label": "FirstName", "name": "fname", "sortable": true },
+			{"label": "LastName", "name": "lname", "sortable": true },
+			{"label": "Username", "name": "username", "sortable": true },
+			{"label": "Created", "name": "createdDate", "sortable": true },
+			{"label": "email", "name": "email", "editable": true }
+			],
+		"DetailColumns": [
+			{"label": "First Name", "name": "fname", "editable": true },
+			{"label": "Last Name", "name": "lname", "editable": true },
+			{"label": "Username", "name": "username", "editable": true },
+			{"label": "Type", "name": "utype", "editable": true },
+			{"label": "email", "name": "email", "editable": true },
+			{"label": "company", "name": "company", "editable": true },
+			{"label": "BirthDate", "name": "dob", "editable": true, "type": "date"},
+			{"label": "Gender", "name": "gender", "editable": true },
+			{"label": "Completed?", "name": "isCompleted", "editable": true },
+			{"label": "State", "name": "state", "editable": true },
+			{"label": "City", "name": "city", "editable": true },
+			{"label": "Address", "name": "address", "editable": true },
+			{"label": "Brand Association", "name": "brandAssociation", "editable": true, "type": "Array"},
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }]
+	},
+	"wearTests" : {
+		"Endpoint": "/weartest",
+		"Columns": [
+			{"label": "Brand", "name": "brand", "sortable": true },
+			{"label": "Description", "name": "description", "sortable": true },
+			{"label": "Name", "name": "name", "sortable": true },
+			{"label": "Owner", "name": "owner", "sortable": true },
+			{"label": "Status", "name": "status", "sortable": true },
+			{"label": "Compensation", "name": "compensation", "sortable": true }
+			],
+		"DetailColumns": [
+			{"label": "Brand", "name": "brand", "editable": true },
+			{"label": "Name", "name": "name", "editable": true },
+			{"label": "Status", "name": "status", "editable": true },
+			{"label": "Category", "name": "category", "editable": true },
+			{"label": "Compensation", "name": "compensation", "editable": true },
+			{"label": "Consumer Overview", "name": "consumerOverview", "editable": true },
+			{"label": "Description", "name": "description", "editable": true },
+			{"label": "Key Selling features", "name": "keySellingFeatures", "editable": true },
+			{"label": "Wear Test Start Date", "name": "wearTestStartDate", "editable" : true, "type": "date"},
+			{"label": "Wear Test End Date", "name": "wearTestEndDate", "editable" : true, "type": "date"},
+			{"label": "Wear Test Overview", "name": "wearTestOverview", "editable": true },
+			{"label": "participants", "name": "participants", "editable": true, "type": "Array" },
+			{"label": "Pos. Statement Product Story", "name": "positioningStatementProductStory", "editable": true },
+			{"label": "Owner", "name": "owner", "editable": true },
+			{"label": "Brand Association", "name": "brandAssociation", "editable": true, "type": "Array" },
+			{"label": "Allow Videos", "name": "allowVideos", "editable": true,"type": "Boolean"},
+			{"label": "Materials", "name": "materials", "editable": true },
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+			]
+	},
+	"surveys": {
+		"Endpoint": "/surveys",
+		"Columns": [
+			{"label": "name", "name": "name", "sortable": true },
+			{"label": "description", "name": "description", "sortable": true },
+			{"label": "type", "name": "type", "sortable": true },
+			{"label": "Created", "name": "createdDate", "sortable": true }
+			],
+		"DetailColumns": [
+			{"label": "Type", "name": "type", "editable": true },
+			{"label": "Name", "name": "name", "editable": true },
+			{"label": "Description", "name": "description", "editable": true },
+			{"label": "type", "name": "type", "editable": true},
+			{"label": "status", "name": "status", "editable": true},
+			{"label": "allowed", "name": "allowed", "editable": true},
+			{"label": "isPublic", "name": "isPublic", "editable": true,"type": "Boolean"},
+			{"label": "activity", "name": "activity", "editable": true},
+			{"label": "category", "name": "category", "editable": true},
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+			]
+	},
+	"imagesets": {
+		"Endpoint": "/imagesets",
+		"Columns": [
+			{"label": "name", "name": "name", "sortable": true },
+			{"label": "description", "name": "description", "sortable": true },
+			{"label": "status", "name": "status", "sortable": true },
+			{"label": "type", "name": "type", "sortable": true },
+			{"label": "Created Date", "name": "createdDate", "sortable": true, "type": "date"}
+			],
+		"DetailColumns": [
+			{"label": "Name", "name": "name", "editable": true },
+			{"label": "Status", "name": "status", "editable": true },
+			{"label": "Type", "name": "type", "editable": true },
+			{"label": "Description", "name": "description", "editable": true },
+			{"label": "Cover Photo", "name": "coverPhoto", "editable": true },
+			{"label": "images", "name": "images", "editable": false },
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false },
+			{"label": "Link", "name": "_id", "editable": false, "type": "myurl"},
+			{"label": "cover Photo", "name": "coverPhoto", "editable": false, "type": "mycoverPhoto"}
+			]
+	},
+	"blogContents": {
+		"Endpoint": "/blogContents",
+		"Columns": [
+			{"label": "Title", "name": "title", "sortable": true },
+			{"label": "Body", "name": "body", "sortable": true }
+
+		],
+		"DetailColumns": [
+			{"label": "Title", "name": "title", "editable": true },
+			{"label": "Location", "name": "location", "editable": true },
+			{"label": "Body", "name": "body", "editable": true },
+			{"label": "Status", "name": "status", "editable": true },
+			{"label": "Subject", "name": "subject", "editable": true },
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+		]
+	},
+	"messages": {
+		"Endpoint": "/messages",
+		"Columns": [
+			{"label": "title", "name": "title", "sortable": true},
+			{"label": "body", "name": "body", "sortable": true},
+			{"label": "fromUsername", "name": "fromUsername", "sortable": true},
+			{"label": "toUsername", "name": "toUsername", "sortable": true},
+			{"label": "toUserType", "name": "toUserType", "sortable": true},
+			{"label": "isRead", "name": "isRead", "sortable": true}
+		],
+		"DetailColumns": [
+			{"label": "title", "name": "title", "editable": true},
+			{"label": "body", "name": "body", "editable": true},
+			{"label": "parentMessageId", "name": "parentMessageId", "editable": true},
+			{"label": "fromUser", "name": "fromUser", "editable": true},
+			{"label": "fromUsername", "name": "fromUsername", "editable": true},
+			{"label": "toUser", "name": "toUser", "editable": true},
+			{"label": "toUsername", "name": "toUsername", "editable": true},
+			{"label": "toUserType", "name": "toUserType", "editable": true},
+			{"label": "roomType", "name": "roomType", "editable": true},
+			{"label": "broadcast", "name": "broadcast", "editable": true},
+			{"label": "hasResponse", "name": "hasResponse", "editable": true},
+			{"label": "isRead", "name": "isRead", "editable": true},
+			{"label": "isStiky", "name": "isStiky", "editable": true},
+			{"label": "stikyExpirationDate", "name": "stikyExpirationDate", "editable": true},
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+		]
+	},
+	"activityLogs": {
+		"Endpoint": "/activityLogs",
+		"Columns": [
+			{"label": "userId", "name": "userId", "sortable": true},
+			{"label": "wearTests", "name": "wearTests", "sortable": true},
+			{"label": "activityDate", "name": "activityDate", "sortable": true},
+			{"label": "notes", "name": "notes", "sortable": true},
+			{"label": "activityType", "name": "activityType", "sortable": true}
+		],
+		"DetailColumns": [
+			{"label": "userId", "name": "userId", "editable": true},
+			{"label": "wearTests", "name": "wearTests", "editable": true},
+			{"label": "activityDate", "name": "activityDate", "editable": true},
+			{"label": "conditions", "name": "conditions", "editable": true},
+			{"label": "intensity", "name": "intensity", "editable": true},
+			{"label": "temperature", "name": "temperature", "editable": true},
+			{"label": "temperatureUnits", "name": "temperatureUnits", "editable": true},
+			{"label": "durationHours", "name": "durationHours", "editable": true},
+			{"label": "durationMinutes", "name": "durationMinutes", "editable": true},
+			{"label": "distance", "name": "distance", "editable": true},
+			{"label": "distanceUnits", "name": "distanceUnits", "editable": true},
+			{"label": "notes", "name": "notes", "editable": true},
+			{"label": "activityType", "name": "activityType", "editable": true},
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+		]
+
+	},
+	"surveys_submitted": {
+		"Endpoint": "/surveys_submitted",
+		"Columns": [
+			{"label": "surveyName", "name": "surveyName", "value":"wearTestName", "sortable": true },
+			{"label": "surveyType", "name": "surveyType", "value":"wearTestName", "sortable": true },
+			{"label": "CreateUsername", "name": "createUsername", "sortable": true },
+			{"label": "CreatedDate", "name": "createdDate", "sortable": true }
+
+		],
+		"DetailColumns": [
+			{"label": "SurveyId", "name": "surveyId",  "value":"surveyName", "editable": true },
+			{"label": "Survey Name", "name": "surveyName", "editable": false },
+			{"label": "WeartestId", "name": "weartestId", "value":"wearTestName",  "editable": true },
+			{"label": "WearTest Name", "name": "wearTestName", "editable": false },
+			{"label": "surveyName", "name": "surveyName", "value":"wearTestName", "editable": false },
+			{"label": "surveyType", "name": "surveyType", "value":"wearTestName", "editable": false },
+			{"label": "Modified Date", "name": "modifiedDate", "editable": false, "type": "date"},
+			{"label": "Modified By", "name": "modifiedUsername", "editable": false },
+			{"label": "Modified By Id", "name": "modifiedUserId", "editable": false },
+			{"label": "Created Date", "name": "createdDate", "editable": false, "type": "date"},
+			{"label": "Created By", "name": "createUsername", "editable": false },
+			{"label": "Created By Id", "name": "createUserId", "editable": false },
+			{"label": "ID", "name": "_id", "editable": false }
+
+		]
+	}
+}

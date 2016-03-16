@@ -1,0 +1,156 @@
+<!--
+This is the page that loads when the administrator clicks on the
+Correction Reports Item in the administrator's dashboard
+-->
+
+<div id="content">
+	<div class="wrap full">
+		<div class="row-fluid">
+			<div class="span12">
+				&nbsp;
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span11 offset1">
+				<p class="text-success">
+					This section deals with issues that crop up in production. This section contains reports that when executed, fix the concerned issue.
+				</p>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span12">
+				&nbsp;
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span6 offset3">
+				<div class="form-inline">
+					<label>Analyze Github issue # </label>
+					<select ng-model="issueToBeCorrected" ng-options="ticket for ticket in issues" class="span2">
+					</select>
+					<button type="button" class="btn btn-primary" ng-click="loadReportForTicket()" ng-disabled="!issueToBeCorrected">Load</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span12">
+				&nbsp;
+			</div>
+		</div>
+
+		<div class="row-fluid" ng-show="loading">
+			<div class="span12">
+				<h1 class="text-center"><i class="icon-spinner icon-spin"></i></h1>
+			</div>
+		</div>
+
+		<div class="row-fluid" ng-hide="loading" ng-show="getWeartestId">
+			<div class="span6 offset3">
+				<div class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="weartest-id">Product Test ID</label>
+						<div class="controls">
+							<input type="text" ng-model="weartestForDuplicateParticipants" id="weartest-id">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button class="btn btn-inverse" ng-click="prepareFor568()">Continue</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row-fluid" ng-hide="loading" ng-show="show448Details">
+			<div class="span10 offset1">
+				<table class="table">
+					<caption class="text-error">
+						Table contains surveys (of type Activity and Wear Test Survey) which have questions with duplicate IDs
+					</caption>
+					<thead>
+						<tr>
+							<th>Survey ID</th>
+							<th>Survey Name</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="survey in rogueSurveys">
+							<td>{{survey}}</td>
+							<td>{{getNameForSurvey(survey)}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<table class="table">
+					<caption class="text-error">
+						Table contains above surveys which also have answers associated with them
+					</caption>
+					<thead>
+						<tr>
+							<th>Survey ID</th>
+							<th>Survey Name</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="survey in rogueAnswers">
+							<td>{{survey}}</td>
+							<td>{{getNameForSurvey(survey)}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<table class="table">
+					<caption class="text-error">
+						Table contains the users who have submitted the answers for the above rogue surveys
+					</caption>
+					<thead>
+						<thead>
+							<tr>
+								<th>User ID</th>
+								<th>Username</th>
+								<th>Name of Survey Submitted</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr ng-repeat="user in affectedUsers">
+								<td>{{user._id}}</td>
+								<td>{{user.username}}</td>
+								<td>{{getSurveysSubmittedByUser(user._id)}}</td>
+							</tr>
+						</tbody>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span12">
+				&nbsp;
+			</div>
+		</div>
+
+<!-- 		<div class="row-fluid" ng-show="show448Details">
+			<div class="span12 text-center">
+				<button type="button" class="btn btn-danger">
+					<i class="icon-exclamation-sign"></i> Correct Surveys (And Answers)
+				</button>
+			</div>
+		</div> -->
+
+		<div class="row-fluid">
+			<div class="span12">
+				&nbsp;
+			</div>
+		</div>
+	</div>
+</div>

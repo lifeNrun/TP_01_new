@@ -1,0 +1,62 @@
+<div modal="display" close="closeInfoModal()" options="dialogOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="closeInfoModal()">&times;</button>
+		<h3>{{wearTestDetails.name}}</h3>
+	</div>
+	<div class="modal-body" id="testPreview">
+	
+		<div class="row-fluid half-border">
+			<div class="span6">
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.activity, orange: wearTestDetails.activity}">Activity</dt>
+					<dd> {{wearTestDetails.activity.join(', ')}}</dd>
+				</dl>
+				<dl class="preview">
+					<dt  ng-class="{disabled: !wearTestDetails.requiredNumberofTesters, orange: wearTestDetails.requiredNumberofTesters}">Required Testers</dt>
+					<dd> {{wearTestDetails.requiredNumberofTesters}}</dd>
+				</dl>
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.cashCompensation && !wearTestDetails.compensation, orange: wearTestDetails.cashCompensation || wearTestDetails.compensation}">Compensation</dt>
+					<dd>{{wearTestDetails.cashCompensation}}</dd>
+					<dd>{{wearTestDetails.compensation}}</dd>
+				</dl>
+			</div>
+			<div class="span6">
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.registrationDeadline, orange: wearTestDetails.registrationDeadline}">Registration Deadline</dt>
+					<dd> {{wearTestDetails.registrationDeadline | UTCDate:'MM/dd/yyyy'}}</dd>
+				</dl>
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.draftDate, orange: wearTestDetails.draftDate}">Draft Date</dt>
+					<dd>{{wearTestDetails.draftDate | UTCDate:'MM/dd/yyyy'}}</dd>
+				</dl>
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.wearTestStartDate, orange: wearTestDetails.wearTestStartDate}">Test Start Date</dt>
+					<dd> {{wearTestDetails.wearTestStartDate | UTCDate:'MM/dd/yyyy'}}</dd>
+				</dl>
+				<dl class="preview">
+					<dt ng-class="{disabled: !wearTestDetails.wearTestEndDate, orange: wearTestDetails.wearTestEndDate}">Test End Date</dt>
+					<dd> {{wearTestDetails.wearTestEndDate | UTCDate:'MM/dd/yyyy'}}</dd>
+				</dl>
+			</div>
+		</div>
+		
+		<div class="row-fluid">
+			<dl class="preview">
+				<dt ng-class="{disabled: !wearTestDetails.wearTestOverview, orange: wearTestDetails.wearTestOverview}">Product Test Overview</dt>
+					<dd ng-bind-html-unsafe="wearTestDetails.wearTestOverview"></dd>
+				</dl>
+			<dl class="preview">
+				<dt ng-class="{disabled: !wearTestDetails.expectationsOverview, orange: wearTestDetails.expectationsOverview}">Expectations Overview</dt>
+				<dd ng-bind-html-unsafe="wearTestDetails.expectationsOverview"></dd>
+			</dl>
+			<dl class="preview">
+				<dt ng-class="{disabled: !wearTestDetails.companyOverview, orange: wearTestDetails.companyOverview}">Company Overview</dt>
+				<dd ng-bind-html-unsafe="wearTestDetails.companyOverview"></dd>
+			</dl>
+		</div>			
+	</div>
+	<div class="modal-footer">
+		<a href="" class="btn" ng-click="closeInfoModal()">Close</a>
+	</div>
+</div>

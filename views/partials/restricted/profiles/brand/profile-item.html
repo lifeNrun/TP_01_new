@@ -1,0 +1,57 @@
+    <div id="content">
+    <div class="wrap full">
+        <div class="tab-content">
+
+            <div class="row top-row row-plain" ng-switch on="status.editing">
+                <div ng-switch-when="true">
+                    <brand-profile-edit-item user-info="userInfo" editing="status.editing" on-update="onUpdate()" on-discard="onDiscard()" user-image-set-details="userImageSetDetails">
+                    </brand-profile-edit-item>
+                </div>
+                <div ng-switch-default>
+
+                    <div class="relative">
+                        <h3 class="brandPageTitle orange">Profile
+                        <!-- Profile Change Password -->
+                             <profile-change-password  update-info="fetchUserDetails">
+                             </profile-change-password>
+                       </h3>
+                        <div class="top-right onPageTitle">
+                            <a href ng-click="startEditing()" class="btn btn-small btn-gray btn-primary"><i class="icon-pencil icon-white"></i> Edit </a>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <h2 class="brandPageTitle">{{userInfo.company}}</h2>
+
+                            <div ng-show="userInfo.website">
+                                <strong>Website:</strong><br>
+                                <a ng-href="{{userInfo.website}}">{{userInfo.website}}</a>
+                            </div>
+                        </div>
+
+                        <div class="span9">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div ng-show="userImageSetDetails.coverPhoto">
+                                        <img ng-src="{{getScaledImage(userImageSetDetails.coverPhoto, 'w_57', 'h_57')}}"/>
+                                    </div>
+                                    <div ng-hide="userImageSetDetails.coverPhoto">
+                                        <img src="/img/no-image.png"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block">
+                                <h3>ABOUT</h3>
+                                <p ng-bind-html="userInfo.companyOverview"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>

@@ -1,0 +1,775 @@
+<div id="content">
+<!-- Breaking Indentation to compromise with readability -->
+<div class="wrap full">
+<weartest-mode></weartest-mode>
+
+<div class="tab-content">
+<div class="row top-row">
+
+<weartest-header></weartest-header>
+
+<div id="resultActions" class="relative">
+    <div class="row-fluid">
+        <div class="span5">
+            <div class="displayed-cols btn-group" data-ng-hide="hideActions()">
+                <button class="btn btn-primary btn-gray main-controls dropdown-toggle" data-toggle="dropdown">
+                    Bulk Actions
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li data-ng-repeat="action in possibleActions">
+                        <a href="" data-ng-bind="action.value" data-ng-click="executeAction(action.key)"></a>
+                    </li>
+                </ul>
+                <!-- <label>Bulk Actions:</label>
+                <select id="bulk-actions" data-ng-model="actionSelected" data-ng-change="executeAction()" data-ng-options="action.key as action.value for action in possibleActions">
+                    <option value="">with selected...</option>
+                </select> -->
+            </div>
+        </div>
+        <div class="span7 text-right roster-controls">
+            <button class="btn btn-primary btn-orange btn-small" data-ng-show="showDataExport()" download="addresses.csv" assist-with-export>
+                Address Export
+            </button>
+            <button class="btn btn-primary btn-orange btn-small" ng-click="openAddTesterModal()">
+                Add Tester
+            </button>
+            <a class="btn btn-primary btn-orange btn-small" data-once-href="getDraftLink()">
+                Go to Draft <i class="icon-chevron-right icon-white"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="displayed-cols btn-group">
+            <button class="btn btn-primary btn-gray main-controls dropdown-toggle" data-toggle="dropdown">
+                Filters
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" dropdown-form>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'on team')" data-ng-checked="isParticipantStatus('on team')"> On Team
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'confirmed')" data-ng-checked="isParticipantStatus('confirmed')"> Confirmed
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'invited')" data-ng-checked="isParticipantStatus('invited')"> Invited
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'drafted')" data-ng-checked="isStatusSelected('drafted')"> Drafted
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'requested')" data-ng-checked="isParticipantStatus('requested')"> Requested
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'unregistered')" data-ng-checked="isParticipantStatus('unregistered')"> Not Registered
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'team full')" data-ng-checked="isParticipantStatus('team full')"> Test is full
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'removed')" data-ng-checked="isParticipantStatus('removed')"> Removed
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleStatusFilter($event, 'declined')" data-ng-checked="isParticipantStatus('declined')"> Declined
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div class="displayed-cols btn-group pull-right">
+            <button class="btn btn-primary btn-gray main-controls dropdown-toggle" data-toggle="dropdown">
+                Additional Columns
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" dropdown-form>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'shoeSize')"> Shoe Size
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'shoeWidthStr')"> Shoe Width
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'shirtSize')"> Shirt Size
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'jacketSize')"> Jacket Size
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'pantSize')"> Pant Size
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'gloveSize')"> Glove Size
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'gender')"> Gender
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'sleeveLength')"> Sleeve Length
+                    </label>
+                </li>
+                <li>
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-click="toggleColumnDisplay($event, 'neckMeasurement')"> Neck Size
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div id="tableBrandRoster" class="row-fluid">
+    <table class="brand table-inline">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" class="checkall" data-ng-click="selectAll($event)" data-ng-checked="isSelectedAll()" data-ng-disabled="isParticipantStatus('unregistered')">
+                </th>
+                <th>
+                    Notes
+                </th>
+                <th>
+                    <a href="" data-ng-class="{sort: isSortOrder('username'), 'up': isSortOrder('username', 'ascending')}" data-ng-click="setSortOrder('username')">
+                        Tester
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('shoeSize')">
+                    <a href="" data-ng-class="{sort: isSortOrder('shoeSize'), 'up': isSortOrder('shoeSize', 'ascending')}" data-ng-click="setSortOrder('shoeSize')">
+                        Shoe Size
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('shoeWidthStr')">
+                    <a href="" data-ng-class="{sort: isSortOrder('shoeWidthStr'), 'up': isSortOrder('shoeWidthStr', 'ascending')}" data-ng-click="setSortOrder('shoeWidthStr')">
+                        Shoe Width
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('shirtSize')">
+                    <a href="" data-ng-class="{sort: isSortOrder('shirtSize'), 'up': isSortOrder('shirtSize', 'ascending')}" data-ng-click="setSortOrder('shirtSize')">
+                        Shirt Size
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('jacketSize')">
+                    <a href="" data-ng-class="{sort: isSortOrder('jacketSize'), 'up': isSortOrder('jacketSize', 'ascending')}" data-ng-click="setSortOrder('jacketSize')">
+                        Jacket Size
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('pantSize')">
+                    <a href="" data-ng-class="{sort: isSortOrder('pantSize'), 'up': isSortOrder('pantSize', 'ascending')}" data-ng-click="setSortOrder('pantSize')">
+                        Pant Size
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('gloveSize')">
+                    <a href="" data-ng-class="{sort: isSortOrder('gloveSize'), 'up': isSortOrder('gloveSize', 'ascending')}" data-ng-click="setSortOrder('gloveSize')">
+                        Glove Size
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('gender')">
+                    <a href="" data-ng-class="{sort: isSortOrder('gender'), 'up': isSortOrder('gender', 'ascending')}" data-ng-click="setSortOrder('gender')">
+                        Gender
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('sleeveLength')">
+                    <a href="" data-ng-class="{sort: isSortOrder('sleeveLength'), 'up': isSortOrder('sleeveLength', 'ascending')}" data-ng-click="setSortOrder('sleeveLength')">
+                        Sleeve Length
+                    </a>
+                </th>
+                <th data-ng-if="isColumnShown('neckMeasurement')">
+                    <a href="" data-ng-class="{sort: isSortOrder('neckMeasurement'), 'up': isSortOrder('neckMeasurement', 'ascending')}" data-ng-click="setSortOrder('neckMeasurement')">
+                        Neck Size
+                    </a>
+                </th>
+                <th>
+                    <a href="" data-ng-class="{sort: isSortOrder('karma'), 'up': isSortOrder('karma', 'ascending')}" data-ng-click="setSortOrder('karma')">
+                        Karma
+                    </a>
+                </th>
+                <th>
+                    <a href="" data-ng-class="{sort: isSortOrder('scoreReceived'), 'up': isSortOrder('scoreReceived', 'ascending')}" data-ng-click="setSortOrder('scoreReceived')">
+                        Score
+                    </a>
+                </th>
+                <th>
+                    <a href="" data-ng-class="{sort: isSortOrder('testerStatus'), 'up': isSortOrder('testerStatus', 'ascending')}" data-ng-click="setSortOrder('testerStatus')">
+                        Tester Status
+                    </a>
+                </th>
+                <th>
+                    <a href="" data-ng-class="{sort: isSortOrder('productShipStatus'), 'up': isSortOrder('productShipStatus', 'ascending')}" data-ng-click="setSortOrder('productShipStatus')">
+                        Product
+                    </a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody data-ng-if="doesWeartestHaveParticipants()" infinite-scroll="increaseRosterDisplayLimit()">
+            <tr data-ng-repeat="tester in weartestFilteredParticipants | orderBy:predicate:rosterReverse | limitTo:rosterLimit">
+                <td>
+                    <input type="checkbox" class="roster" data-ng-checked="isSelected(tester.userIdkey)" data-ng-click="updateSelection($event, tester.userIdkey)" data-ng-disabled="isParticipantStatus('unregistered')">
+                </td>
+                <td class="notes">
+                    <img src="/img/notes.png" alt="Notes" class="pointer" data-toggle="tooltip" rel="tooltip" title="{{tester.notes}}" data-ng-click="openParticipantNotesModal(tester)" data-animation="false" data-content-rendered="{{tester.notes.length > 0}}" data-placement="right" data-ng-class="{'no-note': !tester.notes}" bootstrap-tooltip data-ng-hide="isParticipantStatus('unregistered')">
+                </td>
+                <td class="profile">
+                    <img src="/img/content/27x27.png" data-imageset-id="{{getImagesetForParticipant(tester)}}" data-image-width="27" data-image-height="27" data-image-mode="c_scale" data-process-image data-ng-mouseover="renderTooltip(tester)" tooltip-html-unsafe="{{getTooltipTemplateForUser(tester)}}" tooltip-placement="right" tooltip-animation="false" data-ng-hide="isParticipantStatus('unregistered')">
+                    <span data-once-text="tester.username" data-ng-dblclick="openTesterInfoModal(tester.userIdkey)"></span>
+                </td>
+                <td data-ng-if="isColumnShown('shoeSize')">
+                    <span data-once-text="getParticipantAttribute(tester, 'shoeSize')"></span> US
+                </td>
+                <td data-ng-if="isColumnShown('shoeWidthStr')">
+                    <span data-once-text="getParticipantAttribute(tester, 'shoeWidthStr')"></span>
+                </td>
+                <td data-ng-if="isColumnShown('shirtSize')">
+                    <span data-once-text="getParticipantAttribute(tester, 'shirtSize') | uppercase"></span>
+                </td>
+                <td data-ng-if="isColumnShown('jacketSize')">
+                    <span data-once-text="getParticipantAttribute(tester, 'jacketSize') | uppercase"></span>
+                </td>
+                <td data-ng-if="isColumnShown('pantSize')">
+                    <span data-once-text="getParticipantAttribute(tester, 'pantSize')"></span>
+                </td>
+                <td data-ng-if="isColumnShown('gloveSize')">
+                    <span data-once-text="getParticipantAttribute(tester, 'gloveSize')"></span>
+                </td>
+                <td data-ng-if="isColumnShown('gender')">
+                    <span data-once-text="getParticipantAttribute(tester, 'gender') | capitalize"></span>
+                </td>
+                <td data-ng-if="isColumnShown('sleeveLength')">
+                    <span data-once-text="getParticipantAttribute(tester, 'sleeveLength')"></span>
+                </td>
+                <td data-ng-if="isColumnShown('neckMeasurement')">
+                    <span data-once-text="getParticipantAttribute(tester, 'neckMeasurement')"></span>
+                </td>
+                <td>
+                    <a href="" data-ng-click="openKarmaModal(tester)" data-ng-hide="isParticipantStatus('unregistered')">
+                        <span data-ng-bind="getTesterKarma(tester)"></span>
+                    </a>
+                </td>
+                <td data-toggle="tooltip" rel="tooltip" data-html="true" data-container="#boxScore" data-placement="right" data-animation="false" title="{{getTesterProgressTooltip(tester)}}" data-content-rendered="{{tester.progressDetailsReady}}" bootstrap-tooltip>
+                    <span data-once-text="tester.scoreReceived || 0"></span> / <span data-once-text="weartest.availablePoints"></span>
+                </td>
+                <td>
+                    <span data-once-text="tester.status | capitalize"></span> since <span data-once-text="tester.testerStatusChangeDate | UTCDate:'MM/dd/yy'"></span>
+                </td>
+                <td>
+                    <a href="" data-ng-click="openProductStatusModal(tester)" data-ng-hide="isParticipantStatus('unregistered')">
+                        <span data-ng-bind="getTesterProductShippingStatus(tester) | capitalize"></span>
+                    </a>
+                    <span data-ng-show="getTesterProductShippingStatusChangeDate(tester) != ''">- set on </span>
+                    <span data-ng-bind="getTesterProductShippingStatusChangeDate(tester)"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="span11" data-ng-hide="doesWeartestHaveParticipants()">
+        <div class="alert alert-info" data-ng-show="participantFilter.length > 0">
+            <h4 class="text-center">
+            This Product Test has no participants with the <span data-ng-show="participantFilter.length <= 1">status</span><span data-ng-show="participantFilter.length > 1">statuses</span> '{{getValueOfKeyStatus()}}'
+            </h4>
+        </div>
+        <div class="alert alert-info" data-ng-show="participantFilter.length == 0">
+            <h4 class="text-center">
+                No status selected
+            </h4>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<div data-modal="showAddTesterModal" close="closeAddTesterModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeAddTesterModal()">&times;</button>
+        <h3>Add Tester</h3>
+    </div>
+
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span12">
+                <p class="help-block text-center">
+                    In order to find testers enter keywords such as name, username or email of the tester below
+                </p>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span8 offset2">
+                <input type="text" class="span12" ng-model="addTesterFilterInput" data-ng-disabled="loadingTesterUsers">
+            </div>
+        </div>
+
+        <!-- Breaking indentation to compromise with readability -->
+        <div data-ng-if="showTesterResults">
+            <div class="row-fluid" data-ng-repeat="user in testerUsers | filter:addTesterFilter | limitTo: 25 | orderBy: ['sortOrder'] ">
+                <div class="team-holder card">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p class="thumb">
+                                <img src="/img/content/brand_roster_image.png" alt="Profile Photo" class="img-polaroid" data-imageset-id="{{user.user_imageset}}" data-image-width="99" data-image-height="98" data-image-mode="c_fit" data-process-image />
+                            </p>
+                            <h3 class="left">ACTIVITIES</h3>
+                            <ul>
+                                <li ng-repeat="activity in user.summer">
+                                    <span data-once-text="activity | capitalize"></span>
+                                </li>
+                                <li ng-repeat="activity in user.winter">
+                                    <span data-once-text="activity | capitalize"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="span9">
+                            <h2>
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-click="changeUserDraftingStatus(user, $event)" ng-hide="isTesterAParticipant(user._id)">
+                                    <span data-once-show="isTesterAParticipant(user._id)">
+                                        (<span data-once-text="getStatusOfParticipant(user._id) | capitalize"></span>)
+                                    </span>
+                                    
+                                    <span data-once-text="getUserFullName(user)"></span> (<span data-once-text="user.username" class="text-info"></span>)
+                                    <span data-once-text="user.gender | capitalize"></span>
+                                    
+                                    <span data-once-show="user.dateOfBirth">
+                                        ,
+                                        <span data-once-text="getAgeFromBirthday(user.dateOfBirth)"></span>
+                                    </span>
+                                </label>
+                            </h2>
+                            <table class="table table-inline">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">LOCATION</th>
+                                        <th>HEIGHT</th>
+                                        <th>WEIGHT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <span data-once-show="user.address.length">
+                                                <span data-once-text="getCity(user.address)"></span>,
+                                                <span data-once-text="getState(user.address)"></span>
+                                            </span>
+                                        </td>
+                                        <td><span data-once-text="getFormattedHeight(user.height)"></span></td>
+                                        <td><span data-once-text="user.weight"></span> lbs.</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th>SHOE</th>
+                                        <th>SHIRT</th>
+                                        <th>JACKET</th>
+                                        <th>PANTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="error">
+                                        <td><span data-once-text="user.shoeSize"></span> US</td>
+                                        <td><span data-once-text="user.shirtSize | uppercase"></span></td>
+                                        <td><span data-once-text="user.jacketSize | uppercase"></span></td>
+                                        <td>
+                                            <span data-once-text="user.waistMeasurement"></span>&quot; / <span data-once-text="user.inseamLength"></span>&quot;
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3>
+                                BIO
+                            </h3>
+                            <span data-once-html="user.aboutMe"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="closeAddTesterModal()">Cancel</button>
+        <button class="btn btn-primary" data-ng-click="draftTesters()" data-ng-disabled="!usersToDraft.length">Draft Testers</button>
+    </div>
+</div>
+
+<!-- Modal to allow user to change status of Participant(s) of Wear Test -->
+<div data-modal="showTesterStatusChangeModal" data-close="closeTesterStatusChangeModal()" data-options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="closeTesterStatusChangeModal()">&times;</button>
+        <h3>Change Tester Status</h3>
+    </div>
+    <div class="modal-body">
+        <p>Change the status of all selected testers</p>
+        <div class="row-fluid">
+            <select class="span6 offset3" data-ng-model="newTesterStatus" data-ng-options="status.key as status.value for status in participantStatuses">
+                <option value="">----&nbsp;&nbsp;Select Status to Set&nbsp;&nbsp;----</option>
+            </select>
+        </div>
+        <label class="checkbox"><input type="checkbox" data-ng-model="notifyTester"> Notify tester with email on status change</label>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-ng-click="closeTesterStatusChangeModal()">Cancel</button>
+        <button class="btn btn-primary" ng-click="changeTesterStatus()" ng-disabled="newTesterStatus == null">Change Status</button>
+    </div>
+</div>
+
+<!-- Modal to display notes on the participant -->
+<div modal="showParticipantNotesModal" close="closeParticipantNotesModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeParticipantNotesModal()">&times;</button>
+        <h6 class="text-center">NOTES</h6>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span12">
+                <textarea class="span8 offset2" rows='3' ng-model="noteForTester"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" ng-click="closeParticipantNotesModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="updateTesterNote()">Add / Update note</button>
+    </div>
+</div>
+
+<!-- Modal to allow user to change points of participant of wear test -->
+<div data-modal="showKarmaModal" data-close="closeKarmaModal()" data-options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="closeKarmaModal()">&times;</button>
+        <h6 class="span12 text-center">KARMA</h6>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span12 text-center">
+                <test-rating read-only="false" stars="karmaScore"></test-rating>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" data-ng-click="closeKarmaModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" data-ng-click="updateTesterKarma()" data-ng-disabled="disableKarmaChange()">Change Karma</button>
+    </div>
+</div>
+
+<!-- Change Product Status Modal -->
+<div data-modal="showProductStatusModal" data-close="closeProductStatusModal()" data-options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeProductStatusModal()">&times;</button>
+        <h6 class="text-center">PRODUCT STATUS</h6>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <select class="span6 offset3" ng-model="productStatusForTester" ng-options="status.key as status.value for status in productStatuses">
+                <option value="">----&nbsp;&nbsp;Select Status to Set&nbsp;&nbsp;----</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" ng-click="closeProductStatusModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" data-ng-click="changeProductStatusForTester()" data-ng-disabled="disableChangeProductStatus()">
+            Change Status
+        </button>
+    </div>
+</div>
+
+<!-- Invite Participant Modal -->
+<div modal="showInviteParticipantModal" close="closeInviteParticipantModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeInviteParticipantModal()">&times;</button>
+        <h3>Send Invitation</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            Please click the Send Invitation button below to send an invite to all selected testers
+        </p>
+        <label class="checkbox">
+            <input type="checkbox" ng-model="notifyTester"> Notify tester with email on status change
+        </label>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="closeInviteParticipantModal()">Cancel</button>
+        <button class="btn btn-primary" ng-click="sendInviteToSelectedParticipants()">Send Invitation</button>
+    </div>
+</div>
+
+<!-- Send Email Modal -->
+<div modal="showSendEmailModal" close="closeSendEmailModal()" options="customStrictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeSendEmailModal()">&times;</button>
+        <h3>Send Email</h3>
+    </div>
+
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span1 text-right">
+                Subject
+            </div>
+            <div class="span10">
+                <input type="text" id="email-subject" class="span6" ng-model="emailData.subject">
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span1 text-right">
+                Message
+            </div>
+            <div class="span10">
+                <textarea id="email-body" class="span12" ui-tinymce rows="12" ng-model="emailData.body"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="" class="btn" ng-click="closeSendEmailModal()">
+            Cancel
+        </a>
+        <a href="" class="btn btn-primary" ng-click="sendEmail()">
+            Send Email
+        </a>
+    </div>
+</div>
+
+<div id="boxScore"></div>
+
+
+<!-- Tester details modal -->
+<div modal="showTesterInfoModal" close="closeTesterInfoModal()"  options="customStrictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeTesterInfoModal()">&times;</button>
+        <h2 class="orange-header">User {{selectedTester.username}}'s details</h2>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="profile-control profile-detail" >
+                            <strong>GENDER:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.gender | capitalize}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>DATE OF BIRTH:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.dateOfBirth | UTCDate:'MM/dd/yyyy'}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SHIPPING ADDRESS:</strong>
+                            <p class="profile-detail">
+                                {{selectedTester | getCityStateAddress}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>HEIGHT:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.height | inchesToFeetAndInches}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>WEIGHT:</strong>
+                            <p class="profile-detail" >
+                                <span ng-show="selectedTester.weight">{{selectedTester.weight}} (lbs)</span>
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>WINTER ACTIVITIES:</strong>
+                            <p class="profile-detail" >
+                                <span ng-repeat="entry in selectedTester.winter">
+                                    <span data-once-text="entry | capitalize"></span><br/>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SUMMER ACTIVITIES:</strong>
+                            <p class="profile-detail" >
+                                <span ng-repeat="entry in selectedTester.summer">
+                                    <span data-once-text="entry | capitalize"></span><br/>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SHOULDER WIDTH:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.shoulderMeasurement}}
+                            </p>
+                        </div>
+                         <div class="profile-control profile-detail" >
+                            <strong>PROFESSION:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.profession}}
+                            </p>
+                        </div>
+
+                        <div class="profile-control profile-detail" >
+                            <strong>LEG LEFT/RIGHT DOMINANT:</strong>
+                            <p class="profile-detail">
+                                {{selectedTester.legPreference | capitalize}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>ARM LEFT/RIGHT DOMINANT:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.armPreference | capitalize}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="profile-control profile-detail" >
+                            <strong>SHOE SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.shoeSize}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SHOE WIDTH:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.shoeWidthStr}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>RUNNING SHOE SIZE:</strong>
+                            <p class="profile-detail">
+                                {{selectedTester.runningShoeSize}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SHIRT SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.shirtSize | uppercase}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>SLEEVE LENGTH:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.sleeveLength}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>JACKET SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.jacketSize | uppercase}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>GLOVE SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.gloveSize | uppercase}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>INSEAM LENGTH:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.inseamLength}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>WAIST MEASUREMENT:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.waistMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>NECK SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.neckMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>CHEST SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.chestMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>BICEP SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.bicepMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" >
+                            <strong>THIGH SIZE:</strong>
+                            <p class="profile-detail" >
+                                {{selectedTester.thighMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail"  ng-show="selectedTester.gender == 'female'">
+                            <strong>BUST:</strong>
+                            <p class="profile-detail">
+                                {{selectedTester.underBustMeasurement}}
+                            </p>
+                        </div>
+                        <div class="profile-control profile-detail" ng-show="selectedTester.gender == 'female'">
+                            <strong>SEAT SIZE:</strong>
+                            <p class="profile-detail">
+                                {{selectedTester.seatMeasurement}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="profile-control profile-detail" >
+                    <strong>ABOUT YOU:</strong>
+                    <p class="profile-detail" >
+                        {{selectedTester.aboutMe}}
+                    </p>
+                </div>
+
+                <div class="profile-control profile-detail" >
+                    <strong>FAVORITE QUOTE:</strong>
+                    <p class="profile-detail" >
+                        {{selectedTester.favoriteQuote}}
+                    </p>
+                </div>
+
+                <div class="profile-control profile-detail" >
+                    <strong>FAVORITE MEMORY:</strong>
+                    <p class="profile-detail" >
+                        {{selectedTester.favoriteMemory}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="" class="btn" ng-click="closeTesterInfoModal()">Close</a>
+    </div>
+</div>

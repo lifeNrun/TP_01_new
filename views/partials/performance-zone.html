@@ -1,0 +1,111 @@
+<div>
+<div ng-repeat="image in reportData.performanceZones track by $index">
+    <div class="row-fluid" ng-show="$index > 0 && $index % 2 == 0">
+    </div>
+
+    <div  class="row-fluid" ng-show="$index % 2 == 0">
+        <div class="row-fluid" ng-repeat="it in getIteration(image.selectedDataPoints.length-1)">
+            <div class="span11 rpt-alt2-left">
+                <div class="image span5"  ng-if="it == 1">
+                    <div class="performanceZoneOptionsVertical row-fluid rep-img-performanceZone">
+                        <datapoints-viewer image="{{image}}" index="{{$index}}">
+                        </datapoints-viewer>
+                    </div>
+                </div>
+                <div class="image span5"  ng-if="it > 1">
+                    <div class="performanceZoneOptionsVertical row-fluid rep-img-performanceZone">    
+                    </div>
+                </div>
+    
+                <div class="span6 rpt-alt2-left">
+                    <table class="brand" ng-if="image.selectedDataPoints.length > 0">
+    
+                        <thead  ng-if="it == 1">
+                            <tr class="nobreak">
+                                <th class="nobreak">User</th>
+                                <th class="nobreak">Type</th>
+                                <th class="nobreak">Note</th>
+                            </tr>
+                        </thead>
+                        <thead  ng-if="it > 1">
+                            <tr class="nobreak">
+                                <th class="th1 nobreak">User</th>
+                                <th class="th2 nobreak">Type</th>
+                                <th class="th1 nobreak">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-text-top">
+                            <tr ng-repeat="dataPoint in image.selectedDataPoints"   ng-class-odd="alt">
+                                <td class="rpt-td nobreak" ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) && getCommentSize1($index) < getCommentsMaxSize(it)">{{getParticipantName(dataPoint.userId)}}</td>
+                                <td class="dp-center nobreak"  ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) && getCommentSize1($index) < getCommentsMaxSize(it)">
+                                    <li class="data-pointer">
+                                        <i class="icon-circle-blank"></i>
+                                    </li>
+                                    <span ng-class="{'icon-circle icon-circle-green': dataPoint.color == 'Green'}" ng-show="dataPoint.color == 'Green'">
+                                    </span>
+                                    <span ng-class="{'icon-circle icon-circle-red': dataPoint.color == 'Red'}" ng-show="dataPoint.color == 'Red'">
+                                    </span>
+                                </td>
+                                <td class="nobreak" ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) &&  getCommentSize1($index) < getCommentsMaxSize(it)">{{dataPoint.comment}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr ng-if="!$last && image.selectedDataPoints.length > 0">
+    </div>
+    
+    <div  class="row-fluid" ng-show="$index % 2 != 0">
+        <div class="row-fluid" ng-repeat="it in getIteration(image.selectedDataPoints.length-1)">
+            <div class="span11 rpt-alt2-left">
+                <div class="span6">
+                    <table class="brand" ng-if="image.selectedDataPoints.length > 0">
+                        <thead ng-if="it == 1">
+                            <tr class="nobreak">
+                                <th class="nobreak">User</th>
+                                <th class="nobreak">Type</th>
+                                <th class="nobreak">Note</th>
+                            </tr>
+                        </thead>
+                        <thead ng-if="it > 1">
+                            <tr class="nobreak">
+                                <th class="th1 nobreak">User</th>
+                                <th class="th2 nobreak">Type</th>
+                                <th class="th1 nobreak">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-text-top">
+                            <tr class="nobreak" ng-repeat="dataPoint in image.selectedDataPoints" ng-class-odd="alt">
+                                <td class="rpt-td nobreak" ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) && getCommentSize1($index) < getCommentsMaxSize(it)">{{getParticipantName(dataPoint.userId)}}</td>
+                                <td class="dp-center nobreak" ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) && getCommentSize1($index) < getCommentsMaxSize(it)">
+                                    <li class="data-pointer">
+                                        <i class="icon-circle-blank"></i>
+                                    </li>
+                                    <span ng-class="{'icon-circle icon-circle-green': dataPoint.color == 'Green'}" ng-show="dataPoint.color == 'Green'">
+                                    </span>
+                                    <span ng-class="{'icon-circle icon-circle-red': dataPoint.color == 'Red'}" ng-show="dataPoint.color == 'Red'">
+                                    </span>
+                                </td>
+                                <td class="nobreak" ng-if="getCommentSize1($index) > getCommentsMaxSize(it-1) && getCommentSize1($index) < getCommentsMaxSize(it)">{{dataPoint.comment}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+    
+                <div class="image span5 rpt-alt2-left" ng-if="it == 1">
+                    <div class="performanceZoneOptionsVertical row-fluid rep-img-performanceZone">
+                        <datapoints-viewer image="{{image}}" index="{{$index}}">
+                        </datapoints-viewer>
+                    </div>
+                </div>
+                <div class="image span5 rpt-alt2-left" ng-if="it > 1">
+                    <div class="performanceZoneOptionsVertical row-fluid rep-img-performanceZone">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-if="!$last && image.selectedDataPoints.length > 0">
+    </div>
+</div>
+</div>

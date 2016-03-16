@@ -1,0 +1,59 @@
+<form class="fileupload" action="" method="POST" enctype="multipart/form-data">
+
+    <div class="row-fluid">
+
+        <div class="span6">
+            <div id="dropzone">
+
+                <p class="text-center st20" ng-hide="defaultType == 'rules'">
+                    <strong>Drop Images Here</strong> or
+                    <input id="uploadImage" class="fileinput hide" type="file" name="files[]" multiple />
+                    <a href="" class="btnUploadImage btn-addimages">
+                        <img src="/img/btn-upload-photo.png" alt="">
+                    </a>
+                </p>
+
+                <p class="text-center st20" ng-show="defaultType == 'rules'">
+                    <strong>Drop PDF Here</strong> or
+                    <a href="" class="btnUploadImage btn-addimages">
+                        <img src="/img/btn--upload-pdf.png" alt="">
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="span6">
+
+            <p ng-show="defaultType == 'bio'">
+                Use the area to the left to add one or more images. You can specify a name and description for each image after uploading.  Clicking the star next to an image will set it as your cover photo.
+            </p>
+
+            <p ng-show="defaultType == 'productImage'">
+                Use the area to the left to add one or more images.  You can specify a name for each image after uploading.
+            </p>
+
+            <p ng-show="defaultType == 'rules'">
+                Use the area to the left to add one or more pdf documents.  You can specify a name for the pdf after uploading.
+            </p>
+
+            <p ng-show="defaultType == 'wearAndTear'">
+                Use the area to the left to add one or more images. You can specify a name and description for each image after uploading.
+            </p>
+
+            <div class="progress-large progress progress-striped active st10" ng-show="uploading">
+                <div class="bar" style="width: {{uploadProgress}}%;">
+                </div>
+            </div>
+
+            <div class="alert alert-success text-center" ng-show="uploadComplete">
+                Upload Successful!
+            </div>
+
+            <p class="text-center" ng-show="uploading">
+                Upload Progress
+            </p>
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,750 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+
+                <!-- Breaking indentation to compromise on readability -->
+                <h2 class="brandPageTitle">
+                    <span data-once-text="weartest.brand"></span>:
+                    <span class="text-info" data-once-text="weartest.name"></span>
+                </h2>
+
+                <div class="row-fluid">
+                    <div class="span1">
+                        <strong>Product:</strong><br />
+                        <strong>Start:</strong><br />
+                        <strong>End:</strong>
+                    </div>
+                    <div class="span8">
+                        <span data-once-text="weartest.name"></span><br />
+                        <span data-once-text="weartest.wearTestStartDate | UTCDate:'MM/dd/yyyy'" data-once-wait-for="weartest.wearTestStartDate"></span><br />
+                        <span data-once-text="weartest.wearTestEndDate | UTCDate:'MM/dd/yyyy'" data-once-wait-for="weartest.wearTestEndDate"></span>
+                    </div>
+                    <div class="span3 text-right">
+                        <a data-once-href="getUrlOfTabToReturnTo()" class="btn btn-orange btn-primary btn-small">
+                            <i class="icon-chevron-left icon-white"></i> Back to <span data-once-text="getNameOfTabToReturnTo()"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="pull-right">
+                    <button data-ng-click="openAddTagModal()" class="btn btn-primary btn-orange btn-small">Add Tag</button>
+                    <button data-ng-click="draftSelectedTesters()" class="btn btn-primary btn-orange btn-small">Draft</button>
+                    <a data-once-href="'/dashboard/weartests/' + getCurrentMode() + '/' + weartest._id + '/roster'" class="btn btn-primary btn-orange btn-small" data-once-wait-for="weartest._id">Go To Roster</a>
+                </div>
+
+                <h2>
+                    <strong>Draft a Team</strong>
+                </h2>
+
+                <div class="row-fluid one-third-border">
+                    <div class="span4">
+                        <accordion class="accordion">
+                            <accordion-group class="accordion-group">
+                                <accordion-heading class="accordion-heading">
+                                    <h3 class="un-border">
+                                        <span class="accordion-toggle orange"><i class="icon icon-chevron-down"></i> Tags / Teams</span>
+                                    </h3>
+                                </accordion-heading>
+                                <div class="accordion-body" data-ng-click="resetTestUserSearch()">
+                                    <div class="accordion-inner">
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <select data-ng-show="tags.brandCreated.length > 0 && tagsLoaded" data-ng-model="tags.brandSelected" data-ng-options="t as t for t in tags.brandCreated | orderBy:'toString()'" data-ng-change="filterBasedOnTags(false)">
+                                                    <option value="">Reset Search</option>
+                                                </select>
+                                                <div class="alert alert-info text-center" data-ng-show="tags.brandCreated.length == 0 && tagsLoaded">
+                                                    You do not have any tags created
+                                                </div>
+                                                <div data-ng-show="!tagsLoaded">
+                                                    <h1 class="text-center text-orange"><i class="icon-spinner icon-spin"></i></h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </accordion-group>
+
+                            <accordion-group class="accordion-group">
+                                <accordion-heading class="accordion-heading">
+                                    <h3 class="un-border">
+                                        <span class="accordion-toggle orange"><i class="icon icon-chevron-down"></i> Activity Survey</span>
+                                    </h3>
+                                </accordion-heading>
+                                <div id="draftActivitySurvey" data-ng-click="resetTestUserSearch()">
+                                    <div class="accordion-inner">
+                                        <div class="row-fluid">
+                                            <label class="create-test-label"> Activity/Sport/Occupation:</label>
+                                            <select data-ng-model="selectedSurvey.survey" data-ng-change="search()" ng-options="survey.name for survey in surveys">
+                                                <option value="">None</option>
+                                            </select>
+                                        </div>
+                                        <!-- questions -->
+                                        <hr>
+                                        <div class="row-fluid" ng-repeat="question in selectedSurvey.survey.questions | filter: '!' + { type: 'Free form text' }">
+                                            <div ng-show="$index < 4 || showMore">
+                                                <div ng-switch on="question.type">
+                                                    <div ng-switch-when="Single Selection" ng-class="{'criteria-selected':question.isSelected}">
+                                                        <input type="checkbox" class="pull-left" ng-model="question.isSelected">
+                                                        <label data-once-text="question.question"></label>
+                                                        <select ng-model="question.questionValue" ng-options="answer.key for answer in question.options.values" ng-change="toggleIsSelected(question)"></select>
+                                                        <hr />
+                                                    </div>
+                                                    <div ng-switch-when="Numeric" ng-class="{'criteria-selected':question.isSelected}">
+                                                        <input type="checkbox" class="pull-left" ng-model="question.isSelected">
+                                                        <label data-once-text="question.question"></label>
+                                                        <span>Min:</span><input type="number" ng-model="question.minValue" class="inline input-mini" ng-change="toggleIsSelected(question)" /><span>Max:</span><input type="number" ng-model="question.maxValue" class=" inline input-mini" ng-change="toggleIsSelected(question)" />
+                                                        <hr />
+                                                    </div>
+                                                    <div ng-switch-when="Multiple Selection" ng-class="{'criteria-selected':question.isSelected}">
+                                                        <input type="checkbox" class="pull-left" ng-model="question.isSelected">
+                                                        <label data-once-text="question.question"></label>
+                                                        <label ng-repeat="answer in question.options.values">
+                                                            <input type="checkbox" name="jacket" ng-model="answer.checked" ng-change="toggleIsSelected(question)">
+                                                            <span data-once-text="answer.key"></span>
+                                                        </label>
+                                                        <hr />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-ng-show="selectedSurvey.survey != null">
+                                            <a href="" data-ng-click="toggleShowMore()">
+                                                <span data-ng-show="!showMore">More...</span>
+                                                <span data-ng-show="showMore">Less...</span>
+                                            </a>
+                                        </div>
+                                        <hr />
+                                        <div class="row-fluid">
+                                            <div class="span12 text-center">
+                                                <button class="btn btn-primary btn-orange" data-ng-click="setSurveyCriteria()">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid reset-criteria-btn">
+                                            <div class="span12 text-center">
+                                                <button class="btn btn-primary btn-orange" data-ng-click="resetSurveyCriteria()">
+                                                    Reset Activity Criteria
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </accordion-group>
+
+                            <accordion-group class="accordion-group">
+                                <accordion-heading class="accordion-heading">
+                                    <h3 class="un-border">
+                                        <span class="accordion-toggle orange"><i class="icon icon-chevron-down"></i> Bio Attributes</span>
+                                    </h3>
+                                </accordion-heading>
+                                <div class="accordion-body" data-ng-click="resetTestUserSearch()">
+                                    <div class="accordion-inner">
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">Country:</label>
+                                            <select data-ng-model="filters.country" data-ng-options="country for country in countries">
+                                                <option value="">Any</option>
+                                            </select>
+                                        </div>
+
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <div>
+                                                <label class="create-test-label">Gender:</label>
+                                                <label class="radio inline">
+                                                    <input type="radio" ng-model="filters.gender" value="male">Male
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" ng-model="filters.gender" value="female">Female
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" ng-model="filters.gender" value="both">Both
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Shoe Size
+                                                <strong class="range-display">
+                                                    <span id="age-range-min">{{filters.shoeMin}}</span>-<span id="age-range-max">{{filters.shoeMax}}</span>
+                                                </strong>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.shoeMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.shoeMax">
+                                            <slider-range min="3" max="20" value-min="filters.shoeMin" value-max="filters.shoeMax" step="0.5" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="shoeMinDisplay"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="shoeCenter"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="shoeMaxDisplay"></div>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">Shoe Width:</label>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.shoeWidthStrs | startFrom:0 | limitTo:4">
+                                                    <input type="checkbox" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.shoeWidthStrs | startFrom:4 | limitTo:4">
+                                                    <input type="checkbox" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.shoeWidthStrs | startFrom:8 | limitTo:1">
+                                                    <input type="checkbox" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">Jacket Size:</label>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.jacketSizes | startFrom:0 | limitTo:4">
+                                                    <input type="checkbox" name="jacket" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.jacketSizes | startFrom:4 | limitTo:8">
+                                                    <input type="checkbox" name="jacket" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Waist Size
+                                                <strong class="range-display">
+                                                    <span id="age-range-min">{{filters.waistMin}}</span>-<span id="age-range-max">{{filters.waistMax}}</span>
+                                                </strong>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.waistMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.waistMax">
+                                            <slider-range min="20" max="60" value-min="filters.waistMin" value-max="filters.waistMax" step="1" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="waistMinDisplay"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="waistCenter"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="waistMaxDisplay"></div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Inseam
+                                                <strong class="range-display">
+                                                    <span id="age-range-min">{{filters.inseamMin}}</span>-<span id="age-range-max">{{filters.inseamMax}}</span>
+                                                </strong>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.inseamMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.inseamMax">
+                                            <slider-range min="20" max="40" value-min="filters.inseamMin" value-max="filters.inseamMax" step="1" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="inseamMinDisplay"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="inseamCenter"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="inseamMaxDisplay"></div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">Glove Size:</label>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.gloveSizes | startFrom:0 | limitTo:4">
+                                                    <input type="checkbox" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <label class="checkbox span3" ng-repeat="size in filters.gloveSizes | startFrom:4 | limitTo:8">
+                                                    <input type="checkbox" ng-model="size.checked">
+                                                    <span data-once-text="size.name"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Age Range
+                                                <strong class="range-display">
+                                                    <span id="age-range-min">{{filters.ageMin}}</span>-<span id="age-range-max">{{filters.ageMax}}</span>
+                                                </strong>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.ageMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.ageMax">
+                                            <slider-range min="14" max="100" value-min="filters.ageMin" value-max="filters.ageMax" step="1" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="ageMinDisplay"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="ageCenter"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="ageMaxDisplay"></div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Height Range
+                                                <strong class="range-display">
+                                                    <span id="height-range-min">{{filters.heightMin | feetToInchesAndFoot}}</span>-<span id="height-range-max">{{filters.heightMax | feetToInchesAndFoot}}</span>
+                                                </strong>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.heightMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.heightMax">
+                                            <slider-range min="3" max="8" value-min="filters.heightMin" value-max="filters.heightMax" step="0.1" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="heightMinDisplay | feetToInchesAndFoot"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="heightCenter | feetToInchesAndFoot"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="heightMaxDisplay | feetToInchesAndFoot"></div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row-fluid">
+                                            <label class="create-test-label">
+                                                Weight Range
+                                                <strong class="range-display">
+                                                    <span id="weight-range-min">{{filters.weightMin}}</span>-<span id="weight-range-max">{{filters.weightMax}}</span>
+                                                </strong>
+                                                <span>lbs.</span>:
+                                            </label>
+                                            Min: <input type="text" class="span3" data-ng-model="filters.weightMin">
+                                            Max: <input type="text" class="span3" data-ng-model="filters.weightMax">
+                                            <slider-range min="50" max="400" value-min="filters.weightMin" value-max="filters.weightMax" step="1" orientation="horizontal"></slider-range>
+                                            <div class="row-fluid">
+                                                <div class="span1 labelMarginRange" data-once-text="weightMinDisplay"></div>
+                                                <div class="span1 labelCenterMarginRange" data-once-text="weightCenter"></div>
+                                                <div class="span1 labelLeftMarginRange offset3" data-once-text="weightMaxDisplay"></div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row-fluid">
+                                            <div class="text-center">
+                                                <button class="btn btn-primary btn-orange" data-ng-click="resetBioFilter()">Reset filters</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </div>
+                    <div id="resulting-team" class="span8" data-infinite-scroll="increaseUserLimit()">
+                        <div class="row-fluid">
+                            <div class="span8 relative">
+                                <div class="draft-status">
+                                    <strong>Total:</strong> {{filters.count.total}} &nbsp;
+                                    <strong>Drafted:</strong> {{filters.count.drafted}} &nbsp;
+                                    <strong>Inv.:</strong> {{filters.count.invited}} &nbsp;
+                                    <strong>Conf.:</strong> {{filters.count.confirmed}} &nbsp;
+                                    <strong>O.T.:</strong> {{filters.count.onTeam}}
+                                </div>
+                            </div>
+                            <div class="span4" data-ng-show="rows.length > 0">
+                                <div class="input-append pull-right">
+                                    <input class="input-large input-search-tester ng-pristine ng-valid" type="text"
+                                           data-ng-model="filters.testerName" data-ng-click="resetDefaultFilter()"
+                                           data-ng-disabled="loadingDCTesterUsers" data-ng-blur="resetDefaultFilter()"
+                                           placeholder="Search for a tester">
+                                    <button class="btn btn-orange btn-small" data-ng-disabled="loadingDCTesterUsers">
+                                        <i class="icon-search icon-white"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="tester in rows | draftFilter:filters | limitTo:userLimit" class="span3">
+                            <div class="team-holder">
+                                <div id="resulting-team-box" ng-click="openTesterInfoModal(tester)">
+                                    <img class="profile-control profile-detail" src="/img/placeholder-person.png" data-imageset-id="{{tester.user_imageset}}" data-image-width="98" data-image-height="93" data-image-mode="c_fill" ng-mouseover="renderTooltip(tester)" tooltip-html-unsafe="{{getTooltipTemplateForUser(tester)}}" tooltip-placement="{{getTooltipOrientation($index)}}" tooltip-animation="false" data-process-image>
+                                </div>
+                                <div class="name-holder">
+                                    <label class="checkbox">
+                                        <input type="checkbox" ng-model="tester.selected">
+                                        {{tester.username}} <br/>
+                                        <span class="drafted"> {{tester.status | capitalize}} </span>
+                                    </label>
+                                </div>
+                                <div align="center" data-ng-show="!tester.status">
+                                    <span data-ng-show="tester.participationCount > 0" class="text-info">({{tester.participationCount}})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end of .row-fluid -->
+                    </div>
+                </div>
+
+                <!-- Tester details modal -->
+                <div modal="showTesterInfoModal" close="closeTesterInfoModal()" options="customStrictModalOptions">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="closeTesterInfoModal()">&times;</button>
+                        <h2 class="orange-header">User {{selectedTester.username}}'s details</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div id="content">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <ul class="nav nav-tabs centered-tab ">
+                                        <li ng-class="{'active': isTabActive('bio')}">
+                                            <a href="" ng-click="setActiveTab('bio')">
+                                                <span>Bio</span>
+                                            </a>
+                                            <span class="arrow"></span>
+                                        </li>
+                                        <li class="dropdown" ng-class="{'active': isTabActive('survey')}" data-ng-show="activitySurveysSubmittedByTester.length > 0">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                                                Activities <i class="icon-caret-down"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="survey in activitySurveysSubmittedByTester | orderBy : 'name'">
+                                                    <a href="" ng-click="viewSurvey(survey)">
+                                                        <span data-once-text="survey.name | capitalize"></span>
+                                                    </a>
+                                                    <span class="arrow"></span>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li ng-class="{'active': isTabActive('testHistory')}">
+                                            <a href="" ng-click="setActiveTab('testHistory')">
+                                                <span>Test History</span>
+                                            </a>
+                                            <span class="arrow"></span>
+                                        </li>
+                                        <li class="text-center muted no-activity" data-ng-hide="activitySurveysSubmittedByTester.length > 0">
+                                            ( No activity surveys submitted )
+                                        </li>
+                                        <li ng-class="{'active': isTabActive('tags')}">
+                                            <a href="" ng-click="setActiveTab('tags')">
+                                                <span>Tags</span>
+                                            </a>
+                                            <span class="arrow"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <div ng-switch on="testerProfileActiveTab">
+                                        <div ng-switch-when="bio">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <hr class="divide-profile-tab" />
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span6">
+                                                    <div class="row-fluid">
+                                                        <div class="span6">
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>GENDER:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.gender | capitalize}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>DATE OF BIRTH:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.dateOfBirth | UTCDate:'MM/dd/yyyy'}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SHIPPING ADDRESS:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester | getCityStateAddress}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>HEIGHT:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.height | inchesToFeetAndInches}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>WEIGHT:</strong>
+                                                                <p class="profile-detail">
+                                                                    <span ng-show="selectedTester.weight">{{selectedTester.weight}} (lbs)</span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>WINTER ACTIVITIES:</strong>
+                                                                <p class="profile-detail">
+                                                                    <span ng-repeat="entry in selectedTester.winter">
+                                                                        <span data-once-text="entry | capitalize"></span><br />
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SUMMER ACTIVITIES:</strong>
+                                                                <p class="profile-detail">
+                                                                    <span ng-repeat="entry in selectedTester.summer">
+                                                                        <span data-once-text="entry | capitalize"></span><br />
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SHOULDER WIDTH:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.shoulderMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>PROFESSION:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.profession}}
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>LEG LEFT/RIGHT DOMINANT:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.legPreference | capitalize}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>ARM LEFT/RIGHT DOMINANT:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.armPreference | capitalize}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="span6">
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SHOE SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.shoeSize}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SHOE WIDTH:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.shoeWidthStr}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>RUNNING SHOE SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.runningShoeSize}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SHIRT SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.shirtSize | uppercase}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>SLEEVE LENGTH:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.sleeveLength}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>JACKET SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.jacketSize | uppercase}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>GLOVE SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.gloveSize | uppercase}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>INSEAM LENGTH:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.inseamLength}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>WAIST MEASUREMENT:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.waistMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>NECK SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.neckMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>CHEST SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.chestMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>BICEP SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.bicepMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail">
+                                                                <strong>THIGH SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.thighMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail" ng-show="selectedTester.gender == 'female'">
+                                                                <strong>BUST:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.underBustMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                            <div class="profile-control profile-detail" ng-show="selectedTester.gender == 'female'">
+                                                                <strong>SEAT SIZE:</strong>
+                                                                <p class="profile-detail">
+                                                                    {{selectedTester.seatMeasurement}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="profile-control profile-detail">
+                                                        <strong>ABOUT YOU:</strong>
+                                                        <p class="profile-detail">
+                                                            {{selectedTester.aboutMe}}
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="profile-control profile-detail">
+                                                        <strong>FAVORITE QUOTE:</strong>
+                                                        <p class="profile-detail">
+                                                            {{selectedTester.favoriteQuote}}
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="profile-control profile-detail">
+                                                        <strong>FAVORITE MEMORY:</strong>
+                                                        <p class="profile-detail">
+                                                            {{selectedTester.favoriteMemory}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div ng-switch-when="survey">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <hr class="divide-profile-tab" />
+                                                </div>
+                                            </div>
+                                            <h3 class="orange-title" data-ng-bind="submittedSurvey.name"></h3>
+                                            <view-survey survey-details="submittedSurvey" can-edit="canEditSurvey"></view-survey>
+                                        </div>
+
+                                        <div data-ng-switch-when
+                                        ="testHistory">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <hr class="divide-profile-tab"/>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <ul class="drop-list-style">
+                                                        <li><strong>CURRENT TESTS</strong></li>
+                                                        <li>
+                                                            <ul class="drop-list-style">
+                                                                <li ng-show="!selectedTester.activeWeartests.length">None</li>
+                                                                <li data-ng-repeat="w in selectedTester.activeWeartests">{{w.name}}</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><strong>PREVIOUS TESTS</strong></li>
+                                                        <li>
+                                                            <ul class="drop-list-style">
+                                                                <li ng-show="!selectedTester.inactiveWeartests.length">None</li>
+                                                                <li data-ng-repeat="w in selectedTester.inactiveWeartests">{{w.name}}</li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div data-ng-switch-when="tags">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <hr class="divide-profile-tab"/>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span6 offset3">
+                                                    <table class="brand">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tag</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr data-ng-repeat="t in tags.selectedTesterTags">
+                                                                <td data-ng-bind="t"></td>
+                                                                <td>
+                                                                    <button class="btn btn-danger" data-ng-click="updateTesterTag(t, 'delete')"><i class="icon-trash"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="auto-complete-input">
+                                                                    <input type="text" class="tag-input" data-ng-model="newTag" placeholder="Add a tag" data-auto-complete data-source="tags.brandCreated">
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn default" data-ng-click="updateTesterTag(newTag, 'add')">Add</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="" class="btn" ng-click="closeTesterInfoModal()">Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk add tester modal -->
+<div modal="showAddTagModal" close="closeAddTagModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeAddTagModal()">&times;</button>
+        <h2 class="orange-header">Add tags to selected testers</h2>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span6 offset3">
+                <input type="text" data-ng-model="bulkAddTagInput" class="span12 tag-input" placeholder="Add a tag" data-auto-complete data-source="tags.brandCreated" data-ng-disabled="bulkTagUpdateInProgress">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button data-ng-click="closeAddTagModal()" class="btn">Close</button>
+        <button data-ng-click="bulkAddTags()" class="btn btn-orange btn-primary" data-ng-disabled="bulkTagUpdateInProgress">Add</button>
+    </div>
+</div>

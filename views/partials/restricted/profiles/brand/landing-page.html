@@ -1,0 +1,91 @@
+<!-- 
+This is the landing page for the user of type Brand.
+Immediately after logging in, the user will see this page
+-->
+
+<!-- top navigation bar -->
+<div id="top-bar" class="navbar navbar-static-top">
+    <div class="navbar-inner">
+        <ul class="nav">
+            <li><a href="http://design.mesh01.com">Design<span class="arrow"></span></a></li>
+            <li class="active"><a href="">Wear Test<span class="arrow"></span></a></li>
+        </ul>
+    </div>
+</div>
+
+<header>
+    <div class="wrap">
+
+        <!-- the logo -->
+        <h1>
+            <a href="/">
+                <img src="/img/logo.png" alt="">
+            </a>
+        </h1>
+
+        <div id="welcome">Welcome Back {{currentUser.username}}</div>
+        
+<!--        <div id="welcome" class="brand">
+            <img src="/img/content/reebok.png" alt="">
+        </div> -->
+
+        <!-- top right social media icons -->
+        <div class="social-media">
+            <a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+            <a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+            <a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+            <a href="" class="rss temp-hidden"><span>RSS</span></a>
+            <a href="" class="logout" ng-click="logout()"><i class="icon-off icon-black"></i> Logout</a>
+        </div>
+
+        <!-- Message Center -->
+        <message-center user-data="currentUser"></message-center>
+    </div>
+</header>
+
+<!-- The Dashboard Display -->
+<nav>
+    <ul class="nav nav-tabs">
+        <li ng-class="{active: isActiveItem('weartests')}">
+            <a href="/dashboard/weartests/current" class="product-test"><span>Product<br/>Tests</span></a>
+            <!-- <span class="badge badge-info">2</span> -->
+            <span class="arrow"></span>
+        </li>
+        <li ng-class="{active: isActiveItem('surveys')}">
+            <a href="/dashboard/surveys/recent" class="surveys"><span>Surveys</span></a>
+            <span class="arrow"></span>
+        </li>
+        <li ng-class="{active: isActiveItem('Profile')}">
+            <a href="/dashboard/Profile" class="activity-logs">
+                <span>My<br>Profile</span>
+            </a>
+            <span class="arrow"></span>
+        </li>
+        <li ng-class="{active: isActiveItem('testerList')}">
+            <a href="/dashboard/testerList" class="your-profile">
+                <span>Testing<br>Community</span>
+            </a>
+            <span class="arrow"></span>
+        </li>
+    </ul>       
+</nav>
+
+<!-- Directives - Activated based on the selected dashboard item -->
+<div ng-switch="activeDashboardItem">
+    <div ng-switch-when="weartests">
+        <weartest-index></weartest-index>
+    </div>
+
+    <div ng-switch-when="surveys">
+        <survey-index></survey-index>
+    </div>
+
+    <div ng-switch-when="Profile">
+        <brand-profile-item>
+        </brand-profile-item>
+    </div>
+
+    <div ng-switch-when="testerList">
+        <tester-list></tester-list>
+    </div>
+</div>

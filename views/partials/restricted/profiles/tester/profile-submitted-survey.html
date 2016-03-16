@@ -1,0 +1,34 @@
+<!-- Template to view and edit submitted surveys -->
+<div class="row top-row">
+	<!-- Survey Name -->
+	<div class="relative">
+		<h2>
+			{{surveyName}}
+		</h2>
+		<button class="btn btn-small btn-gray btn-primary top-right" ng-click="changeDisplayMode('editSurvey')" ng-disabled="!obj.canEdit" ng-show="displayMode != 'editSurvey'">
+			<i class="icon-pencil icon-white"></i> Edit 
+		</button>
+		<div class="top-right" ng-hide="displayMode != 'editSurvey'">
+			<a href="" class="btn btn-small btn-gray btn-primary" ng-click="updateSurvey()">
+				Update
+			</a>
+			<a href="" class="btn btn-small btn-gray btn-primary" ng-click="changeDisplayMode('viewSurvey')">
+				Back
+			</a>
+		</div>
+	</div>
+
+	<div ng-switch on="displayMode">
+		<div ng-switch-when="viewSurvey">
+			<!-- View the details of the submitted Survey -->
+			<view-survey survey-details="surveyDetails" can-edit="obj.canEdit">
+			</view-survey>
+		</div>
+
+		<div ng-switch-when="editSurvey">
+			<!-- Edit the submitted survey -->
+			<edit-survey survey-details="surveyDetails" update-survey-info="updateSurveyInfo()" execute-update="executeUpdate" change-display-mode="changeDisplayMode(newMode)">
+			</edit-survey>
+		</div>
+	</div>
+</div>

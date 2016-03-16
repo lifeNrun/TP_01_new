@@ -1,0 +1,110 @@
+<header>
+    <div class="wrap">
+
+        <!-- the logo -->
+        <h1>
+            <a href="/">
+                <img src="/img/logo3.png">
+            </a>
+        </h1>
+        <div id="slogan" class="large">
+            / Design    
+        </div>
+
+        <!-- top right social media icons -->
+        <div class="social-media">
+            <a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+            <a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+            <a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+            <a href="" class="rss temp-hidden"><span>RSS</span></a>
+            <a href="/login" class="login" ng-hide="userIsLoggedIn">
+                <i class="icon-user icon-black"></i> Login
+            </a>
+            <a href="/register" class="register" ng-hide="userIsLoggedIn">
+                Register
+            </a>
+            <a href="" class="logout" ng-click="logout()" ng-show="userIsLoggedIn">
+                <i class="icon-off icon-black"></i> Logout
+            </a>
+            <a href="/dashboard" class="dashboard" ng-show="userIsLoggedIn">
+                <i class="icon-dashboard icon-black"></i> Dashboard
+            </a>
+        </div>
+
+    </div>
+</header>
+
+
+<!-- main content -->
+<div id="content">
+
+    <section class="fullwidth">
+        <div class="wrap">          
+            <!-- carousel -->
+            <div class="row-fluid">
+                <div id="mainCarousel" class="carousel slide" bootstrap-carousel>
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="active item">
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <div class="info">
+                                        <h2>Welcome</h2>
+                                        <h3>Open up to outside thinking.</h3>
+                                        <p>
+                                            Connect to more than 8,000 talented designers-giving you the virtual 
+                                            horsepower to help with existing projects or start something new.  A 
+                                            secure site enables you to review concepts, provide feedback, and stay 
+                                            on schedule. Try it.
+                                        </p>
+                                        <p class="text-center">
+                                            <a href="https://design.mesh01.com/register" class="button"><span>Join Now</span></a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="span8">
+                                    <img src="/img/content/09_Design-Sublevel_Helmet.jpg" alt="video placeholder">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 
+                    Carousel nav
+                    <a class="carousel-control left" href="" data-slide="prev">&lsaquo;</a>
+                    <a class="carousel-control right" href="" data-slide="next">&rsaquo;</a>                
+                                    
+                                        Carousel indicators
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+                                        </ol> -->
+                    
+                </div>  
+                
+            </div>          
+            <!-- end of carousel -->    
+            
+            
+            <div class="row-fluid" style="display: none">   <!-- removing per Issue #969 -->
+                <div class="span8">
+                    <div class="block green contentNoSytling">
+                        <h2>Current Design Projects</h2>
+                        <public-blog-posts name="'designLandingCurrent'">
+                        </public-blog-posts>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="block contentNoSytling">
+                        <public-blog-posts name="'designLandingLab'">
+                        </public-blog-posts>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- wrap -->
+    </section>
+</div>
+
+
+<!-- main footer -->
+<page-footer>
+</page-footer>

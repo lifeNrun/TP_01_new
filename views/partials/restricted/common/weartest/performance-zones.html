@@ -1,0 +1,131 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+
+                <weartest-header></weartest-header>
+
+                <div data-ng-if="productImages.length > 0">
+                    <div class="row-fluid spacer">
+                        <select class="col5" data-ng-options="user._id as user.username for user in testerDetails" data-ng-model="filter.user">
+                        </select>
+                        <select class="col5" data-ng-model="filter.color">
+                            <option value="All" selected="selected">All Feedback</option>
+                            <option value="Red">Negative Feedback</option>
+                            <option value="Green">Positive Feedback</option>
+                        </select>
+                    </div>
+
+                    <div id="performanceZoneMain" class="row-fluid">
+                        <div class="text span3">
+                            <h2 class="brandPageTitle">
+                                {{primaryImage.name}}
+                            </h2>
+                            <p>
+                                <big>{{primaryImage.dataPoints.length}} Notes</big>
+                            </p>
+                            <p>
+                                <span class="positive">{{getPositiveDataPoints(primaryImage.dataPoints)}} POSITIVE</span>
+                                <br>
+                                <span class="negative">{{getNegativeDataPoints(primaryImage.dataPoints)}} NEGATIVE</span>
+                            </p>
+                        </div>
+
+                        <div class="image span9" id="photoViewer">
+                            <div id="container">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <p class="text-orange" data-ng-bind="primaryImage.description"></p>
+                        </div>
+                    </div>
+
+                    <div id="performanceZoneOptions" class="row-fluid">
+                        <ul>
+                            <li data-ng-class="{'active': isPrimaryImage(image._id)}" data-ng-repeat="image in productImages">
+                                <div class="image">
+                                    <a href="" data-ng-click="setPrimaryImage(image)">
+                                        <img data-once-src="image.url | getScaledImage:143:116:'c_scale'">
+                                    </a>
+                                </div>
+
+                                <div class="text">
+                                    <h2 class="brandPageTitle" data-once-text="image.name"></h2>
+                                    <p><big><span data-once-text="image.dataPoints.length"></span> Notes</big></p>
+                                    <p>
+                                        <span class="positive"><span data-once-text="getPositiveDataPoints(image.dataPoints)"></span> POSITIVE</span>
+                                        <br>
+                                        <span class="negative"><span data-once-text="getNegativeDataPoints(image.dataPoints)"></span> NEGATIVE</span>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row-fluid block">
+                        <h2>
+                            {{getUserNameForId(filter.user)}} - {{getFeedbackStatus(filter.color)}}
+                        </h2>
+
+                        <table class="brand">
+                            <thead>
+                                <tr>
+                                    <th class="pointer" data-ng-click="changeSortOrder('date')">
+                                        Date
+                                        <i class="icon-caret-up" data-ng-show="checkSortOrder('date', 'ascending')"></i>
+                                        <i class="icon-caret-down" data-ng-show="checkSortOrder('date', 'descending')"></i>
+                                    </th>
+                                    <th class="pointer" data-ng-click="changeSortOrder('user')">
+                                        User
+                                        <i class="icon-caret-up" data-ng-show="checkSortOrder('user', 'ascending')"></i>
+                                        <i class="icon-caret-down" data-ng-show="checkSortOrder('user', 'descending')"></i>
+                                    </th>
+                                    <th class="pointer" data-ng-click="changeSortOrder('imageName')">
+                                        Image
+                                        <i class="icon-caret-up" data-ng-show="checkSortOrder('imageName', 'ascending')"></i>
+                                        <i class="icon-caret-down" data-ng-show="checkSortOrder('imageName', 'descending')"></i>
+                                    </th>
+                                    <th class="pointer" data-ng-click="changeSortOrder('type')">
+                                        Type
+                                        <i class="icon-caret-up" data-ng-show="checkSortOrder('type', 'ascending')"></i>
+                                        <i class="icon-caret-down" data-ng-show="checkSortOrder('type', 'descending')"></i>
+                                    </th>
+                                    <th class="pointer" data-ng-click="changeSortOrder('note')">
+                                        Note
+                                        <i class="icon-caret-up" data-ng-show="checkSortOrder('note', 'ascending')"></i>
+                                        <i class="icon-caret-down" data-ng-show="checkSortOrder('note', 'descending')"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody data-infinite-scroll="increaseCommentLimit()">
+                                <tr data-ng-repeat="point in imageDataPoints | filter:customFilter | orderBy:predicate:sortBy.reverse | limitTo:sortBy.limit">
+                                    <td data-once-text="point.createdDate | date:'MM/dd/yy'"></td>
+                                    <td data-once-text="getUserNameForId(point.userId)"></td>
+                                    <td data-once-text="getImageForPoint(point._id)"></td>
+                                    <td>
+                                        <span data-ng-class="{'negative': point.color == 'Red', 'positive': point.color == 'Green'}" data-once-text="getDataPointStatus(point.color)"></span>
+                                    </td>
+                                    <td data-once-text="point.comment"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div data-ng-show="productImage.length == 0">
+                    <div class="alert alert-info">
+                        <h1 class="text-center">
+                            You have not uploaded any product images
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

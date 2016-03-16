@@ -1,0 +1,29 @@
+<!-- This template is to be displayed when viewing a survey that has already been submitted -->
+<div class="row-fluid">
+	<div class="span6">
+		<p ng-repeat="answer in getSurveyAnswers(1)">
+			<strong>
+				<span data-ng-bind-html="answer.questionName"></span>
+			</strong>
+			<br>
+			<span ng-hide="answer.type == 'Multiple Selection'">
+				{{answer.value}}
+			</span>
+			<span ng-show="answer.type == 'Multiple Selection'" ng-list ng-bind="answer.valueArray" ng-model="answer.valueArray">
+			</span>
+		</p>
+	</div>
+	<div class="span6">
+		<p ng-repeat="answer in getSurveyAnswers(2)">
+			<strong>
+				<span data-ng-bind-html="answer.questionName"></span>
+			</strong>
+			<br>
+			<span ng-hide="answer.type == 'Multiple Selection'">
+				{{answer.value}}
+			</span>
+			<span ng-show="answer.type == 'Multiple Selection'" ng-list ng-bind="answer.valueArray" ng-model="answer.valueArray">
+			</span>
+		</p>
+	</div>
+</div>

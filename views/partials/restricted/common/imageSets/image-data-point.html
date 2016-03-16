@@ -1,0 +1,63 @@
+<div id="modalPerformanceZoneMain" class="row-fluid relative">
+
+    <div class="row-fluid">
+        <div class="span12">
+            <p class="text-orange" data-ng-bind="selectedImage.description"></p>
+        </div>
+    </div>
+
+    <div class="row-fluid" id="photoViewer" ng-hide="record.images.length == 0">
+        <div class="image span6 pad-top">
+            <div id="container">
+            </div>
+        </div>
+
+        <div class="span4 offset2">
+            <div class="maintext text" ng-show="selectedImage._id">
+                <h2 class="brandPageTitle">
+                    {{selectedImage.name}}
+                </h2>
+                <p>
+                    <big>{{tags.length}} Notes</big>
+                </p>
+            </div>
+
+            <form ng-repeat="tag in tags" ng-show="tag.isSelected">
+                <div>
+                    <label class="radio inline">
+                        <input type="radio" name="data-point-feedback" ng-value="'Green'" ng-model="tag.color" ng-change="changeColor(tag)">
+                        Positive
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="data-point-feedback" ng-value="'Red'" ng-model="tag.color" ng-change="changeColor(tag)">
+                        Needs improvement
+                    </label>
+                </div>
+                <textarea rows="3" class="span12" ng-model="tag.comment">
+                </textarea>
+                <div>
+                    <button class="btn btn-orange btn-primary btn-small" ng-click="putImageset(tag, $index, false)">
+                        Save
+                    </button>
+                    <button class="btn btn-orange btn-primary btn-small" ng-click="putImageset(tag, $index, true)">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row-fluid" ng-hide="record.images.length == 0">
+        <div id="modalPerformanceZoneOptions" class="row-fluid">
+            <div class="image" ng-repeat="image in record.images">
+                <a href="" ng-click="setImageToGallery(image)">
+                    <img ng-src="{{getScaledImage(image.url, 'w_75', 'h_61')}}">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" ng-show="record.images.length == 0">
+        <h1 class="text-center">This Product Test has no Product Images</h1>
+    </div>
+</div>

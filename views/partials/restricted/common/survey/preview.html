@@ -1,0 +1,105 @@
+<!-- Survey Details Modal -->
+<div modal="showSurveyDetailsModal" close="closeSurveyDetailsModal" options="customSurveyModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closeSurveyDetailsModal()" aria-hidden="true">&times;</button>
+        <h3 class="text-center">
+            <span data-ng-bind="survey.name"></span>
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid relative" data-ng-repeat="question in survey.questions">
+            <div class="span12">
+                <div data-ng-class="{'big-required': question.options.isRequired}" class="span12 not-required">
+                    <!-- Question Title -->
+                    <h4 data-ng-class="{'text-orange': question.type == 'Title / Header'}">
+                        <span data-ng-hide="question.type == 'Title / Header'">{{getQuestionNumber($index)}}. </span><span data-ng-bind-html="question.question"></span>
+                        <a href="" data-ng-show="question.helpText.length > 0" tooltip="{{question.helpText}}" class="help left"></a>
+                    </h4>
+
+                    <div class="row-fluid" data-ng-show="question.supportingImage">
+                        <img ng-src="{{question.supportingImage | getScaledImage:'360':'200':'c_limit'}}" alt="Supporting image for question" class="survey-image">
+                    </div>
+
+                    <div data-ng-switch on="question.type">
+                        <!-- Single Selection question -->
+                        <div data-ng-switch-when="Single Selection">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <label class="radio" data-ng-repeat="value in question.options.values">
+                                        <input type="radio" name="{{question._id}}"> {{value.key}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Free Form Question -->
+                        <div data-ng-switch-when="Free form text">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <input type="text" class="span10" data-ng-show="question.options.isSingleLine" placeholder="{{question.hintText}}">
+                                    <textarea class="span10" rows="3" data-ng-hide="question.options.isSingleLine" placeholder="{{question.hintText}}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Numeric Question -->
+                        <div data-ng-switch-when="Numeric">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <input type="number" class="input-small">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rating Question -->
+                        <div data-ng-switch-when="Rating">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="slider-rookie-expert alt">
+                                        <div data-generic-slider data-value="question.options.defaultValue" data-default-value="question.options.defaultValue" data-min="question.options.minValue" data-max="question.options.maxValue" data-slider-step="1" data-slider-orientation="horizontal" data-slider-value="10" data-slider-selection="none" data-slider-tooltip="hide"></div>
+                                        <div class="row-fluid text-center">
+                                            <span class="range-display range-min" data-ng-bind="question.options.defaultValue"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span1 text-center" data-ng-bind="question.options.minValueLabel"></div>
+                                        <div class="span1 text-center offset3" data-ng-bind="question.options.maxValueLabel"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multiple Selection Question -->
+                        <div data-ng-switch-when="Multiple Selection">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <label class="checkbox" data-ng-repeat="value in question.options.values">
+                                        <input type="checkbox" name="{{question._id}}"> {{value.key}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-box" data-ng-if="question.options.showCommentFlag">
+                        <strong>Comment</strong><br/>
+                        <textarea rows="3" class="span10"></textarea>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a ng-href="/dashboard/weartests/current/{{weartest._id}}/share/survey/{{survey._id}}" data-ng-show="survey.fromWeartest" class="btn btn-primary btn-orange pull-left">Send as link</a>
+        <button class="btn" data-ng-click="closeSurveyDetailsModal()">Close</button>
+        <button class="btn btn-inverse" data-ng-click="copySurveyToMyArchive()" data-ng-hide="!survey.isPublic || survey.fromWeartest || isUserAdmin()">Copy to My Archive</button>
+        <button class="btn btn-success" data-ng-click="copySurveyToMyArchiveAndEditSurvey()" data-ng-show="!survey.fromWeartest && !isUserAdmin()">Clone and Edit</button>
+        <button class="btn btn-primary" data-ng-click="editSurvey(survey)" data-ng-show="!survey.isPublic || survey.fromWeartest || isUserAdmin()">Edit</button>
+    </div>
+</div>

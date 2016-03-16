@@ -1,0 +1,143 @@
+<!-- This template displays the currently "Active" Wear Tests in which
+	the current user participation is not yet final (requested, invited or confirmed)-->
+
+<h2 ng-show="entriesExist() && !loadingData">My Pending Requests</h2>
+
+<!-- Show this container only if entries exist to display and all entries have been loaded -->
+<div ng-show="entriesExist() && !loadingData">
+	<div id="newProductTest">
+		<!-- For each Wear Test, repeat the following template -->
+		<div ng-repeat="item in weartests">
+			<div class="row-fluid">
+				<div class="span3 logo">
+					<img ng-src="{{getScaledWearTestImage(item.featureImageLink)}}">
+				</div>
+				<div class="span9">
+					<h2 class="alt">
+						<a href="" class="orange no-line" ng-click="showInfoModal(item)">
+							{{item.name}}
+						</a>
+					</h2>
+
+					<div class="row-fluid">
+						<table class="plain">
+							<thead>
+								<tr>
+									<th class="first">
+										Category
+									</th>
+									<th>
+										Activity
+									</th>
+									<th>
+										Registration
+									</th>
+									<th>
+										Duration
+									</th>
+									<th>
+										Status
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr class="shade">
+									<td class="first">
+										{{item.productType}}
+									</td>
+									<td>
+										{{item.activity.join(', ')}}
+									</td>
+									<td>
+										{{item.registrationStart | UTCDate:'MM/dd'}} - {{item.registrationDeadline | UTCDate:'MM/dd'}}
+									</td>
+									<td>
+										{{item.wearTestStartDate | UTCDate:'MM/dd'}} - {{item.wearTestEndDate | UTCDate:'MM/dd'}}
+									</td>
+									<td ng-hide="isUserInvited(item._id)">
+										{{getParticipantStatus(item._id)}}
+									</td>
+									<td ng-show="isUserInvited(item._id)">
+										<a href="" class="btn btn-primary btn-orange btn-mini" ng-click="displayTOCModal(item)">
+											Accept Invitation
+										</a>
+										<p class="pad-top">
+										<a href="" class="btn btn-primary btn-orange btn-mini" ng-click="displayDeclineModal(item)">
+											Decline Invitation
+										</a>
+										</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<hr ng-show="$index < weartests.length - 1">
+		</div>
+	</div>
+</div>
+
+<!-- Information Text - Show only if entries do not exist and data has been loaded -->
+<div ng-hide="entriesExist() || loadingData">
+	<div class="alert alert-info">
+		<h1 class="text-center">
+			You do not have any pending Product Tests
+		</h1>
+	</div>
+</div>
+
+<!-- Information Text - Show when the data is being loaded -->
+<div ng-show="loadingData">
+	<h1 class="text-center">
+		<i class="icon-spin icon-spinner">
+		</i>
+	</h1>
+	<p class="muted text-center">
+		Loading data...
+	</p>
+</div>
+
+<!-- Terms of Conditions display and acceptance -->
+<div modal="showTOCModal" close="closeTOCModal()" options="TOCDialogOptions">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="closeTOCModal()">&times;</button>
+		<h3>Rules</h3>
+	</div>
+	<div class="modal-body">
+
+		<iframe src="{{wearTestInAcceptance.rulesLink}}" frameborder="0" scrolling="no"></iframe>
+
+	</div>
+	<div class="modal-footer">
+		<a href="" class="btn" ng-click="closeTOCModal()">Close</a>
+		<a href="" class="btn btn-primary">Print Rules</a>
+		<a href="" class="btn btn-primary" ng-click="acceptTOC()">Accept</a>
+	</div>
+</div>
+
+
+
+<!-- Wear Test Detail Info -->
+<weartest-info wear-test-details="wearTestInfo" display="displayInfo">
+</weartest-info>
+
+<!-- Confirm Decline Modal -->
+<div modal="showDeclineModal" close="closeDeclineModal()" options="modalOptions">
+    <div class="modal-header">
+        <h3>WARNING!</h3>
+    </div>
+    <div class="modal-body">
+        Are you sure do you want to decline {{wearTestInDecline.name}}?
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="closeDeclineModal()">
+            No
+        </button>
+        <button class="btn btn-danger" ng-click="declineTest()">
+            Yes
+        </button>
+    </div>
+</div>

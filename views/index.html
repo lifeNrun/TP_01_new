@@ -1,0 +1,196 @@
+<!doctype html>
+<html ng-app="wearTestWebApp" class="no-js" ng-controller="IndexCtrl">
+    <head>
+        <title>
+            Mesh01
+        </title>
+
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <base href="/">
+
+        <link href="/css/jquery-ui-1.10.1.css" rel="stylesheet" media="screen,print">
+        <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+        <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="/css/bootstrap-datepicker.css" rel="stylesheet" media="screen,print">
+        <link href="/css/font-awesome.min.css" rel="stylesheet" media="screen,print">
+        <link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
+        <link href="/css/jquery.easy-pie-chart.css" rel="stylesheet" media="screen,print">
+        <link href="/css/slider.css" rel="stylesheet" media="screen,print">
+        <link ng-href="{{currentStyle}}" rel="stylesheet" media="screen,print">
+        <link ng-href="{{registrationStyle}}" rel="stylesheet" media="screen,print">
+        <link ng-href="{{reportStyle}}" rel="stylesheet" media="screen,print">
+        <link href="/css/user-defined.css" rel="stylesheet" media="screen,print">
+        <link href="/css/print.css" rel="stylesheet" media="print">
+        <link href="/css/tinymce.css" rel="stylesheet" media="screen,print">
+        <link href="/js/lib/fancybox/jquery.fancybox.css" rel="stylesheet" media="screen,print">
+        <link rel="stylesheet" type="text/css" href="//cloud.typography.com/6041974/649048/css/fonts.css" />
+
+        <link rel="icon"type="image/jpg" href="/img/orange.favicon.png" />
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-15425887-1']);
+            _gaq.push(['_setDomainName', 'mesh01.com']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+    </head>
+
+    <body>
+
+        <div class="notification-window">
+            <span></span>
+            <div class="close" data-ng-click="hideWindow()">
+                <i class="icon-remove-sign"></i>
+            </div>
+        </div>
+
+        <div ng-view>
+        </div>
+
+        <script src="/js/lib/jQuery/jquery-1.9.1.min.js"></script>
+        <script src="/js/lib/jQuery/jquery-ui-1.10.1.js"></script>
+        <script>
+            /*Handle jQuery plugin naming conflict between jQuery UI and Bootstrap*/
+            $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>
+
+        <script src="/js/lib/twitter-bootstrap/bootstrap.min.js"></script>
+        <script src="/js/lib/jQuery/jcarousellite_1.0.1.min.js"></script>
+        <script src="/js/lib/jQuery/jquery.easy-pie-chart.js"></script>
+        <script src="/js/lib/twitter-bootstrap/bootstrap-slider.js"></script>
+        <script src="/js/lib/d3/d3.v3.js"></script>
+        <script src="/js/lib/angular/angular.min.js"></script>
+        <script src="/js/lib/angular/angular-sanitize.min.js"></script>
+        <script src="/js/lib/angularUIBootstrap/ui-bootstrap-custom-tpls-0.4.1.js"></script>
+        <script src="/js/lib/twitter-bootstrap/bootstrap-datepicker.js"></script>
+        <script src="/js/lib/angularUIBootstrap/datepicker.js"></script>
+        <script src="/js/lib/angularUIBootstrap/modal.js"></script>
+        <script src="/js/lib/tinymce/tinymce.min.js"></script>
+        <script src="/js/lib/tinymce/ui-tinymce.js"></script>
+        <script src="/js/lib/fancybox/jquery.fancybox.js"></script>
+        <script src="/js/lib/mdn-cookies/docCookies.js"></script>
+        <script src="/js/lib/angular/ng-infinite-scroll.min.js"></script>
+        <script src="/js/lib/plugins/once.js"></script>
+        <script src="/js/lib/plugins/FileSaver.js"></script>
+        <script src="/js/lib/dragdrop/ngDraggable.js"></script>
+        <script src="/js/lib/angular/double-scroll-bars.min.js"></script>
+
+        <script src="/js/app.js"></script>
+        <script src="/js/filters.js"></script>
+        <script src="/js/services.js"></script>
+        <script src="/js/services/media.js"></script>
+        <script src="/js/services/surveys.js"></script>
+
+        <script src="/js/controllers/miscellaneous.js"></script>
+        <script src="/js/controllers/user-profile.js"></script>
+        <script src="/js/controllers/profile-detail.js"></script>
+        <script src="/js/controllers/report-display.js"></script>
+        <script src="/js/controllers/settings.js"></script>
+
+        <script src="/js/controllers/profiles/admin/profile.js"></script>
+        <script src="/js/controllers/profiles/admin/admin-tools.js"></script>
+        <script src="/js/controllers/profiles/admin/collections.js"></script>
+        <script src="/js/controllers/profiles/admin/correction-report.js"></script>
+
+        <script src="/js/controllers/profiles/brand/brand-landing-designs.js"></script>
+        <script src="/js/controllers/profiles/brand/profile-item.js"></script>
+        <script src="/js/controllers/profiles/brand/profile-edit-item.js"></script>
+        <script src="/js/controllers/profiles/brand/tester-list.js"></script>
+
+        <script src="/js/controllers/profiles/tester/activity-logs.js"></script>
+        <script src="/js/controllers/profiles/tester/activity-charts.js"></script>
+        <script src="/js/controllers/profiles/tester/product-tests.js"></script>
+        <script src="/js/controllers/profiles/tester/profile.js"></script>
+        <script src="/js/controllers/profiles/tester/video-manager.js"></script>
+
+        <script src="/js/controllers/common/weartest/index.js"></script>
+        <script src="/js/controllers/common/weartest/mode.js"></script>
+        <script src="/js/controllers/common/weartest/list.js"></script>
+        <script src="/js/controllers/common/weartest/edit.js"></script>
+        <script src="/js/controllers/common/weartest/header.js"></script>
+        <script src="/js/controllers/common/weartest/overview.js"></script>
+        <script src="/js/controllers/common/weartest/roster.js"></script>
+        <script src="/js/controllers/common/weartest/activity-charts.js"></script>
+        <script src="/js/controllers/common/weartest/activity-logs.js"></script>
+        <script src="/js/controllers/common/weartest/surveys.js"></script>
+        <script src="/js/controllers/common/weartest/wear-and-tear.js"></script>
+        <script src="/js/controllers/common/weartest/performance-zones.js"></script>
+        <script src="/js/controllers/common/weartest/report-builder.js"></script>
+        <script src="/js/controllers/common/weartest/draft.js"></script>
+
+        <script src="/js/controllers/common/survey/index.js"></script>
+        <script src="/js/controllers/common/survey/list.js"></script>
+        <script src="/js/controllers/common/survey/mode.js"></script>
+        <script src="/js/controllers/common/survey/edit.js"></script>
+        <script src="/js/controllers/common/survey.js"></script>
+        <script src="/js/controllers/common/survey/share.js"></script>
+
+        <script src="/js/directives/registration.js"></script>
+        <script src="/js/directives/generic.js"></script>
+        <script src="/js/directives/message-center.js"></script>
+        <script src="/js/directives/user-profile.js"></script>
+        <script src="/js/directives/survey.js"></script>
+        <script src="/js/directives/content.js"></script>
+        <script src="/js/directives/util.js"></script>
+
+        <script src="/js/directives/profiles/brand/profile-item.js"></script>
+        <script src="/js/directives/profiles/brand/profile-edit-item.js"></script>
+        <script src="/js/directives/profiles/brand/tester-list.js"></script>
+
+        <script src="/js/directives/profiles/tester/activity-log-item.js"></script>
+        <script src="/js/directives/profiles/tester/product-tests.js"></script>
+        <script src="/js/directives/profiles/tester/profile-item.js"></script>
+        <script src="/js/directives/profiles/tester/video-manager.js"></script>
+
+        <script src="/js/directives/common/imageSet/imageset-create.js"></script>
+        <script src="/js/directives/common/imageSet/imageset-display.js"></script>
+        <script src="/js/directives/common/imageSet/imageset-edit.js"></script>
+        <script src="/js/directives/common/imageSet/imageset-maintain.js"></script>
+        <script src="/js/directives/common/imageSet/image-carousel.js"></script>
+        <script src="/js/directives/common/imageSet/image-upload.js"></script>
+        <script src="/js/directives/common/imageSet/image-upload-modal.js"></script>
+        <script src="/js/directives/common/imageSet/image-standalone-upload.js"></script>
+        <script src="/js/directives/common/imageSet/imageset-edit-modal.js"></script>
+        <script src="/js/directives/common/imageSet/imageset-data-point-editor.js"></script>
+
+        <script src="/js/directives/common/weartest/index.js"></script>
+        <script src="/js/directives/common/weartest/mode.js"></script>
+        <script src="/js/directives/common/weartest/list.js"></script>
+        <script src="/js/directives/common/weartest/edit.js"></script>
+        <script src="/js/directives/common/weartest/header.js"></script>
+        <script src="/js/directives/common/weartest/overview.js"></script>
+        <script src="/js/directives/common/weartest/roster.js"></script>
+        <script src="/js/directives/common/weartest/activity-charts.js"></script>
+        <script src="/js/directives/common/weartest/activity-logs.js"></script>
+        <script src="/js/directives/common/weartest/surveys.js"></script>
+        <script src="/js/directives/common/weartest/wear-and-tear.js"></script>
+        <script src="/js/directives/common/weartest/performance-zones.js"></script>
+        <script src="/js/directives/common/weartest/report-builder.js"></script>
+        <script src="/js/directives/common/weartest/draft.js"></script>
+
+        <script src="/js/directives/common/survey/index.js"></script>
+        <script src="/js/directives/common/survey/list.js"></script>
+        <script src="/js/directives/common/survey/mode.js"></script>
+        <script src="/js/directives/common/survey/edit.js"></script>
+        <script src="/js/directives/common/survey/preview.js"></script>
+        <script src="/js/directives/common/survey/share.js"></script>
+
+        <script src="/js/directives/common/survey.js"></script>
+
+        <script src="/js/lib/jquery-file-upload/jquery.ui.widget.js"></script>
+        <script src="/js/lib/jquery-file-upload/jquery.fileupload.js"></script>
+        <script src="/js/lib/kinetic/kinetic.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r65/three.min.js"></script>
+        <script src="//shapex.s3.amazonaws.com/body-from-measurements-ui/1.0.0/body-from-measurements-ui.js"></script>
+    </body>
+</html>

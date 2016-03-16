@@ -1,0 +1,143 @@
+<div id="content">
+    <div class="wrap full">
+        <weartest-mode></weartest-mode>
+
+        <div class="tab-content">
+            <div class="row top-row">
+
+                <weartest-header></weartest-header>
+
+                <div data-ng-switch on="loading">
+                    <div data-ng-switch-when="false">
+
+                        <div class="row-fluid" data-ng-show="wearAndTearImages.length != 0 || productVideos.length == 0">
+                            View By:
+                            <select>
+                                <option selected="selected">All Testers</option>
+                            </select>
+                        </div>
+                        <div data-ng-switch on="wearAndTearImages.length == 0">
+                            <h2>Images</h2>
+                            <div data-ng-switch-when="false">
+
+                                <div class="row-fluid galleryWearTear" data-ng-repeat="i in getDivision('images')">
+                                    <div class="span3" data-ng-repeat="j in getTestersPerDivision('images', i)">
+                                        <figure>
+                                            <a href="" data-ng-click="openImageModal(j)">
+                                                <img data-once-src="getScaledImage(j.images[0].url, 'thumbnail')">
+                                            </a>
+                                            <figcaption>
+                                                <a href=""><span data-once-text="getTesterName(j.uploadedById)"></span></a>
+                                                <br/>
+                                                <small data-once-text="j.images.length"></small>
+                                                <small> images</small>
+                                            </figcaption>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-ng-switch-when="true">
+                                <div class="alert alert-info">
+                                    <h1 class="text-center">
+                                        No Product Images uploaded by tester(s)
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-switch on="productVideos.length == 0">
+                            <h2>Videos</h2>
+                            <div data-ng-switch-when="false">
+                                <div class="row-fluid" data-ng-repeat="i in getDivision('videos')">
+                                    <div class="span3 video-container" data-ng-repeat="j in getTestersPerDivision('videos', i)" data-ng-click="openVideosUploadedModal(j)">
+                                    <div class="play-holder"></div>
+                                        <iframe data-video-id="{{j.videos[0].url}}" width="100%" height="auto" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen data-vimeo-player></iframe>
+                                        <strong data-once-text="getTesterName(j.uploadedById)"></strong>
+                                        <br/>
+                                        <small data-once-text="j.videos.length"></small>
+                                        <small> videos</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-ng-switch-when="true">
+                                <div class="alert alert-info">
+                                    <h1 class="text-center">
+                                        No Product Videos uploaded by tester(s)
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-ng-switch-when="true">
+                        <h1 class="text-center">
+                            <i class="icon-spin icon-spinner">
+                            </i>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal to display the Carousel of the Wear and Tear Images -->
+<div modal="showImageModal" close="closeImageModal()" options="customStrictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="closeImageModal()">&times;</button>
+        <h3>{{getTesterName(participatingTesterDetails.uploadedById)}}</h3>
+    </div>
+
+    <div class="modal-body">
+        <div id="wearAndTearCarousel" class="carousel slide" bootstrap-carousel>
+            <div class="carousel-inner">
+                <div class="item" data-ng-class="{'active': $index == 0}" data-ng-repeat="k in participatingTesterDetails.images">
+                    <figure>
+                        <img data-once-src="getScaledImage(k.url, 'carousel')">
+                        <div class="row-fluid">
+                            <div class="span6">
+                                <strong><span data-once-text="k.name"></span> - <span data-once-text="k.createdDate | UTCDate:'MM/dd/yyyy'"></span></strong>
+                            </div>
+                            <div class="span6 text-right">
+                                <span data-once-text="$index + 1"></span> of <span data-once-text="participatingTesterDetails.images.length"></span>
+                            </div>
+                        </div>
+                        <figcaption data-once-text="k.description"></figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <a class="carousel-control left" href="" data-slide="prev" data-target="#wearAndTearCarousel"></a>
+
+            <a class="carousel-control right" href="" data-slide="next" data-target="#wearAndTearCarousel"></a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal to display uploaded videos -->
+<div modal="showVideosUploadedModal" close="closeVideosUploadedModal()" options="strictModalOptions">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="closeVideosUploadedModal()">&times;</button>
+        <h3>{{getTesterName(participatingTesterDetails.uploadedById)}}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid" data-ng-repeat="video in participatingTesterDetails.videos">
+            <div class="span12">
+                <iframe data-video-id="{{video.url}}" width="100%" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen data-vimeo-player></iframe>
+                <p>&nbsp;</p>
+                <dl>
+                    <dt>Title</dt>
+                    <dd data-ng-bind="video.name"></dd>
+                    <dt>Description</dt>
+                    <dd data-ng-bind="video.description"></dd>
+                </dl>
+                <hr>
+            </div>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-ng-click="closeVideosUploadedModal()">Close</button>
+    </div>
+</div>

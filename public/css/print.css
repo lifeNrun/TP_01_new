@@ -1,0 +1,29 @@
+@media all {
+    .page-break {
+        display: none;
+    }
+}
+
+@media print {
+
+    .page-break {
+        display: block;
+        page-break-before: always;
+    }
+
+    .nobreak {
+        page-break-inside: avoid!important;
+    }
+
+    .notification-window {
+        display: none;
+    }
+    
+    #content .tab-content .row {
+        background: none;
+    }
+    
+    body {
+        background-color: #fff;
+    }
+}

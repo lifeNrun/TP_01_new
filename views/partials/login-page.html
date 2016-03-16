@@ -1,0 +1,142 @@
+<!-- top navigation bar -->
+<div id="top-bar" class="navbar navbar-static-top">
+    <div class="navbar-inner">
+        <ul class="nav">
+            <li><a href="http://design.mesh01.com">Design<span class="arrow"></span></a></li>
+            <li class="active"><a href="">Wear Test<span class="arrow"></span></a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- main header -->
+<header>
+    <div class="wrap">
+
+        <!-- the logo -->
+        <h1><a href="/"><img src="/img/logo1_r.png" alt="Mesh01"></a></h1>
+        
+        
+        <!-- top right social media icons -->
+        <div class="social-media">
+            <a href="http://www.linkedin.com/company/mesh01" class="linkedin"><span>LinkedIn</span></a>
+            <a href="https://twitter.com/mesh01inc" class="twitter"><span>Twitter</span></a>
+            <a href="https://www.facebook.com/mesh01?ref=ts" class="facebook"><span>Facebook</span></a>
+            <a href="" class="rss temp-hidden"><span>RSS</span></a>
+        </div>
+
+
+    </div>          
+</header>
+
+<!-- main content -->
+<div id="content">
+    <div class="wrap">
+    
+        <div class="row-fluid spacer">
+            <div class="span12">
+                <div class="row-fluid" data-ng-show="loginRequired">
+                    <div class="span12">
+                        <div class="alert alert-error">
+                            <h3 class="text-center">You need to login before you can continue</h3>
+                        </div>
+                    </div>
+                </div>
+                <fieldset>
+                    
+                    <div class="row-fluid half-border pad-top">
+                        <div class="span6">
+                            <form class="form-horizontal" ng-submit="localLogin()">
+
+                                <legend class="orange">Product Testing</legend>
+
+                                <p class="st20">
+                                    If you are Product Tester or would like to launch a Product Test please login below.
+                                </p>
+
+                                <div class="control-group st20">
+                                    <label class="control-label" for="inputEmail">Username:</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputEmail" placeholder="Case Sensitive" ng-model="localUserInfo.username" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">Password:</label>
+                                    <div class="controls">
+                                        <input type="password" id="inputPassword" placeholder="Case Sensitive" autocomplete="off" ng-model="localUserInfo.password" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <button type="submit" class="btn btn-primary btn-orange" ng-hide="authenticatingLocally">
+                                                    Log In
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-orange disabled" ng-show="authenticatingLocally">
+                                                    Logging in...
+                                                </button>
+                                            </div>
+                                            <div class="span6">
+                                                <a href="/forgot-password">
+                                                    <small>Forgot Password</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-error text-center alert alert-error" ng-show="showErrorMessageForLocal">
+                                    * {{localErrorMessage}}
+                                </p>
+                            </form>
+                        </div>
+                        <div class="span6">
+                            <form class="form-horizontal" ng-submit="externalLogin()">
+
+                                <legend class="green">Design Office</legend>
+
+                                <p class="st20">
+                                    If you are a Designer or would like to launch a design project please login below.
+                                </p>
+
+                                <div class="control-group st20">
+                                    <label class="control-label" for="inputEmail">Username:</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputEmail" placeholder="Case Sensitive" ng-model="externalUserInfo.UserName" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">Password:</label>
+                                    <div class="controls">
+                                        <input type="password" id="inputPassword" placeholder="Case Sensitive" autocomplete="off" ng-model="externalUserInfo.Password" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <button type="submit" class="btn btn-primary btn-green" ng-hide="authenticatingExternally">Log In</button>
+                                                <button type="button" class="btn btn-primary btn-green disabled" ng-show="authenticatingExternally">Logging in...</button>
+                                            </div>
+                                            <div class="span6">
+                                                <a href="http://design.mesh01.com/forgot-password"><small>Forgot Password</small></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-error text-center" ng-show="showErrorMessageForExternal">
+                                    * {{externalErrorMessage}}
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</div>

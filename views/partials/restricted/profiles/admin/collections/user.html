@@ -1,0 +1,132 @@
+<div class="row-fluid document-editor" data-ng-controller="UserCollectionController">
+    <div class="span12">
+        <form class="form-horizontal" data-ng-submit="updateUser()">
+            <div class="control-group">
+                <label class="control-label">ID :</label>
+                <div class="controls">
+                    <span data-ng-bind="user._id"></span>
+                </div>
+            </div>
+            <div class="control-group" data-ng-show="user.utype == 'Tester'">
+                <label class="control-label" for="unavailable-to-test">Unavailable to test :</label>
+                <div class="controls">
+                    <input type="checkbox" id="unavailable-to-test" data-ng-model="user.unavailableToTest">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="first-name">First Name :</label>
+                <div class="controls">
+                    <input type="text" id="first-name" maxlength="35" data-ng-model="user.fname">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="last-name">Last Name :</label>
+                <div class="controls">
+                    <input type="text" id="last-name" maxlength="35" data-ng-model="user.lname">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Username :</label>
+                <div class="controls">
+                    <span data-ng-bind="user.username"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Type :</label>
+                <div class="controls">
+                    <select data-ng-options="t for t in userTypes" data-ng-model="user.utype"></select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">Email :</label>
+                <div class="controls">
+                    <input type="email" id="email" maxlength="254" data-ng-model="user.email">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="company">Company :</label>
+                <div class="controls">
+                    <input type="text" id="company" data-ng-model="user.company"maxlength="30">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="datepicker">Date of Birth :</label>
+                <div class="controls span2 relative">
+                    <input type="text" id="datepicker" class="date span12" data-ng-model="user.dateOfBirth" data-date-format="mm/dd/yy" data-bs-datepicker readonly>
+                    <img class="ui-datepicker-trigger" src="/img/icon-calendar.png" alt="Pick a date" title="Select a date" data-toggle="datepicker" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Gender :</label>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" data-ng-model="user.gender" value="male" name="gender">
+                        Male
+                    </label>
+                    <label class="radio">
+                        <input type="radio" data-ng-model="user.gender" value="female" name="gender">
+                        Female
+                    </label>
+                </div>
+            </div>
+            <div class="control-group" data-ng-show="user.utype == 'Tester'">
+                <label class="control-label" for="brandAssociation">Brand Association :</label>
+                <div class="controls">
+                    <input type="text" id="brandAssociation" data-ng-model="user.brandAssociation" maxlength="20">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="tags">Tags :</label>
+                <div class="controls">
+                    <input type="text" id="Tags" data-ng-model="user.tags">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Address :</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="user.tempAddress.address1" maxlength="50" placeholder="Address 1">
+                    <input type="text" data-ng-model="user.tempAddress.address2" maxlength="100" placeholder="Address 2">
+                    <input type="text" data-ng-model="user.tempAddress.city" maxlength="50" placeholder="city">
+                    <input type="text" data-ng-model="user.tempAddress.zipCode" maxlength="10" placeholder="zipcode">
+                    <select data-ng-options="s for s in countries" data-ng-model="user.tempAddress.country" data-ng-change="blankoutState()">
+                        <option value="">Select Country</option>
+                    </select>
+                    <select data-ng-show="user.tempAddress.country === 'United States'" data-ng-options="s for s in statesInUsa" data-ng-model="user.tempAddress.state">
+                        <option value="">Select State</option>
+                    </select>
+                    <input type="text" data-ng-show="user.tempAddress.country !== 'United States'" data-ng-model="user.tempAddress.state" placeholder="Enter State">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Last modified on :</label>
+                <div class="controls">
+                    <span data-ng-bind="user.modifiedDate | date:'medium'"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Last modified by :</label>
+                <div class="controls">
+                    <span data-ng-bind="user.modifiedUsername"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Created on :</label>
+                <div class="controls">
+                    <span data-ng-bind="user.createdDate | date:'medium'"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Created by :</label>
+                <div class="controls">
+                    <span data-ng-bind="user.createUsername"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-orange btn-primary">Save Changes</button>
+                    <a href="/dashboard/AdminTools/users" class="btn">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
